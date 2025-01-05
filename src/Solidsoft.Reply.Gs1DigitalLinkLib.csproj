@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0;net8.0</TargetFramework>
+    <TargetFrameworks>net9.0;net8.0</TargetFrameworks>
 	<LangVersion>13.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -11,7 +11,7 @@
 	<Description>This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.</Description>
 	<Company>Solidsoft Reply Ltd.</Company>
 	<Authors>cnayoung</Authors>
-	<RepositoryUrl>https://github.com/Solidsoft-Reply/Solidsoft.Reply.Parsers.HighCapacityAidc</RepositoryUrl>
+	<RepositoryUrl>https://github.com/Solidsoft-Reply/Gs1DigitalLinkLib</RepositoryUrl>
 	<PackageProjectUrl>https://www.reply.com/solidsoft-reply/en/</PackageProjectUrl>
 	<PackageIcon>Solidsoft Reply - LOGO Square_small.jpg</PackageIcon>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
@@ -31,12 +31,27 @@
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="../LICENSE.txt" Pack="true" PackagePath="" />
+		<None Include="../README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+	<ItemGroup>
+    <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
+    <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" />
+  </ItemGroup>
 	<ItemGroup>
     <None Remove="stylecop.json" />
   </ItemGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
+    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,7 +95,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EditorConfigFiles Update="C:\Users\ch.young\source\repos\Solidsoft.Reply.Gs1DigitalLinkLib\.editorconfig">
+    <EditorConfigFiles Update="C:\Users\ch.young\source\repos\Solidsoft.Reply.Gs1DigitalLinkLib\src\.editorconfig">
       <Generator>SettingsSingleFileGenerator</Generator>
     </EditorConfigFiles>
   </ItemGroup>
