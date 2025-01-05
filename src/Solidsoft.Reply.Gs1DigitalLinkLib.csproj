@@ -1,0 +1,88 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0;net8.0</TargetFramework>
+	<LangVersion>13.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+	<Title>A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs.</Title>
+	<Copyright>© 2025 Solidsoft Reply</Copyright>
+	<Description>This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.</Description>
+	<Company>Solidsoft Reply Ltd.</Company>
+	<Authors>cnayoung</Authors>
+	<RepositoryUrl>https://github.com/Solidsoft-Reply/Solidsoft.Reply.Parsers.HighCapacityAidc</RepositoryUrl>
+	<PackageProjectUrl>https://www.reply.com/solidsoft-reply/en/</PackageProjectUrl>
+	<PackageIcon>Solidsoft Reply - LOGO Square_small.jpg</PackageIcon>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
+	<PackageReleaseNotes>
+		1) Initial release of the library.
+	</PackageReleaseNotes>
+	<Description>
+		A library for parsing high-capacity ADC (Automatic Data Capture) media such as two-dimensional barcodes used in Automatic Identification and Data Capture (AIDC). The library supports the following international standards: ISO/IEC 15418:2016 - Information technology — Automatic identification and data capture techniques — GS1 Application Identifiers and ASC MH10 Data Identifiers and maintenance; ISO/IEC 15434:2019 - Information technology — Automatic identification and data capture techniques — Syntax for high-capacity ADC media.
+
+		Latest Release Notes:
+		--------------
+		$(PackageReleaseNotes)
+	</Description>
+	<Version>1.0.0</Version>
+	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+	<NeutralLanguage>en</NeutralLanguage>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+	<ItemGroup>
+    <None Remove="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Solidsoft.Reply.Parsers.HighCapacityAidc" Version="1.0.12" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resources\Errors.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Errors.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.StyleCop</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Errors.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Errors.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Settings.StyleCop">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Update="C:\Users\ch.young\source\repos\Solidsoft.Reply.Gs1DigitalLinkLib\.editorconfig">
+      <Generator>SettingsSingleFileGenerator</Generator>
+    </EditorConfigFiles>
+  </ItemGroup>
+
+</Project>
