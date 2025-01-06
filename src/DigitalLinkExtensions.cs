@@ -123,7 +123,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="uriStem">The URI stem for the Digital Link. If omitted, the library will use https://id.gs1.org.</param>
     /// <param name="digitalLinkForm">The level of compression to apply to the Digital Link URI.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
     /// <exception cref="ArgumentException">Invalid data passed to method.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
@@ -132,13 +132,13 @@ public static partial class DigitalLinkExtensions {
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
-        bool compressNonGS1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false) =>
             DigitalLinkConvert.FromGs1DataToDigitalLinkWithShortNames(
                 gs1Data,
                 uriStem,
                 digitalLinkForm,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Converts a dictionary of GS1 Application Identifiers and their values into a GS1 Digital Link URI using short names.
@@ -148,7 +148,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The level of compression to apply to the Digital Link URI.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional non-key=value content to be included in the query string.</param>
     /// <param name="fragment">Any additional fragment specifier to be included in the URI.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -160,7 +160,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1DataToDigitalLinkWithShortNames(
@@ -169,7 +169,7 @@ public static partial class DigitalLinkExtensions {
                 digitalLinkForm,
                 useOptimisations,
                 nonGS1KeyValuePairs,
-                compressNonGS1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
                 otherQueryContent,
                 fragment);
 
@@ -180,7 +180,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="uriStem">The URI stem for the Digital Link. If omitted, the library will use https://id.gs1.org.</param>
     /// <param name="digitalLinkForm">The level of compression to apply to the Digital Link URI.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
     /// <exception cref="ArgumentException">Invalid data passed to method.</exception>
     public static Gs1DigitalLink ToDigitalLink(
@@ -188,13 +188,13 @@ public static partial class DigitalLinkExtensions {
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
-        bool compressNonGS1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false) =>
             DigitalLinkConvert.FromGs1DataToDigitalLink(
                 gs1Data,
                 uriStem,
                 digitalLinkForm,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Converts a dictionary of GS1 Application Identifiers and other values into a GS1 Digital Link URI.
@@ -204,7 +204,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The level of compression to apply to the Digital Link URI.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional non-key=value content to be included in the query string.</param>
     /// <param name="fragment">Any additional fragment specifier to be included in the URI.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -215,7 +215,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1DataToDigitalLink(
@@ -223,7 +223,7 @@ public static partial class DigitalLinkExtensions {
                 uriStem,
                 digitalLinkForm,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Extracts GS1 Application Identifiers and their values from key GS1 Digital Link URI.
@@ -335,7 +335,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The form of the GS1 digital Link (compressed, partially compressed or uncompressed).</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional query string content.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -379,7 +379,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(
@@ -388,7 +388,7 @@ public static partial class DigitalLinkExtensions {
                 digitalLinkForm,
                 useOptimisations,
                 nonGS1KeyValuePairs,
-                compressNonGS1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
                 otherQueryContent,
                 fragment);
 
@@ -400,7 +400,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The form of the GS1 digital Link (compressed, partially compressed or uncompressed).</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional query string content.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -444,7 +444,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(
@@ -453,7 +453,7 @@ public static partial class DigitalLinkExtensions {
                 digitalLinkForm,
                 useOptimisations,
                 nonGS1KeyValuePairs,
-                compressNonGS1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
                 otherQueryContent,
                 fragment);
 
@@ -465,7 +465,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The form of the GS1 digital Link (compressed, partially compressed or uncompressed).</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional query string content.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -508,7 +508,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1ElementStringToDigitalLink(
@@ -517,7 +517,7 @@ public static partial class DigitalLinkExtensions {
                 digitalLinkForm,
                 useOptimisations,
                 nonGS1KeyValuePairs,
-                compressNonGS1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
                 otherQueryContent,
                 fragment);
 
@@ -529,7 +529,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkForm">The form of the GS1 digital Link (compressed, partially compressed or uncompressed).</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply..</param>
     /// <param name="nonGS1KeyValuePairs">Any additional non-GS1 name/value parameters to be included in the query string.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional query string content.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
@@ -572,7 +572,7 @@ public static partial class DigitalLinkExtensions {
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
         Dictionary<string, string>? nonGS1KeyValuePairs = null,
-        bool compressNonGS1KeyValuePairs = false,
+        bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
         string? fragment = null) =>
             DigitalLinkConvert.FromGs1ElementStringToDigitalLink(
@@ -581,7 +581,7 @@ public static partial class DigitalLinkExtensions {
                 digitalLinkForm,
                 useOptimisations,
                 nonGS1KeyValuePairs,
-                compressNonGS1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
                 otherQueryContent,
                 fragment);
 
@@ -610,19 +610,19 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <param name="compressionLevel">The required compression level.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link URI.</returns>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink ChangeCompressionLevelWithShortNames(
         this Gs1DigitalLink digitalLink,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGS1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false) =>
             DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(
                 digitalLink,
                 compressionLevel,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI, using short names for partially
@@ -631,19 +631,19 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
     /// <param name="compressionLevel">The required compression level.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link URI.</returns>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink ChangeGs1CompressionLevelWithShortNames(
     this string digitalLinkUri,
     CompressionLevel compressionLevel,
     bool useOptimisations = false,
-    bool compressNonGS1KeyValuePairs = false) =>
+    bool compressNonGs1KeyValuePairs = false) =>
         DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(
             digitalLinkUri,
             compressionLevel,
             useOptimisations,
-            compressNonGS1KeyValuePairs);
+            compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI.
@@ -651,18 +651,18 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <param name="compressionLevel">The required compression level.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link URI.</returns>
     public static Gs1DigitalLink ChangeCompressionLevel(
         this Gs1DigitalLink digitalLink,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGS1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false) =>
             DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(
                 digitalLink,
                 compressionLevel,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI.
@@ -670,18 +670,18 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
     /// <param name="compressionLevel">The required compression level.</param>
     /// <param name="useOptimisations">If true, compression optimisations are used, if any apply.</param>
-    /// <param name="compressNonGS1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
+    /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link URI.</returns>
     public static Gs1DigitalLink ChangeGs1CompressionLevel(
         this string digitalLinkUri,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGS1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false) =>
             DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(
                 digitalLinkUri,
                 compressionLevel,
                 useOptimisations,
-                compressNonGS1KeyValuePairs);
+                compressNonGs1KeyValuePairs);
 
     /// <summary>
     /// Analyses a GS1 Digital Link URI.

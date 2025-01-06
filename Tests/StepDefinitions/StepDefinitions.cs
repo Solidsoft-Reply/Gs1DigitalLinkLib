@@ -19,7 +19,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private string? _fragment = new(string.Empty);
         private DigitalLinkForm _digitalLinkForm;
         private CompressionLevel _compressionLevel;
-        private bool _compressOtherKeyValuePairs;
+        private bool _compressNonGs1KeyValuePairs;
         private bool _optimisation;
         private Exception? _thrownException = null;
         private static readonly object lockObject = LogFile.LockObject;
@@ -91,7 +91,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [Given(@"compress other key-value pairs")]
         public void GivenWeCompressOtherKeyValuePairs() {
-            _compressOtherKeyValuePairs = true;
+            _compressNonGs1KeyValuePairs = true;
         }
 
         [Given(@"a fragment specifier, as follows: ""(.*)""")]
@@ -225,7 +225,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 _digitalLinkForm,
                 _optimisation,
                 nonGS1KeyValuePairs: _nonGs1KeyValuePairs,
-                compressOtherKeyValuePairs: _compressOtherKeyValuePairs,
+                compressNonGs1KeyValuePairs: _compressNonGs1KeyValuePairs,
                 otherQueryContent: _otherQueryContent,
                 fragment: _fragment);
             }
@@ -233,7 +233,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 _thrownException = e;
             }
 
-            _compressOtherKeyValuePairs = false;
+            _compressNonGs1KeyValuePairs = false;
             _optimisation = false;
             _gs1Ais = null;
             _nonGs1KeyValuePairs = null;
@@ -256,7 +256,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 _digitalLinkForm,
                 _optimisation,
                 nonGS1KeyValuePairs: _nonGs1KeyValuePairs,
-                compressOtherKeyValuePairs: _compressOtherKeyValuePairs,
+                compressNonGs1KeyValuePairs: _compressNonGs1KeyValuePairs,
                 otherQueryContent: _otherQueryContent,
                 fragment: _fragment);
             }
@@ -264,7 +264,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 _thrownException = e;
             }
 
-            _compressOtherKeyValuePairs = false;
+            _compressNonGs1KeyValuePairs = false;
             _optimisation = false;
             _elementString = null;
             _nonGs1KeyValuePairs = null;
@@ -362,13 +362,13 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 _digitalLink ?? string.Empty,
                 _compressionLevel,
                 _optimisation,
-                compressOtherKeyValuePairs: _compressOtherKeyValuePairs);
+                compressNonGs1KeyValuePairs: _compressNonGs1KeyValuePairs);
             }
             catch (Exception e) {
                 _thrownException = e;
             }
 
-            _compressOtherKeyValuePairs = false;
+            _compressNonGs1KeyValuePairs = false;
             _optimisation = false;
             _digitalLink = null;
             _nonGs1KeyValuePairs = null;
