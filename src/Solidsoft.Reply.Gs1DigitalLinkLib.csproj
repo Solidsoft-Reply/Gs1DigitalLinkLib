@@ -17,16 +17,19 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Initial release of the library.
+		1) Added new extension methods that convert a GS1 Digital Link URI into a structured representation of its contents. This is convenience method that performs a common task. It internally decompresses the URI, if required, and then performs an extended analysis to obtain the structured representation.
+		2) Fixed a minor issue with the Nuget package documentation.
+		3) Renamed the compressOtherKeyValuePaire parameters for several methods to compressNonGs1KeyValuePairs to improve method semantics.
+
 	</PackageReleaseNotes>
 	<Description>
-		A library for parsing high-capacity ADC (Automatic Data Capture) media such as two-dimensional barcodes used in Automatic Identification and Data Capture (AIDC). The library supports the following international standards: ISO/IEC 15418:2016 - Information technology — Automatic identification and data capture techniques — GS1 Application Identifiers and ASC MH10 Data Identifiers and maintenance; ISO/IEC 15434:2019 - Information technology — Automatic identification and data capture techniques — Syntax for high-capacity ADC media.
+		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
 
 		Latest Release Notes:
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.0.0</Version>
+	<Version>1.0.1</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>
@@ -36,6 +39,14 @@
 		<None Include="../LICENSE.txt" Pack="true" PackagePath="" />
 		<None Include="../README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<None Include="../Solidsoft Reply - LOGO Square_small.jpg">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+		</None>
+	</ItemGroup>
+
 
 	<ItemGroup>
     <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
