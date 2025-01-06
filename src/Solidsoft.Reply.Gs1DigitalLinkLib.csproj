@@ -17,10 +17,9 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Added new extension methods that convert a GS1 Digital Link URI into a structured representation of its contents. This is convenience method that performs a common task. It internally decompresses the URI, if required, and then performs an extended analysis to obtain the structured representation.
-		2) Fixed a minor issue with the Nuget package documentation.
-		3) Renamed the compressOtherKeyValuePaire parameters for several methods to compressNonGs1KeyValuePairs to improve method semantics.
-
+		1) Improved and rationalised names of extension methods.
+		2) Improved extension method handling of strings to GS1 Data. A single method now handles all strings, first attempting to interprt it as a GS1 Digital Link URI, then as a GS1 Element String.
+		3) Improved JSON serialisation of various types.
 	</PackageReleaseNotes>
 	<Description>
 		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
@@ -29,7 +28,7 @@
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.0.1</Version>
+	<Version>1.0.2</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>

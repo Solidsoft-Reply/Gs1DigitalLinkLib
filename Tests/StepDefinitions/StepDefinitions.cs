@@ -138,13 +138,13 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I convert the Digital Link to an element string")]
         [When(@"I convert the compressed Digital Link to an element string")]
         public void WhenIConvertTheDigitalLinkToElementStrings() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(_digitalLink);
+            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink);
         }
 
         [When(@"I convert the Digital Link to an element string with brackets")]
         [When(@"I convert the compressed Digital Link to an element string with brackets")]
         public void WhenIConvertTheDigitalLinkToElementStringsWithBrackets() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(_digitalLink, true);
+            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink, true);
         }
 
         [When(@"I extract AIs and values")]

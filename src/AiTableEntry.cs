@@ -19,6 +19,8 @@
 // </summary>
 // --------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
 /// <summary>
@@ -36,13 +38,23 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 /// <param name="Qualifiers"></param>
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "This is a primary constructor.")]
 public record AiTableEntry(
+    [JsonProperty("description")]
     string Description,
+    [JsonProperty("ai")]
     string Ai,
+    [JsonProperty("format")]
     string Format,
+    [JsonProperty("type")]
     AiTypes Type,
+    [JsonProperty("predefinedLength")]
     bool PredefinedLength,
+    [JsonProperty("regex")]
     string Regex,
+    [JsonProperty("title")]
     string? Title = null,
+    [JsonProperty("shortName")]
     string? ShortName = null,
+    [JsonProperty("checkDigitPosition")]
     CheckDigitPosition? CheckDigitPosition = null,
+    [JsonProperty("qualifiers")]
     List<string>? Qualifiers = null);

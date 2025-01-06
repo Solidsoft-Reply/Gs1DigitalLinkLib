@@ -1117,10 +1117,10 @@ public static partial class DigitalLinkConvert {
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    public static Gs1ElementString FromGs1DigitalLinkToGs1ElementString(Gs1DigitalLink digitalLink, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkToElementString(Gs1DigitalLink digitalLink, bool brackets = false) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 digitalLink.Value,
-                                nameof(FromGs1DigitalLinkToGs1ElementString),
+                                nameof(FromGs1DigitalLinkToElementString),
                                 nameof(digitalLink));
         var gs1AIs = extractedData.Gs1AIs;
         return FromGs1DataToElementString(gs1AIs ?? [], brackets);
@@ -1132,10 +1132,10 @@ public static partial class DigitalLinkConvert {
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    public static Gs1ElementString FromGs1DigitalLinkToGs1ElementString(string digitalLinkUri, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkToElementString(string digitalLinkUri, bool brackets = false) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 digitalLinkUri,
-                                nameof(FromGs1DigitalLinkToGs1ElementString),
+                                nameof(FromGs1DigitalLinkToElementString),
                                 nameof(digitalLinkUri));
         var gs1AIs = extractedData.Gs1AIs;
         return FromGs1DataToElementString(gs1AIs ?? [], brackets);
@@ -1433,7 +1433,7 @@ public static partial class DigitalLinkConvert {
                     var otherArray = extractedData.NonGs1KeyValuePairs;
                     var structuredArray = BuildStructuredArray(gs1AIs ?? [], otherArray ?? [], methodName, paramName);
                     analysis["structuredOutput"] = structuredArray;
-                    analysis["elementStringOutput"] = FromGs1DigitalLinkToGs1ElementString(gs1DigitalLinkUri, true).Value;
+                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
                 }
             }
         }
@@ -1450,7 +1450,7 @@ public static partial class DigitalLinkConvert {
                     var otherArray = extractedData.NonGs1KeyValuePairs;
                     var structuredArray = BuildStructuredArray(gs1AIs ?? [], otherArray ?? [], methodName, paramName);
                     analysis["structuredOutput"] = structuredArray;
-                    analysis["elementStringOutput"] = FromGs1DigitalLinkToGs1ElementString(gs1DigitalLinkUri, true).Value;
+                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
                 }
             }
         }
@@ -1466,7 +1466,7 @@ public static partial class DigitalLinkConvert {
                 var otherArray = extractedData.NonGs1KeyValuePairs;
                 var structuredArray = BuildStructuredArray(gs1AIs ?? [], otherArray ?? [], methodName, paramName);
                 analysis["structuredOutput"] = structuredArray;
-                analysis["elementStringOutput"] = FromGs1DigitalLinkToGs1ElementString(gs1DigitalLinkUri, true).Value;
+                analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
             }
         }
 

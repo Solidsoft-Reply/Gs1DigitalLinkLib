@@ -19,6 +19,8 @@
 // </summary>
 // --------------------------------------------------------------------------
 
+using Newtonsoft.Json;
+
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
 /// <summary>
@@ -31,9 +33,14 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 /// <param name="PredefinedLengthElements">A list of GS1 Application identifiers categorised as non-'FNC1' elements. These should never be delimited using ASCII 29 in element strings.</param>
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "This is a primary constructor.")]
 public record Maps(
+    [JsonProperty("identifiers")]
     IReadOnlyList<string> Identifiers,
+    [JsonProperty("qualifiers")]
     IReadOnlyList<string> Qualifiers,
+    [JsonProperty("dataAttributes")]
     IReadOnlyList<string> DataAttributes,
+    [JsonProperty("fnc1Elements")]
     IReadOnlyList<string> Fnc1Elements,
+    [JsonProperty("predefinedLengthElements")]
     IReadOnlyList<string> PredefinedLengthElements) {
 }

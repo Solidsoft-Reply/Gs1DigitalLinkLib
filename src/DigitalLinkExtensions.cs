@@ -19,6 +19,8 @@
 // </summary>
 // --------------------------------------------------------------------------
 
+using System;
+
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
 /// <summary>
@@ -68,17 +70,17 @@ public static partial class DigitalLinkExtensions {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1Data ToData(this Gs1ElementString elementString, bool noValidation = false) =>
+    public static Gs1Data ToGs1Data(this Gs1ElementString elementString, bool noValidation = false) =>
         DigitalLinkConvert.FromGs1ElementStringToData(elementString, noValidation);
 
     /// <summary>
-    /// Returns an dictionary of Application Identifiers and their values for a given element string.
+    /// Extracts GS1 Application Identifiers and their values from a string representing either a GS1 Digital Link URI or a GS1 element string.
     /// </summary>
-    /// <param name="elementString">The element string.</param>
+    /// <param name="gs1DigitalLinkUriOrELementString">The Digital Link URI or element string.</param>
     /// <param name="noValidation">
-    /// If true, the element string is not validated. The GS1 AI dictionary may contain invalid AIs and AI values.
-    /// </param>
-    /// <returns>A dictionary of AIs and AI values.</returns>
+    /// If true, and gs1DigitalLinkUriOrELementString is an element string, the element string is not validated. The GS1 AI dictionary may 
+    /// contain invalid AIs and AI values.
+    /// </param>   /// <returns>A dictionary of GS1 Application Identifiers (AIs).</returns>
     /// <exception cref="ArgumentException">The element string is invalid.</exception>
     /// <remarks>The element string may be in one of two forms.
     /// <para>
@@ -113,8 +115,32 @@ public static partial class DigitalLinkExtensions {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1Data ToGs1Data(this string elementString, bool noValidation = false) =>
-        DigitalLinkConvert.FromGs1ElementStringToData(elementString, noValidation);
+    public static Gs1Data ToGs1Data(this string gs1DigitalLinkUriOrElementString, bool noValidation = false) {
+        Exception? exception = null;
+
+        try {
+            return DigitalLinkConvert.FromGs1DigitalLinkToData(gs1DigitalLinkUriOrElementString);
+        }
+        catch (Exception ex) {
+            exception = ex;
+
+            try {
+                return DigitalLinkConvert.FromGs1ElementStringToData(new Gs1ElementString(gs1DigitalLinkUriOrElementString), noValidation);
+            }
+            catch {
+                throw exception;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Extracts GS1 Application Identifiers and their values from key GS1 Digital Link URI.
+    /// </summary>
+    /// <param name="gs1DigitalLink">The Digital Link.</param>
+    /// <returns>A dictionary of GS1 Application Identifiers (AIs).</returns>
+    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
+    public static Gs1Data ToGs1Data(this Gs1DigitalLink gs1DigitalLink) =>
+        DigitalLinkConvert.FromGs1DigitalLinkToData(gs1DigitalLink);
 
     /// <summary>
     /// Converts a dictionary of GS1 Application Identifiers and their values into a GS1 Digital Link URI using short names.
@@ -127,7 +153,7 @@ public static partial class DigitalLinkExtensions {
     /// <returns>A GS1 Digital Link.</returns>
     /// <exception cref="ArgumentException">Invalid data passed to method.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
-    public static Gs1DigitalLink ToDigitalLinkWithShortNames(
+    public static Gs1DigitalLink ToGs1DigitalLinkWithShortNames(
         this Gs1Data gs1Data,
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
@@ -183,7 +209,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key=value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
     /// <exception cref="ArgumentException">Invalid data passed to method.</exception>
-    public static Gs1DigitalLink ToDigitalLink(
+    public static Gs1DigitalLink ToGs1DigitalLink(
         this Gs1Data gs1Data,
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
@@ -226,24 +252,6 @@ public static partial class DigitalLinkExtensions {
                 compressNonGs1KeyValuePairs);
 
     /// <summary>
-    /// Extracts GS1 Application Identifiers and their values from key GS1 Digital Link URI.
-    /// </summary>
-    /// <param name="gs1DigitalLink">The Digital Link.</param>
-    /// <returns>A dictionary of GS1 Application Identifiers (AIs).</returns>
-    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
-    public static Gs1Data ToData(this Gs1DigitalLink gs1DigitalLink) =>
-        DigitalLinkConvert.FromGs1DigitalLinkToData(gs1DigitalLink);
-
-    /// <summary>
-    /// Extracts GS1 Application Identifiers and their values from key GS1 Digital Link URI.
-    /// </summary>
-    /// <param name="gs1DigitalLinkUri">The Digital Link URI.</param>
-    /// <returns>A dictionary of GS1 Application Identifiers (AIs).</returns>
-    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
-    public static Gs1Data ToGs1Data(this string gs1DigitalLinkUri) =>
-        DigitalLinkConvert.FromGs1DigitalLinkToData(gs1DigitalLinkUri);
-
-    /// <summary>
     /// Build an element string from a dictionary of GS1 Application Identifiers and their values in GS1 data.
     /// </summary>
     /// <param name="gs1Data">GS1 data.</param>
@@ -282,7 +290,7 @@ public static partial class DigitalLinkExtensions {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1ElementString ToElementString(this Gs1Data gs1Data, bool brackets = false) =>
+    public static Gs1ElementString ToGs1ElementString(this Gs1Data gs1Data, bool brackets = false) =>
         DigitalLinkConvert.FromGs1DataToElementString(gs1Data.Gs1AIs, brackets);
 
     /// <summary>
@@ -373,7 +381,7 @@ public static partial class DigitalLinkExtensions {
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
-    public static Gs1DigitalLink ToDigitalLinkWithShortNames(
+    public static Gs1DigitalLink ToGs1DigitalLinkWithShortNames(
         this Gs1ElementString elementString,
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
@@ -502,7 +510,7 @@ public static partial class DigitalLinkExtensions {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1DigitalLink ToDigitalLink(
+    public static Gs1DigitalLink ToGs1DigitalLink(
         this Gs1ElementString elementString,
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
@@ -591,8 +599,8 @@ public static partial class DigitalLinkExtensions {
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    public static Gs1ElementString ToElementString(this Gs1DigitalLink digitalLink, bool brackets = false) =>
-        DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLink, brackets);
+    public static Gs1ElementString ToGs1ElementString(this Gs1DigitalLink digitalLink, bool brackets = false) =>
+        DigitalLinkConvert.FromGs1DigitalLinkToElementString(digitalLink, brackets);
 
     /// <summary>
     /// Converts a GS1 Digital Link to an element string.
@@ -601,7 +609,7 @@ public static partial class DigitalLinkExtensions {
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 Digital Link.</returns>
     public static Gs1ElementString ToGs1ElementString(this string digitalLinkUri, bool brackets = false) =>
-        DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLinkUri, brackets);
+        DigitalLinkConvert.FromGs1DigitalLinkToElementString(digitalLinkUri, brackets);
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI, using short names for partially
@@ -746,7 +754,7 @@ public static partial class DigitalLinkExtensions {
     /// </summary>
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>A structured representation of the GS1 Digital Link URI.</returns>
-    public static StructuredOutput FromGS1DigitalLinkToStructuredArray(this Uri digitalLinkUri) =>
+    public static StructuredOutput FromGS1DigitalLinkToStructuredOutput(this Uri digitalLinkUri) =>
         new Gs1DigitalLink(digitalLinkUri).ChangeCompressionLevel(CompressionLevel.Uncompressed).AnalyseUri(true).StructuredOutput;
 
     /// <summary>
@@ -754,7 +762,7 @@ public static partial class DigitalLinkExtensions {
     /// </summary>
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <returns>A structured representation of the GS1 Digital Link URI.</returns>
-    public static StructuredOutput FromGS1DigitalLinkToStructuredArray(this Gs1DigitalLink digitalLink) =>
+    public static StructuredOutput FromGS1DigitalLinkToStructuredOutput(this Gs1DigitalLink digitalLink) =>
         digitalLink.ChangeCompressionLevel(CompressionLevel.Uncompressed).AnalyseUri(true).StructuredOutput;
 
     /// <summary>
@@ -762,6 +770,6 @@ public static partial class DigitalLinkExtensions {
     /// </summary>
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>A structured representation of the GS1 Digital Link URI.</returns>
-    public static StructuredOutput FromGS1DigitalLinkToStructuredArray(this string digitalLinkUri) =>
+    public static StructuredOutput FromGS1DigitalLinkToStructuredOutput(this string digitalLinkUri) =>
         new Gs1DigitalLink(digitalLinkUri).ChangeCompressionLevel(CompressionLevel.Uncompressed).AnalyseUri(true).StructuredOutput;
 }
