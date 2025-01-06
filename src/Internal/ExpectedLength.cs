@@ -24,25 +24,19 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <summary>
 /// Represents an expected length of an AI value.
 /// </summary>
-internal class ExpectedLength : IExpected {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ExpectedLength"/> class.
-    /// </summary>
-    /// <param name="dataType">The AI value data type (numeric or alphanumeric).</param>
-    /// <param name="length">The length of the AI value.</param>
-    public ExpectedLength(ExpectedTypes dataType, int length) {
-        DataType = dataType;
-        Value = length;
-    }
+/// <param name="dataType">The AI value data type (numeric or alphanumeric).</param>
+/// <param name="length">The length of the AI value.</param>
+#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
+internal class ExpectedLength(ExpectedTypes dataType, int length) : IExpected {
+#pragma warning restore SA1009 // Closing parenthesis should be spaced correctly
 
     /// <summary>
     /// Gets the expected data type. May be numeric or alphanumeric.
     /// </summary>
-    public ExpectedTypes DataType { get; init; }
+    public ExpectedTypes DataType { get; init; } = dataType;
 
     /// <summary>
     /// Gets the length of the AI value.
     /// </summary>
-    public int Value { get; init; }
+    public int Value { get; init; } = length;
 }

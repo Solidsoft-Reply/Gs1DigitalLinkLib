@@ -19,9 +19,9 @@
 // </summary>
 // --------------------------------------------------------------------------
 
-using System;
-
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
+
+using System;
 
 /// <summary>
 /// Extension methods for converting GS1 Digital Link data between different representations.
@@ -76,9 +76,9 @@ public static partial class DigitalLinkExtensions {
     /// <summary>
     /// Extracts GS1 Application Identifiers and their values from a string representing either a GS1 Digital Link URI or a GS1 element string.
     /// </summary>
-    /// <param name="gs1DigitalLinkUriOrELementString">The Digital Link URI or element string.</param>
+    /// <param name="gs1DigitalLinkUriOrElementString">The Digital Link URI or element string.</param>
     /// <param name="noValidation">
-    /// If true, and gs1DigitalLinkUriOrELementString is an element string, the element string is not validated. The GS1 AI dictionary may 
+    /// If true, and gs1DigitalLinkUriOrELementString is an element string, the element string is not validated. The GS1 AI dictionary may
     /// contain invalid AIs and AI values.
     /// </param>   /// <returns>A dictionary of GS1 Application Identifiers (AIs).</returns>
     /// <exception cref="ArgumentException">The element string is invalid.</exception>
@@ -116,7 +116,7 @@ public static partial class DigitalLinkExtensions {
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
     public static Gs1Data ToGs1Data(this string gs1DigitalLinkUriOrElementString, bool noValidation = false) {
-        Exception? exception = null;
+        Exception? exception;
 
         try {
             return DigitalLinkConvert.FromGs1DigitalLinkToData(gs1DigitalLinkUriOrElementString);

@@ -24,25 +24,17 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <summary>
 /// Represents a quantitative value semantics item.
 /// </summary>
-internal class QuantitativeValueSemanticsItem {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuantitativeValueSemanticsItem"/> class.
-    /// </summary>
-    /// <param name="predicates">The list of predicates.</param>
-    /// <param name="rec20">The Rec20.</param>
-    public QuantitativeValueSemanticsItem(List<string> predicates, string rec20) {
-        Predicates = predicates;
-        Rec20 = rec20;
-    }
+/// <param name="predicates">The list of predicates.</param>
+/// <param name="rec20">The Rec20.</param>
+internal class QuantitativeValueSemanticsItem(List<string> predicates, string rec20) {
 
     /// <summary>
     /// Gets the predicate list.
     /// </summary>
-    public List<string> Predicates { get; init; }
+    public List<string> Predicates { get; init; } = predicates;
 
     /// <summary>
     /// Gets the rec20.
     /// </summary>
-    public string Rec20 { get; init; }
+    public string Rec20 { get; init; } = rec20;
 }

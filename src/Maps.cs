@@ -19,28 +19,77 @@
 // </summary>
 // --------------------------------------------------------------------------
 
+namespace Solidsoft.Reply.Gs1DigitalLinkLib;
+
 using Newtonsoft.Json;
 
-namespace Solidsoft.Reply.Gs1DigitalLinkLib;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// A set of GS1 Application Identifiers categories.
 /// </summary>
-/// <param name="Identifiers">A list of GS1 Application identifiers categorised as Digital Link identifiers.</param>
-/// <param name="Qualifiers">A list of GS1 Application identifiers categorised as Digital Link qualifiers.</param>
-/// <param name="DataAttributes">A list of GS1 Application identifiers categorised as Digital Link data attributes.</param>
-/// <param name="Fnc1Elements">A list of GS1 Application identifiers categorised as 'FNC1' elements. These must be delimited using ASCII 29 in element strings, unless they appear at the end of the element string</param>
-/// <param name="PredefinedLengthElements">A list of GS1 Application identifiers categorised as non-'FNC1' elements. These should never be delimited using ASCII 29 in element strings.</param>
-[System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "This is a primary constructor.")]
-public record Maps(
+public record Maps() {
+
+    /* Cannot use a primary constructor here because the Microsoft JSON serialiser does not support property
+     * name attributes on constructor parameters (NewtonSoft.Json does) - January 2025.
+     */
+
+    /// <summary>
+    ///  Initializes a new instance of the <see cref="Maps"/> class.
+    /// </summary>
+    /// <param name="identifiers">A list of GS1 Application identifiers categorised as Digital Link identifiers.</param>
+    /// <param name="qualifiers">A list of GS1 Application identifiers categorised as Digital Link qualifiers.</param>
+    /// <param name="dataAttributes">A list of GS1 Application identifiers categorised as Digital Link data attributes.</param>
+    /// <param name="fnc1Elements">A list of GS1 Application identifiers categorised as 'FNC1' elements. These must be delimited using ASCII 29 in element strings, unless they appear at the end of the element string.</param>
+    /// <param name="predefinedLengthElements">A list of GS1 Application identifiers categorised as non-'FNC1' elements. These should never be delimited using ASCII 29 in element strings.</param>
+    internal Maps(
+        IReadOnlyList<string> identifiers,
+        IReadOnlyList<string> qualifiers,
+        IReadOnlyList<string> dataAttributes,
+        IReadOnlyList<string> fnc1Elements,
+        IReadOnlyList<string> predefinedLengthElements)
+        : this() {
+            Identifiers = identifiers;
+            Qualifiers = qualifiers;
+            DataAttributes = dataAttributes;
+            Fnc1Elements = fnc1Elements;
+            PredefinedLengthElements = predefinedLengthElements;
+    }
+
+    /// <summary>
+    /// Gets a list of GS1 Application identifiers categorised as Digital Link identifiers.
+    /// </summary>
     [JsonProperty("identifiers")]
-    IReadOnlyList<string> Identifiers,
+    [JsonPropertyName("identifiers")]
+    public IReadOnlyList<string> Identifiers { get; init; } = [];
+
+    /// <summary>
+    /// Gets a list of GS1 Application identifiers categorised as Digital Link qualifiers.
+    /// </summary>
     [JsonProperty("qualifiers")]
-    IReadOnlyList<string> Qualifiers,
+    [JsonPropertyName("qualifiers")]
+    public IReadOnlyList<string> Qualifiers { get; init; } = [];
+
+    /// <summary>
+    /// Gets a list of GS1 Application identifiers categorised as Digital Link data attributes.
+    /// </summary>
     [JsonProperty("dataAttributes")]
-    IReadOnlyList<string> DataAttributes,
+    [JsonPropertyName("dataAttributes")]
+    public IReadOnlyList<string> DataAttributes { get; init; } = [];
+
+    /// <summary>
+    /// Gets a list of GS1 Application identifiers categorised as 'FNC1' elements. These must be delimited using ASCII 29 in element strings, unless they appear at the end of the element string.
+    /// </summary>
     [JsonProperty("fnc1Elements")]
-    IReadOnlyList<string> Fnc1Elements,
+    [JsonPropertyName("fnc1Elements")]
+#pragma warning disable VSSpell001 // Spell Check
+    public IReadOnlyList<string> Fnc1Elements { get; init; } = [];
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Gets a list of GS1 Application identifiers categorised as non-'FNC1' elements. These should never be delimited using ASCII 29 in element strings.
+    /// </summary>
     [JsonProperty("predefinedLengthElements")]
-    IReadOnlyList<string> PredefinedLengthElements) {
+    [JsonPropertyName("predefinedLengthElements")]
+    public IReadOnlyList<string> PredefinedLengthElements { get; init; } = [];
 }

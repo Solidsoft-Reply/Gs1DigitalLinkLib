@@ -767,7 +767,7 @@ internal static partial class ExtensionMethods {
                 var sequence = sequences[idx];
                 foreach (var qualifier in sequence) {
                     if (aiSeq.Contains(qualifier)) {
-                        sequenceCounts[idx] = sequenceCounts.ContainsKey(idx) ? sequenceCounts[idx] + 1 : 1;
+                        sequenceCounts[idx] = sequenceCounts.TryGetValue(idx, out int value) ? value + 1 : 1;
                     }
                 }
             }
@@ -793,7 +793,7 @@ internal static partial class ExtensionMethods {
         if (nonGs1KeyValuePairs != null && nonGs1KeyValuePairs.Count > 0) {
             foreach (var key in nonGs1KeyValuePairs.Keys) {
                 var value = nonGs1KeyValuePairs[key];
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(nonGs1KeyValuePairs));
+                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
 
                 // The key in a non-GS1 key-value param must contain at least one non-digit character
                 if (_regexAllNum.IsMatch(key)) {
@@ -861,7 +861,7 @@ internal static partial class ExtensionMethods {
             // The query string content is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexQueryString.IsMatch(otherQueryContent)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheValueContainsIncorrectlyUnencodedCharacters, otherQueryContent);
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(otherQueryContent));
+                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
                 ThrowArgumentException(Resources.Errors.ErrorTypeInvalidQueryStringContent, location, message);
             }
         }
@@ -879,7 +879,7 @@ internal static partial class ExtensionMethods {
             // The fragment specifier is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexFragments.IsMatch(fragment)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheFragmentContainsIncorrectlyUnencodedCharacters, fragment);
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(fragment));
+                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
                 ThrowArgumentException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, location, message);
             }
         }

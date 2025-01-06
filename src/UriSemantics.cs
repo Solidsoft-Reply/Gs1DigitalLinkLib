@@ -29,13 +29,13 @@ using System.Diagnostics.CodeAnalysis;
 /// </summary>
 public class UriSemantics : IReadOnlyDictionary<string, object> {
 
-    private Dictionary<string, object> _uriSemantics;
+    private readonly Dictionary<string, object> _uriSemantics;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="UriSemantics"/> class.
     /// </summary>
     internal UriSemantics() {
-        _uriSemantics = new Dictionary<string, object>();
+        _uriSemantics = [];
     }
 
     /// <summary>

@@ -31,7 +31,7 @@ internal class FormatElements : IList<IExpected> {
     /// <summary>
     /// The list of format elements.
     /// </summary>
-    private readonly List<IExpected> _formatElements = new List<IExpected>();
+    private readonly List<IExpected> _formatElements = [];
 
     /// <summary>
     /// Gets a value indicating whether the list is read-only.

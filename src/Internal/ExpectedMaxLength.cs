@@ -24,24 +24,19 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <summary>
 /// Represents the expected maximum length of an AI value.
 /// </summary>
-internal class ExpectedMaxLength : IExpected {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ExpectedMaxLength"/> class.
-    /// </summary>
-    /// <param name="dataType">The AI value data type (numeric or alphanumeric).</param>
-    /// <param name="maxLength">The maximum length allowed.</param>
-    public ExpectedMaxLength(ExpectedTypes dataType, int maxLength) {
-        DataType = dataType;
-        Value = maxLength;
-    }
+/// <param name="dataType">The AI value data type (numeric or alphanumeric).</param>
+/// <param name="maxLength">The maximum length allowed.</param>
+#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
+internal class ExpectedMaxLength(ExpectedTypes dataType, int maxLength) : IExpected {
+#pragma warning restore SA1009 // Closing parenthesis should be spaced correctly
 
     /// <summary>
     /// Gets the expected data type. May be numeric or alphanumeric.
     /// </summary>
-    public ExpectedTypes DataType { get; init; }
+    public ExpectedTypes DataType { get; init; } = dataType;
 
     /// <summary>
     /// Gets the maximum length of the AI value.
     /// </summary>
-    public int Value { get; init; }
+    public int Value { get; init; } = maxLength;
 }

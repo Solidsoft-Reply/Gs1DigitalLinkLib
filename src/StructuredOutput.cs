@@ -19,9 +19,11 @@
 // </summary>
 // --------------------------------------------------------------------------
 
-using Newtonsoft.Json;
-
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
+
+using System.Text.Json.Serialization;
+
+using Newtonsoft.Json;
 
 /// <summary>
 /// Lists of GS1 AIs reflecting their role in Digital Links.
@@ -32,23 +34,27 @@ public record StructuredOutput {
     /// Gets a list of AIs recognised as Digital Link key identifiers.
     /// </summary>
     [JsonProperty("identifiers")]
+    [JsonPropertyName("identifiers")]
     public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Identifiers { get; init; } = new List<Dictionary<string, string>>();
 
     /// <summary>
     /// Gets a list of AIs recognised as Digital Link qualifiers.
     /// </summary>
     [JsonProperty("qualifiers")]
+    [JsonPropertyName("qualifiers")]
     public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Qualifiers { get; init; } = new List<Dictionary<string, string>>();
 
     /// <summary>
     /// Gets a list of AIs recognised as Digital Link data attributes.
     /// </summary>
     [JsonProperty("dataAttributes")]
+    [JsonPropertyName("dataAttributes")]
     public IReadOnlyCollection<IReadOnlyDictionary<string, string>> DataAttributes { get; init; } = new List<Dictionary<string, string>>();
 
     /// <summary>
     /// Gets a list of unrecognised AIs.
     /// </summary>
     [JsonProperty("other")]
+    [JsonPropertyName("other")]
     public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Other { get; init; } = new List<Dictionary<string, string>>();
 }

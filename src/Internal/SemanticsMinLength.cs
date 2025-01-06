@@ -24,26 +24,17 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <summary>
 /// Represents a minimum length semantics item.
 /// </summary>
-internal struct SemanticsMinLength : ISemantics {
-
+/// <param name="initalValue">The initial value of the minimum length.</param>
+#pragma warning disable SA1009 // Closing parenthesis should be spaced correctly
+internal readonly struct SemanticsMinLength(int initalValue) : ISemantics {
+#pragma warning restore SA1009 // Closing parenthesis should be spaced correctly
     /// <summary>
     /// The minimum length of the semantics.
     /// </summary>
-    private int value;
+    private readonly int value = initalValue;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="SemanticsMinLength"/> struct.
+    /// Gets the value of the semantics.
     /// </summary>
-    /// <param name="initialValue">The initial value of the minimum length.</param>
-    public SemanticsMinLength(int initialValue) {
-        value = initialValue;
-    }
-
-    /// <summary>
-    /// Gets or sets the value of the semantics.
-    /// </summary>
-    public int Value {
-        get { return value; }
-        set { this.value = value; }
-    }
+    public readonly int Value => value;
 }

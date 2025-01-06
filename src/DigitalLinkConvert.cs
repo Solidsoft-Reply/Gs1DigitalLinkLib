@@ -770,6 +770,7 @@ public static partial class DigitalLinkConvert {
             elementStrings = ElementStringsPush(elementStrings, "(" + identifiers[0] + ")", gs1AIs[identifiers[0]], string.Empty);
 
             // append any valid found Qualifiers for that primary identifier to the elementString
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
             if (_aiQualifiers.TryGetValue(identifiers[0], out string[]? qualifiersForPrimary)) {
                 foreach (var q in qualifiersForPrimary) {
                     if (qualifiers.Contains(q)) {
@@ -777,6 +778,7 @@ public static partial class DigitalLinkConvert {
                     }
                 }
             }
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
 
             // sort attributes and append any found attributes to the elementString array
             attributes.Sort();
@@ -1858,16 +1860,6 @@ public static partial class DigitalLinkConvert {
         // Check that the URI path components appear in the correct sequence
         aiSeq.ValidateSequenceOrder(methodName, paramName);
 
-        foreach (var kvp in pathCandidates) {
-            var key = kvp.Key;
-
-            if (!_regexAllNum.IsMatch(key)) {
-                var numkey = _shortNameToNumeric[key];
-
-                // Do something with numkey if needed
-            }
-        }
-
         var gs1Pairs = uriAnalysis.QueryStringGs1Pairs.ToDictionary();
         var nonGS1queryStringPairs = uriAnalysis.QueryStringNonGs1Pairs.ToDictionary();
 
@@ -1990,8 +1982,6 @@ public static partial class DigitalLinkConvert {
                     compressionLevel,
                     useOptimisations,
                     compressNonGs1KeyValuePairs,
-                    methodName,
-                    paramName,
                     useShortNames);
         }
 
@@ -2073,8 +2063,6 @@ public static partial class DigitalLinkConvert {
                         compressionLevel,
                         useOptimisations,
                         compressNonGs1KeyValuePairs,
-                        methodName,
-                        paramName,
                         useShortNames);
         }
     }
@@ -2087,8 +2075,6 @@ public static partial class DigitalLinkConvert {
     /// <param name="compressionLevel">The desired level of compression (partial or full).</param>
     /// <param name="useOptimisations">If true, the compression will take advantage of any available optimisations.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs will be compressed.</param>
-    /// <param name="methodName">The public method name.</param>
-    /// <param name="paramName">The public method parameter name.</param>
     /// <param name="useShortNames">
     /// Use short names rather than AIs (e.g., gtin, rather than 01. This applies only when creating partially
     /// compressed Digital Links using the uncompressedPrimary parameter. This is a legacy feature.
@@ -2100,8 +2086,6 @@ public static partial class DigitalLinkConvert {
         CompressionLevel compressionLevel,
         bool useOptimisations,
         bool compressNonGs1KeyValuePairs,
-        string methodName,
-        string paramName,
         bool useShortNames = false) {
 
         // extract query string
@@ -2450,6 +2434,7 @@ public static partial class DigitalLinkConvert {
         }
 
         // append any data Qualifiers in the expected order
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
         if (_aiQualifiers.TryGetValue(identifiers[0], out string[]? qualifierValues)) {
             foreach (var qualifier in qualifierValues) {
                 if (qualifiers.Contains(qualifier)) {
@@ -2469,6 +2454,7 @@ public static partial class DigitalLinkConvert {
                 }
             }
         }
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
 
         // if there are any data attributes, we need to add these to the query string
         if (attributes.Count > 0) {

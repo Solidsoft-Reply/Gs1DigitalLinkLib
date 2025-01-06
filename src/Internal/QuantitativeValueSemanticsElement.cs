@@ -24,25 +24,17 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <summary>
 /// Represents a quantitative value semantics element.
 /// </summary>
-internal class QuantitativeValueSemanticsElement {
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="QuantitativeValueSemanticsElement"/> class.
-    /// </summary>
     /// <param name="ai">The AI key.</param>
     /// <param name="quantitativeValueSemanticsItem">The quantitative value semantics item.</param>
-    public QuantitativeValueSemanticsElement(string ai, QuantitativeValueSemanticsItem quantitativeValueSemanticsItem) {
-        AI = ai;
-        QuantitativeValueSemanticsItem = quantitativeValueSemanticsItem;
-    }
+internal class QuantitativeValueSemanticsElement(string ai, QuantitativeValueSemanticsItem quantitativeValueSemanticsItem) {
 
     /// <summary>
     /// Gets the AI key.
     /// </summary>
-    public string AI { get; }
+    public string AI { get; init; } = ai;
 
     /// <summary>
     /// Gets the quantitative value semantics item.
     /// </summary>
-    public QuantitativeValueSemanticsItem QuantitativeValueSemanticsItem { get; }
+    public QuantitativeValueSemanticsItem QuantitativeValueSemanticsItem { get; init; } = quantitativeValueSemanticsItem;
 }

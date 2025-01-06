@@ -21,9 +21,8 @@
 
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
-using Newtonsoft.Json;
-
 using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
+using System.Text.Json.Serialization;
 
 /// <summary>
 /// Represents the data extracted from a GS1 Digital Link URI.
@@ -73,24 +72,24 @@ public class Gs1Data {
     /// <summary>
     /// Gets the GS1 AIs and values.
     /// </summary>
-    [JsonProperty("gs1AIs")]
+    [JsonPropertyName("gs1AIs")]
     public Dictionary<string, string> Gs1AIs { get; init; }
 
     /// <summary>
     /// Gets the non-GS1 key-value parameters included in the query string.
     /// </summary>
-    [JsonProperty("nonGs1KeyValuePairs")]
+    [JsonPropertyName("nonGs1KeyValuePairs")]
     public Dictionary<string, string> NonGs1KeyValuePairs { get; init; }
 
     /// <summary>
     /// Gets other non key-value content for the query string.
     /// </summary>
-    [JsonProperty("otherQueryStringContent")]
+    [JsonPropertyName("otherQueryStringContent")]
     public string OtherQueryStringContent { get; init; }
 
     /// <summary>
     /// Gets the fragment specifier.
     /// </summary>
-    [JsonProperty("fragmentSpecifier")]
+    [JsonPropertyName("fragmentSpecifier")]
     public string FragmentSpecifier { get; init; }
 }
