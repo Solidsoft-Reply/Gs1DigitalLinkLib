@@ -69,7 +69,7 @@ The seven core methods provided by **DigitalLinkConvert** and their equivalent e
   <tr>
     <td>FromGs1ElementStringToDigitalLink()</td>
     <td rowspan=2 valign="top">ToGs1DigitalLink()</td>
-    <td>Translates a GS1 element string into a Digital Link.</td>
+    <td valign="top">Translates a GS1 element string into a Digital Link.</td>
   </tr>
   <tr>
     <td colspan=2>FromGs1DigitalLinkDataToDigitalLink()</td>
@@ -78,7 +78,7 @@ The seven core methods provided by **DigitalLinkConvert** and their equivalent e
   <tr>
     <td>FromGs1DigitalLinkToElementString()</td>
     <td rowspan=2 valign="top">ToGs1ElementString()</td>
-    <td>Translates a GS1 Digital Link to an element string.</td>
+    <td valign="top">Translates a GS1 Digital Link to an element string.</td>
   </tr>
   <tr>
     <td colspan=2>FromGs1DigitalLinkDataToElementString()</td>
@@ -87,7 +87,7 @@ The seven core methods provided by **DigitalLinkConvert** and their equivalent e
   <tr>
     <td>FromGs1ElementStringToDigitalLinkData()</td>
     <td rowspan=2 valign="top">ToGs1DigitalLinkData()</td>
-    <td>Translates a GS1 element string to data.</td>
+    <td valign="top">Translates a GS1 element string to data.</td>
   </tr>
   <tr>
     <td colspan=2>FromGs1DigitalLinkToData()</td>
@@ -96,7 +96,7 @@ The seven core methods provided by **DigitalLinkConvert** and their equivalent e
   <tr>
     <td>Gs1DigitalLinkCompressionLevel()</td>
     <td rowspan=2 valign="top">ChangeGs1CompressionLevel()[string, Uri]<br/>ChangeCompressionLevel()[Gs1DigitalLink]</td>
-    <td>Changes the compression level of a GS1 Digital Link.</td>
+    <td valign="top">Changes the compression level of a GS1 Digital Link.</td>
   </tr>
 </table>
 <hr></br>
@@ -430,11 +430,27 @@ catch (Exception ex) {
 
 **DigitalLinkConvert** implements three additional methods to handle legacy ‘short names’. Short names (“convenience alphas”) are no longer supported from version 1.1.3 of the GS1 Digital Link standard. These three methods and their equivalent extension methods are:
 
-| **DigitalLinkConvert Method** | **Extension Method** | **Description** |
-| --- | --- | --- |
-| FromGs1ElementStringToDigitalLinkWithShortNames() | ToGs1DigitalLinkWithShortNames() | Translates a GS1 element string into a Digital Link. |
-| FromGs1DigitalLinkDataToDigitalLinkWithShortNames () | Translates GS1 Digital Link data into a Digital Link. |
-| Gs1DigitalLinkCompressionLevelWithShortNames () | ChangeGs1CompressionLevelWithShortNames ()[**string**, **Uri**]  ChangeCompressionLevelWithShortNames ()[**Gs1DigitalLink**] | Changes the compression level of a GS1 Digital Link. |
+<table>
+  <tr>
+    <th>DigitalLinkConvert Method</th>
+    <th>Extension Method</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>FromGs1ElementStringToDigitalLinkWithShortNames()</td>
+    <td rowspan=2 valign="top">ToGs1DigitalLinkWithShortNames()</td>
+    <td>Translates a GS1 element string into a Digital Link.</td>
+  </tr>
+  <tr>
+    <td colspan=2>FromGs1DigitalLinkDataToDigitalLinkWithShortNames()</td>
+    <td>Translates GS1 Digital Link data into a Digital Link.</td>
+  </tr>
+  <tr>
+    <td>Gs1DigitalLinkCompressionLevelWithShortNames()</td>
+    <td>ChangeGs1CompressionLevelWithShortNames()[**string**, **Uri**]  ChangeCompressionLevelWithShortNames ()[**Gs1DigitalLink**]</td>
+    <td>Changes the compression level of a GS1 Digital Link.</td>
+  </tr>
+</table>
 
 ## Translate a GS1 element string to a GS1 Digital Link with short names
 
