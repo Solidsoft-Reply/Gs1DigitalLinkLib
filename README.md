@@ -801,3 +801,12 @@ Use the ShortNames property to access a table of GS1 Application Identifier shor
 * **ShortNamesToAIsTable**
 
 Use the ShortNamesToNumeric property to access a table that maps short names to GS1 Application Identifiers. Short names are a legacy feature that was dropped from version 1.1.3 of the GS1 Digital Link standard.
+
+# Contributors
+Charles Young ch.young@reply.eu
+
+# Disclaimer
+This library is a port of GS1 software designated as a pre-alpha release.  We have tested it comprehensively to ensure that it works correctly. However, it is provided on an as-is basis, with no warranty expressed or implied. Neither Solidsoft Reply nor the contributors accept any liability for its use nor for any damages caused through its use.
+
+# Licence
+Apache 2.0
