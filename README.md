@@ -22,7 +22,7 @@ A GS1 Digital Link demonstration tool is available at <https://id.gs1.org/uritoo
 
 This GS1 Digital Link Library provides seven translation methods, as indicated in the overview diagram below:
 
-![Overview diagram](GS1DigitalLinkLib.png)
+![Overview diagram](Gs1DigitalLinkLib.png)
 
 These methods provide the same functionality as the ten methods provided by the [GS1 Digital Link Compression Prototype](https://github.com/gs1/GS1DigitalLinkCompressionPrototype). However, the Library views compression and partial compression as different forms of an uncompressed Digital Link and supports transitions between these three forms through a single method. In addition, the library eliminates any need to first decompress a Digital Link before extracting data from it or converting it to an element string. Decompression is performed automatically. Similarly, an element string or a data representation of a Digital Link can be transformed into a Digital Link in any of the three forms through a single method call.
 
