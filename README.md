@@ -60,16 +60,46 @@ The library provides three classes to represent Digital Link data:
 
 The seven core methods provided by **DigitalLinkConvert** and their equivalent extension methods are:
 
-| **DigitalLinkConvert Method** | **Extension Method** | **Description** |
-| --- | --- | --- |
-| FromGs1ElementStringToDigitalLink() | ToGs1DigitalLink() | Translates a GS1 element string into a Digital Link. |
-| FromGs1DigitalLinkDataToDigitalLink() | Translates GS1 Digital Link data into a Digital Link. |
-| FromGs1DigitalLinkToElementString() | ToGs1ElementString() | Translates a GS1 Digital Link to an element string. |
-| FromGs1DigitalLinkDataToElementString() | Translates GS1 Digital Link data to an element string. |
-| FromGs1ElementStringToDigitalLinkData() | ToGs1DigitalLinkData() | Translates a GS1 element string to data. |
-| FromGs1DigitalLinkToData() | Translates a GS1 Digital Link to data. |
-| Gs1DigitalLinkCompressionLevel() | ChangeGs1CompressionLevel()[**string**, **Uri**]  ChangeCompressionLevel()[**Gs1DigitalLink**] | Changes the compression level of a GS1 Digital Link. |
-
+<table>
+  <tr>
+    <th>DigitalLinkConvert Method</th>
+    <th>Extension Method</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>FromGs1ElementStringToDigitalLink()</td>
+    <td rowspan=2 valign="top">ToGs1DigitalLink()</td>
+    <td>Translates a GS1 element string into a Digital Link.</td>
+  </tr>
+  <tr>
+    <td colspan=2>FromGs1DigitalLinkDataToDigitalLink()</td>
+    <td>Translates GS1 Digital Link data into a Digital Link.</td>
+  </tr>
+  <tr>
+    <td>FromGs1DigitalLinkToElementString()</td>
+    <td rowspan=2 valign="top">ToGs1ElementString()</td>
+    <td>Translates a GS1 Digital Link to an element string.</td>
+  </tr>
+  <tr>
+    <td colspan=2>FromGs1DigitalLinkDataToElementString()</td>
+    <td>Translates GS1 Digital Link data to an element string.</td>
+  </tr>
+  <tr>
+    <td>FromGs1ElementStringToDigitalLinkData()</td>
+    <td rowspan=2 valign="top">ToGs1DigitalLinkData()</td>
+    <td>Translates a GS1 element string to data.</td>
+  </tr>
+  <tr>
+    <td colspan=2>FromGs1DigitalLinkToData()</td>
+    <td>Translates a GS1 Digital Link to data.</td>
+  </tr>
+  <tr>
+    <td>Gs1DigitalLinkCompressionLevel()</td>
+    <td rowspan=2 valign="top">ChangeGs1CompressionLevel()[string, Uri]<br/>ChangeCompressionLevel()[Gs1DigitalLink]</td>
+    <td>Changes the compression level of a GS1 Digital Link.</td>
+  </tr>
+</table>
+<hr></br>
 The extension methods extend the following types:
 
 * Gs1DigitalLink
@@ -133,19 +163,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var elementString = "(3103)000189(01)05412345000013(3923)2172(10)ABC&+123";
 
 try {
+    var gs1DigitalLink = elementString.ToGs1DigitalLink(uriStem: "http://example.org");
 
-var gs1DigitalLink = elementString.ToGs1DigitalLink(uriStem: "http://example.org");
-
-Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
-
-// Digital Link URI = 'http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172'
-
+    Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
+    // Digital Link URI = 'http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172'
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 ```cs
@@ -155,19 +179,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var elementStringFnc1 = $"3103000189010541234500001339232172{DataResources.GroupSeparator}10ABC&+123";
 
 try {
+    var gs1DigitalLink = elementStringFnc1.ToGs1DigitalLink(uriStem: "http://example.org");
 
-var gs1DigitalLink = elementStringFnc1.ToGs1DigitalLink(uriStem: "http://example.org");
-
-Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
-
-// Digital Link URI = 'http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172'
-
+    Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
+    // Digital Link URI = 'http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172'
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -193,19 +211,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLink = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1ElementString = gs1DigitalLink.ToGs1ElementString(true);
 
-var gs1ElementString = gs1DigitalLink.ToGs1ElementString(true);
-
-Console.WriteLine($"Element String = '{gs1ElementString}'");
-
-// Element String = '(01)00054123450013(10)ABC&+123(3103)000189(3923)2172'
-
+    Console.WriteLine($"Element String = '{gs1ElementString}'");
+    // Element String = '(01)00054123450013(10)ABC&+123(3103)000189(3923)2172'
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 ```cs
@@ -214,19 +226,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLink = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1ElementString = gs1DigitalLink.ToGs1ElementString(false);
 
-var gs1ElementString = gs1DigitalLink.ToGs1ElementString(false);
-
-Console.WriteLine($"Element String = '{gs1ElementString}'");
-
-// Element String = '0100054123450013310300018939232172↔10ABC&+123'
-
+    Console.WriteLine($"Element String = '{gs1ElementString}'");
+    // Element String = '0100054123450013310300018939232172↔10ABC&+123'
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -253,19 +259,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var elementString = "(3103)000189(01)05412345000013(3923)2172(10)ABC&+123";
 
 try {
+    var gs1Data = elementString.ToGs1DigitalLinkData();
 
-var gs1Data = elementString.ToGs1DigitalLinkData();
-
-Console.WriteLine($"GS1 data = {JsonSerializer.Serialize(gs1Data)}");
-
-// GS1 data = {"gs1AIs":{"3103":"000189","01":"05412345000013","3923":"2172","10":"ABC\u0026\u002B123"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
-
+    Console.WriteLine($"GS1 data = {JsonSerializer.Serialize(gs1Data)}");
+    // GS1 data = {"gs1AIs":{"3103":"000189","01":"05412345000013","3923":"2172","10":"ABC\u0026\u002B123"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -289,31 +289,21 @@ This method returns a Gs1ElementString object representing a concatenation of on
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-
-{ "01", "00054123450013" },
-
-{ "10", "ABC&+123" },
-
-{ "3103", "000189" },
-
-{ "3923", "2172" }
-
-};
+                  { "01", "00054123450013" },
+                  { "10", "ABC&+123" },
+                  { "3103", "000189" },
+                  { "3923", "2172" }
+              };
 
 try {
+    var gs1ElementStrings = gs1Data.ToGs1ElementString(true);
 
-var gs1ElementStrings = gs1Data.ToGs1ElementString(true);
-
-Console.WriteLine("GS1 Element String = " + gs1ElementStrings);
-
-// GS1 Element String = (01)00054123450013(10)ABC&+123(3103)000189(3923)2172
-
+    Console.WriteLine("GS1 Element String = " + gs1ElementStrings);
+    // GS1 Element String = (01)00054123450013(10)ABC&+123(3103)000189(3923)2172
 }
 
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -334,19 +324,13 @@ This method returns a **Gs1DigitalLinkData** object containing a dictionary of G
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1Data = gs1DigitalLinkUri.ToGs1DigitalLinkData();
 
-var gs1Data = gs1DigitalLinkUri.ToGs1DigitalLinkData();
-
-Console.WriteLine($"GS1 data = {gs1Data}");
-
-// GS1 data = {"gs1DigitalLinkData":{"3103":"000189","3923":"2172","10":"ABC\u0026\u002B123","01":"00054123450013"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
-
+    Console.WriteLine($"GS1 data = {gs1Data}");
+    // GS1 data = {"gs1DigitalLinkData":{"3103":"000189","3923":"2172","10":"ABC\u0026\u002B123","01":"00054123450013"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -381,31 +365,20 @@ This method returns a **Gs1DigitalLink** object representing a GS1 Digital Link.
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-
-{ "01", "00054123450013" },
-
-{ "10", "ABC&+123" },
-
-{ "3103", "000189" },
-
-{ "3923", "2172" }
-
-};
+                      { "01", "00054123450013" },
+                      { "10", "ABC&+123" },
+                      { "3103", "000189" },
+                      { "3923", "2172" }
+                  };
 
 try {
+    var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLink("https://example.org");
 
-var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLink("https://example.org");
-
-Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
-
-// GS1 Digital Link URI = https://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
-
+    Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
+    // GS1 Digital Link URI = https://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -437,31 +410,19 @@ This method returns a **Gs1DigitalLink** object representing a GS1 Digital Link.
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var compressed = gs1DigitalLinkUri.ChangeGs1CompressionLevel(CompressionLevel.Compressed);
+    var partiallyCompressed = compressed.ChangeCompressionLevel(CompressionLevel.PartiallyCompressed);
+    var uncompressed = partiallyCompressed.ChangeCompressionLevel(CompressionLevel.Uncompressed);
 
-var compressed = gs1DigitalLinkUri.ChangeGs1CompressionLevel(CompressionLevel.Compressed);
-
-var partiallyCompressed = compressed.ChangeCompressionLevel(CompressionLevel.PartiallyCompressed);
-
-var uncompressed = partiallyCompressed.ChangeCompressionLevel(CompressionLevel.Uncompressed);
-
-Console.WriteLine($"Compressed GS1 Digital Link = {compressed.Value}");
-
-Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
-
-Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
-
-// Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
-
-// Partially compressed GS1 Digital Link = http://example.org/01/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
-
-// Uncompressed GS1 Digital Link = http://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
-
+    Console.WriteLine($"Compressed GS1 Digital Link = {compressed.Value}");
+    Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
+    Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
+    // Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
+    // Partially compressed GS1 Digital Link = http://example.org/01/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
+    // Uncompressed GS1 Digital Link = http://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -527,19 +488,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var elementString = "(3103)000189(01)05412345000013(3923)2172(10)ABC&+123";
 
 try {
+    var gs1DigitalLink = elementString.ToGs1DigitalLinkWithShortNames(uriStem: "http://example.org");
 
-var gs1DigitalLink = elementString.ToGs1DigitalLinkWithShortNames(uriStem: "http://example.org");
-
-Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
-
-// Digital Link URI = 'http://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172'
-
+    Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
+    // Digital Link URI = 'http://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172'
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 ```cs
@@ -548,19 +503,14 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var elementStringFnc1 = $"3103000189010541234500001339232172{DataResources.GroupSeparator}10ABC&+123";
 
 try {
+    var gs1DigitalLink = elementStringFnc1.ToGs1DigitalLinkWithShortNames(uriStem: "http://example.org");
 
-var gs1DigitalLink = elementStringFnc1.ToGs1DigitalLinkWithShortNames(uriStem: "http://example.org");
-
-Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
-
-// Digital Link URI = 'http://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172'
-
+    Console.WriteLine($"Digital Link URI = '{gs1DigitalLink}'");
+    // Digital Link URI = 'http://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172'
 }
 
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -595,31 +545,20 @@ This method returns a **Gs1DigitalLink** object representing a GS1 Digital Link.
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-
-{ "01", "00054123450013" },
-
-{ "10", "ABC&+123" },
-
-{ "3103", "000189" },
-
-{ "3923", "2172" }
-
-};
+                  { "01", "00054123450013" },
+                  { "10", "ABC&+123" },
+                  { "3103", "000189" },
+                  { "3923", "2172" }
+              };
 
 try {
+    var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLinkWithShortNames("https://example.org");
 
-var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLinkWithShortNames("https://example.org");
-
-Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
-
-// GS1 Digital Link URI = https://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
-
+    Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
+    // GS1 Digital Link URI = https://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -653,31 +592,19 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var compressed = gs1DigitalLinkUri.ChangeGs1CompressionLevelWithShortNames(CompressionLevel.Compressed);
+    var partiallyCompressed = compressed.ChangeCompressionLevelWithShortNames(CompressionLevel.PartiallyCompressed);
+    var uncompressed = partiallyCompressed.ChangeCompressionLevelWithShortNames(CompressionLevel.Uncompressed);
 
-var compressed = gs1DigitalLinkUri.ChangeGs1CompressionLevelWithShortNames(CompressionLevel.Compressed);
-
-var partiallyCompressed = compressed.ChangeCompressionLevelWithShortNames(CompressionLevel.PartiallyCompressed);
-
-var uncompressed = partiallyCompressed.ChangeCompressionLevelWithShortNames(CompressionLevel.Uncompressed);
-
-Console.WriteLine($"Compressed GS1 Digital Link = {compressed.Value}");
-
-Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
-
-Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
-
-// Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
-
-// Partially compressed GS1 Digital Link = http://example.org/gtin/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
-
-// Uncompressed GS1 Digital Link = http://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
-
+    Console.WriteLine($"Compressed GS1 Digital Link = {compressed.Value}");
+    Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
+    Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
+    // Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
+    // Partially compressed GS1 Digital Link = http://example.org/gtin/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
+    // Uncompressed GS1 Digital Link = http://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -685,14 +612,41 @@ Console.WriteLine(ex);
 
 The library includes additional extension methods. N.B. There are no equivalent non-extension methods in **DigitalLinkConvert**:
 
-| **Extension method** | **Extended Type** | **Description** |
-| --- | --- | --- |
-| AnalyseUri() | Gs1DigitalLink | Analyses a GS1 Digital Link URI. |
-| AnalyseGs1DigitalLinkUri() | string, Uri |
-| AnalyseUriSemantics() | Gs1DigitalLInk | Analyse the semantics of a GS1 Digital Link URI |
-| AnalyseGs1DigitalLinkUriSemantics | string, Uri |
-| ToStructuredData() | Gs1DigitalLink | Converts a GS1 Digital Link URI to a structured representation of its content. |
-| FromGS1DigitalLinkToStructuredData() | string, Uri |
+<table>
+    <tr>
+        <th>Extension method</th>
+        <th>Extended Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>AnalyseUri()</td>
+        <td>Gs1DigitalLink</td>
+        <td rowspan=2 valign="top">Analyses a GS1 Digital Link URI.</td>
+    </tr>
+    <tr>
+        <td>AnalyseGs1DigitalLinkUri()</td>
+        <td>string, Uri</td>
+    </tr>
+    <tr>
+        <td>AnalyseUriSemantics()</td>
+        <td>Gs1DigitalLink</td>
+        <td rowspan=2 valign="top">Analyse the semantics of a GS1 Digital Link URI.</td>
+    </tr>
+    <tr>
+        <td>AnalyseGs1DigitalLinkUriSemantics()</td>
+        <td>string, Uri</td>
+    </tr>
+    <tr>
+        <td>ToStructuredData()</td>
+        <td>Gs1DigitalLink</td>
+        <td rowspan=2 valign="top">Converts a GS1 Digital Link URI to a structured representation of its content.</td>
+    </tr>
+    <tr>
+        <td>FromGS1DigitalLinkToStructuredData()</td>
+        <td>string, Uri</td>
+    </tr>
+</table>
+<hr></br>
 
 ## Analyse a Digital Link URI
 
@@ -716,19 +670,13 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1AnalysisData = gs1DigitalLinkUri.AnalyseGs1DigitalLinkUri();
 
-var gs1AnalysisData = gs1DigitalLinkUri.AnalyseGs1DigitalLinkUri();
-
-Console.WriteLine($"GS1 analysis data = {gs1AnalysisData}");
-
-// GS1 analysis data = {"uriStem":"http://example.org","pathComponents":"/gtin/054123450013/lot/ABC%26%2B123","uriPathInfo":"/gtin/054123450013/lot/ABC%26%2B123","pathCandidates":{"lot":"ABC\u0026\u002B123","gtin":"054123450013"},"queryString":"3103=000189\u00263923=2172","queryStringGs1Pairs":{"3103":"000189","3923":"2172"},"queryStringNonGs1Pairs":{},"otherQueryContent":"","fragment":"","detectedForm":0,"uncompressedPath":"/gtin/054123450013/lot/ABC%26%2B123","compressedPath":"","identifierMap":{},"primaryIdentifier":"","nonIdMap":{},"structuredData":{"identifiers":[],"qualifiers":[],"dataAttributes":[],"other":[]},"elementStringOutput":""}
-
+    Console.WriteLine($"GS1 analysis data = {gs1AnalysisData}");
+    // GS1 analysis data = {"uriStem":"http://example.org","pathComponents":"/gtin/054123450013/lot/ABC%26%2B123","uriPathInfo":"/gtin/054123450013/lot/ABC%26%2B123","pathCandidates":{"lot":"ABC\u0026\u002B123","gtin":"054123450013"},"queryString":"3103=000189\u00263923=2172","queryStringGs1Pairs":{"3103":"000189","3923":"2172"},"queryStringNonGs1Pairs":{},"otherQueryContent":"","fragment":"","detectedForm":0,"uncompressedPath":"/gtin/054123450013/lot/ABC%26%2B123","compressedPath":"","identifierMap":{},"primaryIdentifier":"","nonIdMap":{},"structuredData":{"identifiers":[],"qualifiers":[],"dataAttributes":[],"other":[]},"elementStringOutput":""}
 }
-
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
@@ -751,15 +699,12 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1SemanticAnalysisData = gs1DigitalLinkUri.AnalyseGs1DigitalLinkUriSemantics();
 
-var gs1SemanticAnalysisData = gs1DigitalLinkUri.AnalyseGs1DigitalLinkUriSemantics();
-
-Console.WriteLine($"GS1 semantics analysis data = {gs1SemanticAnalysisData}"); // GS1 semantics analysis data = {"@context":{"schema":"http://schema.org/","gs1":"https://gs1.org/voc/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","owl":"http://www.w3.org/2002/07/owl#","dcterms":"http://purl.org/dc/terms/","xsd":"http://www.w3.org/2001/XMLSchema#","skos":"http://www.w3.org/2004/02/skos/core#","gs1:value":{"@type":"xsd:float"}},"@id":"\_:1","@type":["rdfs:Class","owl:Class","gs1:Product","schema:Product"],"dcterms:isPartOf":[{"@id":"http://example.org/gtin/054123450013"}],"rdfs:subClassOf":[{"@id":"http://example.org/gtin/054123450013"}],"gs1:gtin":"00054123450013","schema:gtin":"00054123450013","gs1:hasBatchLot":"ABC\u0026\u002B123","gs1:netWeight":{"@type":"gs1:QuantitativeValue","gs1:unitCode":"KGM","gs1:value":"0.189"},"gs1:elementStrings":"(01)00054123450013(10)ABC\u0026\u002B123(3103)000189(3923)2172"}}
-
+    Console.WriteLine($"GS1 semantics analysis data = {gs1SemanticAnalysisData}"); // GS1 semantics analysis data = {"@context":{"schema":"http://schema.org/","gs1":"https://gs1.org/voc/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","owl":"http://www.w3.org/2002/07/owl#","dcterms":"http://purl.org/dc/terms/","xsd":"http://www.w3.org/2001/XMLSchema#","skos":"http://www.w3.org/2004/02/skos/core#","gs1:value":{"@type":"xsd:float"}},"@id":"\_:1","@type":["rdfs:Class","owl:Class","gs1:Product","schema:Product"],"dcterms:isPartOf":[{"@id":"http://example.org/gtin/054123450013"}],"rdfs:subClassOf":[{"@id":"http://example.org/gtin/054123450013"}],"gs1:gtin":"00054123450013","schema:gtin":"00054123450013","gs1:hasBatchLot":"ABC\u0026\u002B123","gs1:netWeight":{"@type":"gs1:QuantitativeValue","gs1:unitCode":"KGM","gs1:value":"0.189"},"gs1:elementStrings":"(01)00054123450013(10)ABC\u0026\u002B123(3103)000189(3923)2172"}
+}
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+  Console.WriteLine(ex);
 }
 ```
 
@@ -782,19 +727,14 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3103=000189&3923=2172";
 
 try {
+    var gs1StructuredData = gs1DigitalLinkUri.FromGS1DigitalLinkToStructuredData();
 
-var gs1StructuredData = gs1DigitalLinkUri.FromGS1DigitalLinkToStructuredData();
-
-Console.WriteLine($"GS1 structured data = {gs1StructuredData}");
-
-// GS1 structured data = {"identifiers":[{"01":"00054123450013"}],"qualifiers":[{"10":"ABC\u0026\u002B123"}],"dataAttributes":[{"3103":"000189"},{"3923":"2172"}],"other":[]}
-
+    Console.WriteLine($"GS1 structured data = {gs1StructuredData}");
+    // GS1 structured data = {"identifiers":[{"01":"00054123450013"}],"qualifiers":[{"10":"ABC\u0026\u002B123"}],"dataAttributes":[{"3103":"000189"},{"3923":"2172"}],"other":[]}
 }
 
 catch (Exception ex) {
-
-Console.WriteLine(ex);
-
+    Console.WriteLine(ex);
 }
 ```
 
