@@ -28,6 +28,7 @@ These methods provide the same functionality as the ten methods provided by the 
 
 All seven methods are implemented as static methods of the **DigitalLinkConvert** class. They can be used as global methods operating over the data. Alternatively, you can use extension methods. For example, the following calls in C# to populate elementString1 and elementString2 are equivalent:
 
+```cs
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 ...
@@ -37,6 +38,7 @@ string digitalLink = "https://id.gs1.org/01/00054123450013";
 Gs1ElementString elementString1 = DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLink);
 
 Gs1ElementString elementString2 = digitalLink.ToGs1ElementString();
+```
 
 # Installation
 
