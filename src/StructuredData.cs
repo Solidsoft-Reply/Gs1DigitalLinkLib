@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="StructuredOutput.cs" company="Solidsoft Reply Ltd.">
+// <copyright file="StructuredData.cs" company="Solidsoft Reply Ltd.">
 // Copyright © 2025 Solidsoft Reply Ltd. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ using Newtonsoft.Json;
 /// <summary>
 /// Lists of GS1 AIs reflecting their role in Digital Links.
 /// </summary>
-public record StructuredOutput {
+public record StructuredData {
 
     /// <summary>
     /// Gets a list of AIs recognised as Digital Link key identifiers.
@@ -57,4 +57,19 @@ public record StructuredOutput {
     [JsonProperty("other")]
     [JsonPropertyName("other")]
     public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Other { get; init; } = new List<Dictionary<string, string>>();
+
+    /// <summary>
+    /// Returns the structured data as JSON.
+    /// </summary>
+    /// <returns>The structured data as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(this);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the structured data as JSON.
+    /// </summary>
+    /// <returns>The structured data as JSON.</returns>
+    public override string ToString() => ToJson();
 }

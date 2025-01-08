@@ -457,7 +457,7 @@ internal static partial class ExtensionMethods {
     /// <param name="encoding">The encoding specifier.</param>
     /// <param name="binStr">A binary string.</param>
     /// <param name="cursor">The current cursor index.</param>
-    /// <param name="gs1AIs">A dictionary of GS1 AIs.</param>
+    /// <param name="gs1DigitalLinkData">A dictionary of GS1 AIs.</param>
     /// <param name="nonGs1KeyValuePairs">A dictionary on non-GS1 key-value pairs.</param>
     /// <param name="key">A GS1 AI.</param>
     /// <param name="numChars">The number of characters to extract.</param>
@@ -466,13 +466,13 @@ internal static partial class ExtensionMethods {
         this int encoding,
         string binStr,
         int cursor,
-        Dictionary<string, string> gs1AIs,
+        Dictionary<string, string> gs1DigitalLinkData,
         Dictionary<string, string> nonGs1KeyValuePairs,
         string key,
         int numChars) {
             /* Starting with a specified encoding (in range 0-4), binary string binStr,
              * binary string cursor position, key, number of characters to extract and dictionary
-             * gs1AIs to extend. This method determines how many bits to extract (depending on the
+             * Gs1AIs to extend. This method determines how many bits to extract (depending on the
              * encoding), extracts those bits, advances the cursor and converts the extracted bits
              * into a string value in the appropriate encoding, which is then inserted into the
              * specified dictionary. The updated dictionary and updated binary string
@@ -494,36 +494,36 @@ internal static partial class ExtensionMethods {
                     // lower case hexadecimal characters
                     var ret1 = BuildString(numChars, DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
                     cursor = (int)ret1.Cursor;
-                    AppendToDictionary(key, (ret1?.Gs1AIs?[key] ?? string.Empty).ToLower());
+                    AppendToDictionary(key, (ret1?.gs1DigitalLinkData?[key] ?? string.Empty).ToLower());
                     break;
 
                 case 2:
                     // upper case hexadecimal characters
                     var ret2 = BuildString(numChars, DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
                     cursor = (int)ret2.Cursor;
-                    AppendToDictionary(key, (ret2?.Gs1AIs?[key] ?? string.Empty).ToUpper());
+                    AppendToDictionary(key, (ret2?.gs1DigitalLinkData?[key] ?? string.Empty).ToUpper());
                     break;
 
                 case 3:
                     // URI safe base64 alphabet at 6 bits per character
                     var ret3 = BuildString(numChars, DigitalLinkConvert.SafeBase64Alphabet, cursor, 6, binStr, key);
                     cursor = (int)ret3.Cursor;
-                    AppendToDictionary(key, ret3?.Gs1AIs?[key] ?? string.Empty);
+                    AppendToDictionary(key, ret3?.gs1DigitalLinkData?[key] ?? string.Empty);
                     break;
 
                 case 4:
                     // ASCII at 7 bits per character
                     var ret4 = BuildString(numChars, string.Empty, cursor, 7, binStr, key);
                     cursor = ret4.Cursor;
-                    gs1AIs[key] += ret4.Gs1AIs?[key] ?? string.Empty;
+                    gs1DigitalLinkData[key] += ret4.gs1DigitalLinkData?[key] ?? string.Empty;
                     break;
             }
 
-            return new ExtractedData(gs1AIs, nonGs1KeyValuePairs, string.Empty, string.Empty, cursor);
+            return new ExtractedData(gs1DigitalLinkData, nonGs1KeyValuePairs, string.Empty, string.Empty, cursor);
 
             void AppendToDictionary(string key, string value) {
-                if (gs1AIs.ContainsKey(key)) {
-                    gs1AIs[key] += value;
+                if (gs1DigitalLinkData.ContainsKey(key)) {
+                    gs1DigitalLinkData[key] += value;
                 }
                 else if (!nonGs1KeyValuePairs.TryAdd(key, value)) {
                     nonGs1KeyValuePairs[key] += value;
@@ -788,7 +788,7 @@ internal static partial class ExtensionMethods {
     /// <param name="nonGs1KeyValuePairs">The non-GS1 Key-Value Pairs.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
-    public static void ValidateNonGs1KeyValuePairs(this Dictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName) {
+    public static void ValidateNonGs1KeyValuePairs(this IReadOnlyDictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName) {
         // Validate the non-GS1 key value parameters.
         if (nonGs1KeyValuePairs != null && nonGs1KeyValuePairs.Count > 0) {
             foreach (var key in nonGs1KeyValuePairs.Keys) {

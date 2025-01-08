@@ -108,4 +108,36 @@ public static class DataResources {
     [JsonProperty("shortNamesToAIsTable")]
     [JsonPropertyName("shortNamesToAIsTable")]
     public static ShortNamesToAIsTable ShortNamesToNumeric { get; } = ShortNamesToAIsTable.Create();
+
+    /// <summary>
+    /// Returns the data resources as JSON.
+    /// </summary>
+    /// <returns>The data resources as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public static string ToJson() {
+#pragma warning disable CS0618 // Type or member is obsolete
+        var properties = new {
+            GroupSeparator,
+            ApplicationIdentifiers,
+            CheckDigitPositions,
+            ValidationExpressions,
+            Maps,
+            Qualifiers,
+            TwoDigitAIs,
+            ThreeDigitAIs,
+            FourDigitAIs,
+            ShortNames,
+            ShortNamesToNumeric
+        };
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        return System.Text.Json.JsonSerializer.Serialize(properties);
+    }
+    #pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the data resources as JSON.
+    /// </summary>
+    /// <returns>The data resources as JSON.</returns>
+    public static new string ToString() => ToJson();
 }

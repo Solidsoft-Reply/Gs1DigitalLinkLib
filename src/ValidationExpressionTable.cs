@@ -118,4 +118,19 @@ public class ValidationExpressionTable : IReadOnlyDictionary<string, Regex> {
     /// <returns>An enumerator for the table.</returns>
     IEnumerator IEnumerable.GetEnumerator() =>
         _validationExpressions.GetEnumerator();
+
+    /// <summary>
+    /// Returns the Validation Expressions table as JSON.
+    /// </summary>
+    /// <returns>The Validation Expressions table as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(_validationExpressions);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Validation Expressions table as JSON.
+    /// </summary>
+    /// <returns>The Validation Expressions table as JSON.</returns>
+    public override string ToString() => ToJson();
 }

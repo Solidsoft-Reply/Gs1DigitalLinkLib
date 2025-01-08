@@ -597,13 +597,13 @@ Scenario: Extract data from a GS1 Digital Link with non key-value data and fragm
 	When I extract data from the GS1 Digital Link
 	Then the data result should be:
 	| PropertyName            | Value                     |
-	| Gs1AIs                  | <gs1AIs>                  |
+	| gs1DigitalLinkData                  | <gs1DigitalLinkData>                  |
 	| NonGs1KeyValuePairs     | <nonGs1KeyValuePairs>     |
 	| OtherQueryStringContent | <otherQueryStringContent> |
 	| FragmentSpecifier       | <fragmentSpecifier>       |
 
 	Examples:
-    | digitalLinkUri                                                                                                       | gs1AIs                                              | nonGs1KeyValuePairs         | otherQueryStringContent        | fragmentSpecifier |
+    | digitalLinkUri                                                                                                       | gs1DigitalLinkData                                              | nonGs1KeyValuePairs         | otherQueryStringContent        | fragmentSpecifier |
     | https://id.gs1.org/01/05412345000013/10/ABC123#chapter1                                                              | {"01":"05412345000013","10":"ABC123"}               |                             |                                | chapter1          |
     | https://id.gs1.org/01/05412345000013/10/ABC123?someparameter#chapter1                                                | {"01":"05412345000013","10":"ABC123"}               |                             | someparameter                  | chapter1          |
     | https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf&someparameter#chapter1                  | {"01":"05412345000013","10":"ABC123","17":"290331"} | {"arv":true,"donor":"bmgf"} | someparameter                  | chapter1          |
@@ -849,7 +849,7 @@ Scenario: Digital Link from element string with invalid data
 Scenario: Digital Link from element string with MH10.8.2 data
 	Given the following element string: "[)><RS>06<GS>9N110186865770<GS>1TABC123<GS>D290331<GS>SR759025244015BJ<RS><EOT>"
 	When I translate the element string to a Digital Link
-    Then an exception with message "The element string '[)>069N1101868657701TABC123D290331SR759025244015BJ' does not represent GS1 data." is thrown
+    Then an exception with message "The element string '[)>069N1101868657701TABC123D290331SR759025244015BJ' does not represent GS1 Digital Link data." is thrown
 
 Scenario: Digital Link with invalid non-GS1 key-value pairs
 	Given the following AIs:

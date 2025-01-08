@@ -117,4 +117,19 @@ public class QualifiersTable : IReadOnlyDictionary<string, string[]> {
     /// <returns>An enumerator for the table.</returns>
     IEnumerator IEnumerable.GetEnumerator() =>
         _qualifiers.GetEnumerator();
+
+    /// <summary>
+    /// Returns the Qualifiers table as JSON.
+    /// </summary>
+    /// <returns>The Qualifiers as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(_qualifiers);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Qualifiers as JSON.
+    /// </summary>
+    /// <returns>The Qualifiers as JSON.</returns>
+    public override string ToString() => ToJson();
 }

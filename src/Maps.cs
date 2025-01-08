@@ -92,4 +92,19 @@ public record Maps() {
     [JsonProperty("predefinedLengthElements")]
     [JsonPropertyName("predefinedLengthElements")]
     public IReadOnlyList<string> PredefinedLengthElements { get; init; } = [];
+
+    /// <summary>
+    /// Returns the Maps as JSON.
+    /// </summary>
+    /// <returns>The Maps as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(this);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Maps as JSON.
+    /// </summary>
+    /// <returns>The Maps as JSON.</returns>
+    public override string ToString() => ToJson();
 }

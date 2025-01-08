@@ -8,13 +8,13 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
     [Binding]
     internal class StepDefinitions {
-        private Dictionary<string, string>? _gs1Ais;
+        private Dictionary<string, string>? _gs1DigitalLinkData;
         private Dictionary<string, string>? _nonGs1KeyValuePairs;
         private string? _elementString = new(string.Empty);
         private string? _digitalLink = new(string.Empty);
         private Gs1DigitalLink? _digitalLinkObj = new(string.Empty);
         private Gs1DigitalLink? _decompressedDigitalLink = new(string.Empty);
-        private Gs1Data? _dataResult = new();
+        private Gs1DigitalLinkData? _dataResult = new();
         private string? _otherQueryContent = new(string.Empty);
         private string? _fragment = new(string.Empty);
         private DigitalLinkForm _digitalLinkForm;
@@ -27,10 +27,14 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private int _inputColumnWidth = 88;
         private int _resultColumnWidth = 88;
         private Gs1ElementString _elementStringObj = new(string.Empty);
-        private ScenarioContext _scenarioContext;
-        private UriAnalytics _analytics;
-        private UriSemantics _semanticAnalytics;
+        private readonly ScenarioContext _scenarioContext;
+        private UriAnalytics? _analytics;
+        private UriSemantics? _semanticAnalytics;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="StepDefinitions"/> class.
+        /// </summary>
+        /// <param name="scenarioContext">The scenario context.</param>
         public StepDefinitions(ScenarioContext scenarioContext) {
             _scenarioContext = scenarioContext;
         }
@@ -48,10 +52,10 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [Given(@"the following AIs:")]
         public void GivenAGs1DigitalLinkWithTheFollowingAIs(Table table) {
-            _gs1Ais = [];
+            _gs1DigitalLinkData = [];
 
             foreach (var row in table.Rows) {
-                _gs1Ais.Add(row["AI"], row["Value"]);
+                _gs1DigitalLinkData.Add(row["AI"], row["Value"]);
             }
         }
 
@@ -100,7 +104,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         }
 
         [Given(@"optimisation")]
-        public void GivenOptimisationt() {
+        public void GivenOptimisation() {
             _optimisation = true;
         }
 
@@ -138,19 +142,19 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I convert the Digital Link to an element string")]
         [When(@"I convert the compressed Digital Link to an element string")]
         public void WhenIConvertTheDigitalLinkToElementStrings() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink);
+            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty);
         }
 
         [When(@"I convert the Digital Link to an element string with brackets")]
         [When(@"I convert the compressed Digital Link to an element string with brackets")]
         public void WhenIConvertTheDigitalLinkToElementStringsWithBrackets() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink, true);
+            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty, true);
         }
 
         [When(@"I extract AIs and values")]
         public void WhenIExtractAIsAndValues() {
             try {
-                _dataResult = DigitalLinkConvert.FromGs1ElementStringToData(_elementString);
+                _dataResult = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty);
             }
             catch (ArgumentException e) {
                 _thrownException = e;
@@ -159,7 +163,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [When(@"I extract AIs and values without validation")]
         public void WhenIExtractAIsAndValuesWithoutValidation() {
-            _dataResult = DigitalLinkConvert.FromGs1ElementStringToData(_elementString, true);
+            _dataResult = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty, true);
         }
 
         [When(@"I extract AIs and values from the Digital Link")]
@@ -187,31 +191,37 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I decompress the compressed Digital Link to a Digital Link with short names")]
         public void WhenIDecompressTheCompressedDigitalLinkToADigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
+#pragma warning disable CS0618 // Type or member is obsolete
             _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_compressedDigitalLink, CompressionLevel.Uncompressed);
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
         [When(@"I compress the decompressed Digital Link")]
         public void WhenICompressTheDecompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink.Value, CompressionLevel.Compressed);
+            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
         }
 
         [When(@"I compress the decompressed Digital Link with short names")]
         public void WhenICompressTheDecompressedDigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink.Value, CompressionLevel.Compressed);
+#pragma warning disable CS0618 // Type or member is obsolete
+            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
         [When(@"I partially compress the decompressed Digital Link")]
         public void WhenIPartiallyCompressTheDecompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink.Value, CompressionLevel.PartiallyCompressed);
+            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
         }
 
         [When(@"I partially compress the decompressed Digital Link to a Digital Link with short names")]
         public void WhenIPartiallyCompressTheDecompressedDigitalLinkToADigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink.Value, CompressionLevel.PartiallyCompressed);
+#pragma warning disable CS0618 // Type or member is obsolete
+            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
+#pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
@@ -219,12 +229,12 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         public void WhenIBuildAGs1DigitalLink() {
 
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1DataToDigitalLink(
-                _gs1Ais ?? [],
+                _digitalLinkObj = DigitalLinkConvert.FromGs1DigitalLinkDataToDigitalLink(
+                _gs1DigitalLinkData ?? [],
                 null,
                 _digitalLinkForm,
                 _optimisation,
-                nonGS1KeyValuePairs: _nonGs1KeyValuePairs,
+                nonGs1KeyValuePairs: _nonGs1KeyValuePairs,
                 compressNonGs1KeyValuePairs: _compressNonGs1KeyValuePairs,
                 otherQueryContent: _otherQueryContent,
                 fragment: _fragment);
@@ -235,7 +245,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             _compressNonGs1KeyValuePairs = false;
             _optimisation = false;
-            _gs1Ais = null;
+            _gs1DigitalLinkData = null;
             _nonGs1KeyValuePairs = null;
         }
 
@@ -255,7 +265,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 null,
                 _digitalLinkForm,
                 _optimisation,
-                nonGS1KeyValuePairs: _nonGs1KeyValuePairs,
+                nonGs1KeyValuePairs: _nonGs1KeyValuePairs,
                 compressNonGs1KeyValuePairs: _compressNonGs1KeyValuePairs,
                 otherQueryContent: _otherQueryContent,
                 fragment: _fragment);
@@ -297,7 +307,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             uriStem = uriStem.Replace("<sp>", " ");
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString, uriStem: uriStem);
+                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, uriStem: uriStem);
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -306,18 +316,18 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [When(@"I translate the element string to a compressed Digital Link")]
         public void WhenITranslateTheElementStringToCompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString, digitalLinkForm: DigitalLinkForm.Compressed);
+            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.Compressed);
         }
 
         [When(@"I translate the element string to a partially compressed Digital Link")]
         public void WhenITranslateTheElementStringToPartiallyCompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
+            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
         }
 
         [When(@"I translate the element string to a partially compressed Digital Link that uses short text")]
         public void WhenITranslateTheElementStringToPartiallyCompressedDigitalLinkWithShortText() {
 #pragma warning disable CS0618 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
+            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
 #pragma warning restore CS0618 // Type or member is obsolete
         }
 
@@ -332,7 +342,9 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             }
 
             try {
+#pragma warning disable CS0618 // Type or member is obsolete
                 _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty);
+#pragma warning restore CS0618 // Type or member is obsolete
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -434,9 +446,9 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             if (LogFile.OutputLog) {
                 lock (lockObject) {
-                    FileInfo fi = new FileInfo("C:\\tmp\\output.txt");
+                    FileInfo fi = new("C:\\tmp\\output.txt");
                     using var sw = fi.AppendText();
-                    sw.WriteLine($"{new string(' ', 6)}| {_digitalLink}{new string(' ', _inputColumnWidth - _digitalLink.Length)} | {_elementStringObj}{new string(' ', _resultColumnWidth - _elementStringObj.Value.Length)} |");
+                    sw.WriteLine($"{new string(' ', 6)}| {_digitalLink}{new string(' ', _inputColumnWidth - (_digitalLink?.Length ?? 0))} | {_elementStringObj}{new string(' ', _resultColumnWidth - _elementStringObj.Value.Length)} |");
                     sw.Close();
                 }
             }
@@ -486,7 +498,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             if (LogFile.OutputLog) {
                 lock (lockObject) {
-                    FileInfo fi = new FileInfo("C:\\tmp\\output.txt");
+                    FileInfo fi = new("C:\\tmp\\output.txt");
                     using var sw = fi.AppendText();
                     sw.WriteLine($"{new string(' ', 6)}| {_compressedDigitalLink}{new string(' ', 76 - _compressedDigitalLink.Length)} | {_digitalLink}{new string(' ', 101 - (_digitalLinkObj?.Value.Length ?? 0))} |");
                     sw.Close();
@@ -507,9 +519,9 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [Then(@"the data result should be:")]
         public void ThenTheDataResultShouldBe(Table table) {
-            // Create an instance of Gs1Data and populate its properties
-            var expectedGs1Data = new Gs1Data();
-            Dictionary<string, string> gs1Ais = [];
+            // Create an instance of Gs1AIs and populate its properties
+            var expectedGs1DigitalLinkData = new Gs1DigitalLinkData();
+            Dictionary<string, string> gs1DigitalLinkData = [];
             Dictionary<string, string> nonGs1KeyValuePairs = [];
             var otherQueryStringContent = string.Empty;
             var fgragmentSpecifier = string.Empty;
@@ -519,8 +531,8 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 var value = row["Value"];
 
                 switch (propertyName) {
-                    case "Gs1AIs":
-                        gs1Ais = JsonConvert.DeserializeObject<Dictionary<string, string>>(value) ?? [];
+                    case "gs1DigitalLinkData":
+                        gs1DigitalLinkData = JsonConvert.DeserializeObject<Dictionary<string, string>>(value) ?? [];
                         break;
                     case "NonGs1KeyValuePairs":
                         nonGs1KeyValuePairs = JsonConvert.DeserializeObject<Dictionary<string, string>>(value) ?? [];
@@ -536,34 +548,34 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 }
             }
 
-            expectedGs1Data = new Gs1Data(gs1Ais ?? [], nonGs1KeyValuePairs, otherQueryStringContent, fgragmentSpecifier);
+            expectedGs1DigitalLinkData = new Gs1DigitalLinkData(gs1DigitalLinkData ?? [], nonGs1KeyValuePairs, otherQueryStringContent, fgragmentSpecifier);
 
-            void testGs1AiKvp(KeyValuePair<string, string> e) => Assert.True(e.Value == _dataResult.Gs1AIs[e.Key]);
-            void testNonGs1Kvp(KeyValuePair<string, string> e) => Assert.True(e.Value == _dataResult.NonGs1KeyValuePairs[e.Key]);
+            void testGs1AiKvp(KeyValuePair<string, string> e) => Assert.True(e.Value == _dataResult?.Gs1AIs[e.Key]);
+            void testNonGs1Kvp(KeyValuePair<string, string> e) => Assert.True(e.Value == _dataResult?.NonGs1KeyValuePairs[e.Key]);
 
 #pragma warning disable IDE0039 // Use local function
             Action<KeyValuePair<string, string>> valueInspectorGs1 = kvp => testGs1AiKvp(kvp);
             Action<KeyValuePair<string, string>> valueInspectorNonGs1 = kvp => testNonGs1Kvp(kvp);
 #pragma warning restore IDE0039 // Use local function
 
-            var gs1AIsValueInspectors = (
-                from _ in gs1Ais ?? []
+            var gs1DigitalLinkDataValueInspectors = (
+                from _ in gs1DigitalLinkData ?? []
                 select valueInspectorGs1).ToList();
 
             var nonGs1KeyValuePairsInspectors = (
                 from _ in nonGs1KeyValuePairs
                 select valueInspectorNonGs1).ToList();
 
-            // Compare the expected and actual Gs1Data objects
-            Assert.Collection(expectedGs1Data.Gs1AIs, [.. gs1AIsValueInspectors]);
-            Assert.Collection(expectedGs1Data.NonGs1KeyValuePairs, [.. nonGs1KeyValuePairsInspectors]);
-            Assert.Equal(expectedGs1Data.OtherQueryStringContent, _dataResult.OtherQueryStringContent);
-            Assert.Equal(expectedGs1Data.FragmentSpecifier, _dataResult.FragmentSpecifier);
+            // Compare the expected and actual Gs1AIs objects
+            Assert.Collection(expectedGs1DigitalLinkData.Gs1AIs, [.. gs1DigitalLinkDataValueInspectors]);
+            Assert.Collection(expectedGs1DigitalLinkData.NonGs1KeyValuePairs, [.. nonGs1KeyValuePairsInspectors]);
+            Assert.Equal(expectedGs1DigitalLinkData.OtherQueryStringContent, _dataResult?.OtherQueryStringContent);
+            Assert.Equal(expectedGs1DigitalLinkData.FragmentSpecifier, _dataResult?.FragmentSpecifier);
         }
 
         [Then(@"the analysis should contain:")]
         public void ThenTheAnalysisShouldContainBe(Table table) {
-            // Create an instance of Gs1Data and populate its properties
+            // Create an instance of Gs1AIs and populate its properties
             string expectedDetectedForm = string.Empty;
             string expectedElementStringOutput = string.Empty;
             var expectedPathComponents = string.Empty;
@@ -595,17 +607,17 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 }
             }
 
-            // Compare the expected and actual Gs1Data objects
-            Assert.Equal(expectedDetectedForm, _analytics.DetectedForm.ToString());
-            Assert.Equal(expectedElementStringOutput, _analytics.ElementStringOutput);
-            Assert.Equal(expectedPathComponents, _analytics.PathComponents);
-            Assert.Equal(expectedQueryString, _analytics.QueryString);
-            Assert.Equal(expectedUriStem, _analytics.UriStem);
+            // Compare the expected and actual Gs1AIs objects
+            Assert.Equal(expectedDetectedForm, _analytics?.DetectedForm.ToString());
+            Assert.Equal(expectedElementStringOutput, _analytics?.ElementStringOutput);
+            Assert.Equal(expectedPathComponents, _analytics?.PathComponents);
+            Assert.Equal(expectedQueryString, _analytics?.QueryString);
+            Assert.Equal(expectedUriStem, _analytics?.UriStem);
         }
 
         [Then(@"the semantic analysis should contain:")]
         public void ThenTheSemanticAnalysisShouldContainBe(Table table) {
-            // Create an instance of Gs1Data and populate its properties
+            // Create an instance of Gs1AIs and populate its properties
             string expectedGs1Gtin = string.Empty;
             string expectedSchemaGtin = string.Empty;
             var expectedGs1HasBatchLot = string.Empty;
@@ -641,12 +653,12 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
                 }
             }
 
-            Assert.Equal(expectedGs1Gtin, _semanticAnalytics["gs1:gtin"].ToString());
-            Assert.Equal(expectedSchemaGtin, _semanticAnalytics["schema:gtin"].ToString());
-            Assert.Equal(expectedGs1HasBatchLot, _semanticAnalytics["gs1:hasBatchLot"].ToString());
-            Assert.Equal(expectedGs1ConsumerProductVariant, _semanticAnalytics["gs1:consumerProductVariant"].ToString());
-            Assert.Equal(expectedGs1ExpirationDate, _semanticAnalytics["gs1:expirationDate"].ToString());
-            Assert.Equal(expectedGs1ElementStrings, _semanticAnalytics["gs1:elementStrings"].ToString());
+            Assert.Equal(expectedGs1Gtin, _semanticAnalytics?["gs1:gtin"].ToString());
+            Assert.Equal(expectedSchemaGtin, _semanticAnalytics?["schema:gtin"].ToString());
+            Assert.Equal(expectedGs1HasBatchLot, _semanticAnalytics?["gs1:hasBatchLot"].ToString());
+            Assert.Equal(expectedGs1ConsumerProductVariant, _semanticAnalytics?["gs1:consumerProductVariant"].ToString());
+            Assert.Equal(expectedGs1ExpirationDate, _semanticAnalytics?["gs1:expirationDate"].ToString());
+            Assert.Equal(expectedGs1ElementStrings, _semanticAnalytics?["gs1:elementStrings"].ToString());
         }
     }
 }

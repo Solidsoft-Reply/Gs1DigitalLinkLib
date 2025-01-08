@@ -140,4 +140,19 @@ public record AiTableEntry() {
     [JsonPropertyName("qualifiers")]
     [JsonProperty("qualifiers")]
     public List<string>? Qualifiers { get; init; } = null;
+
+    /// <summary>
+    /// Returns the AI table entry as JSON.
+    /// </summary>
+    /// <returns>The AI table entry as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(this);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the AI table entry as JSON.
+    /// </summary>
+    /// <returns>The AI table entry as JSON.</returns>
+    public override string ToString() => ToJson();
 }

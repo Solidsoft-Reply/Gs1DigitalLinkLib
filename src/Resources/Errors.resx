@@ -174,8 +174,8 @@
   <data name="ErrorMsgTheDictionaryOfAis0IsEmpty" xml:space="preserve">
     <value>The dictionary of AIs ({0} is empty.</value>
   </data>
-  <data name="ErrorMsgTheElementString0DoesNotRepresentGs1Data" xml:space="preserve">
-    <value>The element string '{0}' does not represent GS1 data.</value>
+  <data name="ErrorMsgTheElementString0DoesNotRepresentGs1DigitalLinkData" xml:space="preserve">
+    <value>The element string '{0}' does not represent GS1 Digital Link data.</value>
   </data>
   <data name="ErrorMsgTheFormatOfTheElementString0IsNotRecognised" xml:space="preserve">
     <value>The format of the element string '{0}' is not recognised.</value>

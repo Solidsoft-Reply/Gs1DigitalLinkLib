@@ -2717,12 +2717,12 @@ this.ScenarioInitialize(scenarioInfo);
             "parameter#chapter1", "{\"01\":\"05412345000013\",\"10\":\"ABC123\",\"17\":\"290331\"}", "{\"arv\":true,\"donor\":\"bmgf\"}", "someparameter", "chapter1", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf&some" +
             "parameter&anotherparameter#chapter1", "{\"01\":\"05412345000013\",\"10\":\"ABC123\",\"17\":\"290331\"}", "{\"arv\":true,\"donor\":\"bmgf\"}", "someparameter&anotherparameter", "chapter1", new string[0])]
-        public async System.Threading.Tasks.Task ExtractDataFromAGS1DigitalLinkWithNonKey_ValueDataAndFragmentSpecifier(string digitalLinkUri, string gs1AIs, string nonGs1KeyValuePairs, string otherQueryStringContent, string fragmentSpecifier, string[] exampleTags)
+        public async System.Threading.Tasks.Task ExtractDataFromAGS1DigitalLinkWithNonKey_ValueDataAndFragmentSpecifier(string digitalLinkUri, string gs1DigitalLinkData, string nonGs1KeyValuePairs, string otherQueryStringContent, string fragmentSpecifier, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             argumentsOfScenario.Add("digitalLinkUri", digitalLinkUri);
-            argumentsOfScenario.Add("gs1AIs", gs1AIs);
+            argumentsOfScenario.Add("gs1DigitalLinkData", gs1DigitalLinkData);
             argumentsOfScenario.Add("nonGs1KeyValuePairs", nonGs1KeyValuePairs);
             argumentsOfScenario.Add("otherQueryStringContent", otherQueryStringContent);
             argumentsOfScenario.Add("fragmentSpecifier", fragmentSpecifier);
@@ -2748,8 +2748,8 @@ this.ScenarioInitialize(scenarioInfo);
                             "PropertyName",
                             "Value"});
                 table31.AddRow(new string[] {
-                            "Gs1AIs",
-                            string.Format("{0}", gs1AIs)});
+                            "gs1DigitalLinkData",
+                            string.Format("{0}", gs1DigitalLinkData)});
                 table31.AddRow(new string[] {
                             "NonGs1KeyValuePairs",
                             string.Format("{0}", nonGs1KeyValuePairs)});
@@ -3896,7 +3896,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line hidden
 #line 852
     await testRunner.ThenAsync("an exception with message \"The element string \'[)>069N1101868657701TABC123D29" +
-                        "0331SR759025244015BJ\' does not represent GS1 data.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+                        "0331SR759025244015BJ\' does not represent GS1 Digital Link data.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

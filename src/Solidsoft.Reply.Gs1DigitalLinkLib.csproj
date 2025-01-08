@@ -17,7 +17,9 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Additional improvements to JSON serialisation of various types to support System.Text.Json and Newtonsoft.Json.
+		1) Made further refinements to extension methods.
+		2) Made further improvements to JSON serialization.
+		3) Improved documentation.
 	</PackageReleaseNotes>
 	<Description>
 		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
@@ -26,7 +28,7 @@
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.0.3</Version>
+	<Version>1.0.4</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>

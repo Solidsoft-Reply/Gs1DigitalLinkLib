@@ -98,4 +98,19 @@ public class UriSemantics : IReadOnlyDictionary<string, object> {
     /// <returns>The enumerator.</returns>
     IEnumerator IEnumerable.GetEnumerator() =>
         GetEnumerator();
+
+    /// <summary>
+    /// Returns the semantics data as JSON.
+    /// </summary>
+    /// <returns>The semantics data as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(this);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the semantics data as JSON.
+    /// </summary>
+    /// <returns>The semantics data as JSON.</returns>
+    public override string ToString() => ToJson();
 }

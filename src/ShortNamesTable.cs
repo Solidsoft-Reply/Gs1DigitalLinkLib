@@ -120,4 +120,19 @@ public class ShortNamesTable : IReadOnlyDictionary<string, string> {
     /// <returns>An enumerator for the table.</returns>
     IEnumerator IEnumerable.GetEnumerator() =>
         _shortNames.GetEnumerator();
+
+    /// <summary>
+    /// Returns the Short Names table as JSON.
+    /// </summary>
+    /// <returns>The ShortNames table as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(_shortNames);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Short Names table as JSON.
+    /// </summary>
+    /// <returns>The Short Names table as JSON.</returns>
+    public override string ToString() => ToJson();
 }

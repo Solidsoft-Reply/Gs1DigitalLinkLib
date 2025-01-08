@@ -129,4 +129,19 @@ public class CheckDigitPositionTable : IReadOnlyDictionary<string, CheckDigitPos
     /// <returns>An enumerator for the table.</returns>
     IEnumerator IEnumerable.GetEnumerator() =>
         _checkDigitPositions.GetEnumerator();
+
+    /// <summary>
+    /// Returns the Check Digit position table as JSON.
+    /// </summary>
+    /// <returns>The Check Digit position table as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(_checkDigitPositions);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Check Digit position table as JSON.
+    /// </summary>
+    /// <returns>The Check Digit position table as JSON.</returns>
+    public override string ToString() => ToJson();
 }

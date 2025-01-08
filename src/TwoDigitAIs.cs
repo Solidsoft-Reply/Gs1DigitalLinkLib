@@ -79,4 +79,19 @@ public class TwoDigitAIs : IReadOnlyList<string> {
     /// </summary>
     /// <returns>A list enumerator.</returns>
     IEnumerator IEnumerable.GetEnumerator() => _twoDigitAis.GetEnumerator();
+
+    /// <summary>
+    /// Returns the Two-Digits table as JSON.
+    /// </summary>
+    /// <returns>The Two-Digits table as JSON.</returns>
+#pragma warning disable VSSpell001 // Spell Check
+    public string ToJson() =>
+        System.Text.Json.JsonSerializer.Serialize(_twoDigitAis);
+#pragma warning restore VSSpell001 // Spell Check
+
+    /// <summary>
+    /// Returns the Two-Digits table as JSON.
+    /// </summary>
+    /// <returns>The Two-Digits table as JSON.</returns>
+    public override string ToString() => ToJson();
 }
