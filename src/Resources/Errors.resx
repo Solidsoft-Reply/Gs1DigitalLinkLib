@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ErrorMsg01IsInvalid" xml:space="preserve">
+    <value>'{0}={1}' is invalid.</value>
+  </data>
   <data name="ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric" xml:space="preserve">
     <value>'{0}={1}' is invalid. Non-GS1 key values must not be all-numeric.</value>
   </data>
@@ -134,6 +137,9 @@
   </data>
   <data name="ErrorMsgAnInvalidCheckDigitWasFoundForThePrimaryIdentificationKey01TheCorrectCheckDigitShouldBe2AtPosition3" xml:space="preserve">
     <value>An invalid check digit was found for the primary identification key ({0}) {1}; the correct check digit should be {2} at position {3}.</value>
+  </data>
+  <data name="ErrorMsgElementStringCannotBeNullOrEmpty" xml:space="preserve">
+    <value>The Element String cannot be null or empty.</value>
   </data>
   <data name="ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddhhmmPattern" xml:space="preserve">
     <value>Input '{0}' to date conversion did not match valid YYMMDDhhmm pattern.</value>
@@ -173,6 +179,15 @@
   </data>
   <data name="ErrorMsgTheDictionaryOfAis0IsEmpty" xml:space="preserve">
     <value>The dictionary of AIs ({0} is empty.</value>
+  </data>
+  <data name="ErrorMsgTheDigitalLinkScheme0IsNotRecognised" xml:space="preserve">
+    <value>The Digital Link scheme '{0}' is not recognised. It must be https or http.</value>
+  </data>
+  <data name="ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty" xml:space="preserve">
+    <value>The Digital Link URI cannot be null or empty.</value>
+  </data>
+  <data name="ErrorMsgTheDigitalLinkUriStem0IsInvalid" xml:space="preserve">
+    <value>The Digital Link URI stem '{0}' is invalid.</value>
   </data>
   <data name="ErrorMsgTheElementString0DoesNotRepresentGs1DigitalLinkData" xml:space="preserve">
     <value>The element string '{0}' does not represent GS1 Digital Link data.</value>

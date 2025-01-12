@@ -28,6 +28,8 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 /// <param name="NonGs1KeyValuePairs">A dictionary of non-GS1 key-value pairs.</param>
 /// <param name="OtherQueryStringContent">Any other query string content.</param>
 /// <param name="FragmentSpecifier">A fragment specifier.</param>
+/// <param name="UriStem">The URI stem.</param>
+/// <param name="StructuredData">A structured representation of the GS1 elements in the Digital Link.</param>
 /// <param name="Cursor">The current Cursor index.</param>
 [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.NamingRules", "SA1313:Parameter names should begin with lower-case letter", Justification = "This is a primary constructor.")]
 internal record ExtractedData(
@@ -35,5 +37,7 @@ internal record ExtractedData(
     Dictionary<string, string>? NonGs1KeyValuePairs,
     string OtherQueryStringContent = "",
     string FragmentSpecifier = "",
+    string UriStem = "",
+    StructuredData? StructuredData = null,
     int Cursor = 0) {
 }

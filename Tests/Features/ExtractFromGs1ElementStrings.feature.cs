@@ -266,7 +266,7 @@ namespace Gs1DigitalLinkToolkitTests.Features
     await testRunner.WhenAsync("I extract AIs and values", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 50
-    await testRunner.ThenAsync("an exception with message \"The value ABCDEF is invalid for AI 15.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+    await testRunner.ThenAsync("an exception with message \"The value ABCDEF is invalid for AI 15\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

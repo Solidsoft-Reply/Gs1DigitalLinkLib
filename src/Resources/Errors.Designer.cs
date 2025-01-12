@@ -61,6 +61,15 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}={1}&apos; is invalid..
+        /// </summary>
+        internal static string ErrorMsg01IsInvalid {
+            get {
+                return ResourceManager.GetString("ErrorMsg01IsInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}={1}&apos; is invalid. Non-GS1 key values must not be all-numeric..
         /// </summary>
         internal static string ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric {
@@ -112,6 +121,15 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Resources {
             get {
                 return ResourceManager.GetString("ErrorMsgAnInvalidCheckDigitWasFoundForThePrimaryIdentificationKey01TheCorrectChec" +
                         "kDigitShouldBe2AtPosition3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Element String cannot be null or empty..
+        /// </summary>
+        internal static string ErrorMsgElementStringCannotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ErrorMsgElementStringCannotBeNullOrEmpty", resourceCulture);
             }
         }
         
@@ -230,6 +248,33 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib.Resources {
         internal static string ErrorMsgTheDictionaryOfAis0IsEmpty {
             get {
                 return ResourceManager.GetString("ErrorMsgTheDictionaryOfAis0IsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Digital Link scheme &apos;{0}&apos; is not recognised. It must be https or http..
+        /// </summary>
+        internal static string ErrorMsgTheDigitalLinkScheme0IsNotRecognised {
+            get {
+                return ResourceManager.GetString("ErrorMsgTheDigitalLinkScheme0IsNotRecognised", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Digital Link URI cannot be null or empty..
+        /// </summary>
+        internal static string ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty {
+            get {
+                return ResourceManager.GetString("ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Digital Link URI stem &apos;{0}&apos; is invalid..
+        /// </summary>
+        internal static string ErrorMsgTheDigitalLinkUriStem0IsInvalid {
+            get {
+                return ResourceManager.GetString("ErrorMsgTheDigitalLinkUriStem0IsInvalid", resourceCulture);
             }
         }
         

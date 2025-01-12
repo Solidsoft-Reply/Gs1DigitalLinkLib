@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="DigitalLinkConvert.cs" company="Solidsoft Reply Ltd.">
+// <copyright file="Gs1DigitalLinkConvert.cs" company="Solidsoft Reply Ltd.">
 // Copyright © 2025 Solidsoft Reply Ltd. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,6 +30,7 @@
 
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -37,7 +38,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
-using Newtonsoft.Json.Linq;
+using Microsoft.Extensions.Logging;
 
 using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 using Solidsoft.Reply.Parsers.HighCapacityAidc;
@@ -46,7 +47,7 @@ using Solidsoft.Reply.Parsers.HighCapacityAidc.Syntax;
 /// <summary>
 /// A toolkit for converting GS1 Digital Link data between different representations.
 /// </summary>
-public static partial class DigitalLinkConvert {
+public static partial class Gs1DigitalLinkConvert {
 
     /// <summary>
     /// GS1 Application Identifier information.
@@ -208,9 +209,9 @@ public static partial class DigitalLinkConvert {
     private static readonly Dictionary<string, string> _reverseOptimisationsTable;
 
     /// <summary>
-    /// Initializes static members of the <see cref="DigitalLinkConvert"/> class.
+    /// Initializes static members of the <see cref="Gs1DigitalLinkConvert"/> class.
     /// </summary>
-    static DigitalLinkConvert() {
+    static Gs1DigitalLinkConvert() {
 
         // _reverseOptimisationsTable is computed in the JS code:
         _reverseOptimisationsTable = [];
@@ -227,10 +228,10 @@ public static partial class DigitalLinkConvert {
         _aiQualifiers = [];
         _aiCheckDigitPosition = [];
 
-        _regexAllNum = ExtensionMethods.RegexAllNumbers();
-        _regexHexLower = ExtensionMethods.RegexHexLower();
-        _regexHexUpper = ExtensionMethods.RegexHexUpper();
-        _regexSafe64 = ExtensionMethods.RegexSafe64();
+        _regexAllNum = ConversionExtensionMethods.RegexAllNumbers();
+        _regexHexLower = ConversionExtensionMethods.RegexHexLower();
+        _regexHexUpper = ConversionExtensionMethods.RegexHexUpper();
+        _regexSafe64 = ConversionExtensionMethods.RegexSafe64();
 
         foreach (var a in _aiTable) {
             if (a != null) {
@@ -369,6 +370,11 @@ public static partial class DigitalLinkConvert {
     internal static PredefinedLengthTable PredefinedLengthTable => PredefinedLengthTable.Create();
 
     /// <summary>
+    /// Gets or sets a logger.
+    /// </summary>
+    internal static ILogger? Logger { get; set; }
+
+    /// <summary>
     /// Translates a GS1 element string to data.
     /// </summary>
     /// <param name="elementString">The GS1 element string.</param>
@@ -376,7 +382,7 @@ public static partial class DigitalLinkConvert {
     /// If true, the GS1 element string is not validated. The Digital Link data values may contain invalid AIs and AI values.
     /// </param>
     /// <returns>GS1 Digital Link data.</returns>
-    /// <exception cref="ArgumentException">The GS1 element string is invalid.</exception>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -386,10 +392,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -398,9 +404,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -421,7 +427,7 @@ public static partial class DigitalLinkConvert {
     /// If true, the GS1 element string is not validated. The Digital Link data values may contain invalid AIs and AI values.
     /// </param>
     /// <returns>GS1 Digital Link data.</returns>
-    /// <exception cref="ArgumentException">The GS1 element string is invalid.</exception>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -431,10 +437,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -443,9 +449,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -459,13 +465,13 @@ public static partial class DigitalLinkConvert {
 
         // Remove AIM symbology identifier if present
         elementString = RegexAimIdentifierDetector().Match(elementString).Groups["input"].Value;
-        var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, nameof(FromGs1ElementStringToDigitalLinkData), nameof(elementString));
+        var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, nameof(FromGs1ElementStringToDigitalLinkData), nameof(elementString));
 
         // Check if the initial AI is enclosed within parentheses
         var initialParenthesisedAiDetector = RegexInitialParenthesisedAiDetector();
 
         if (initialParenthesisedAiDetector.IsMatch(elementString)) {
-            // Assume that the input is key bracketed element string and convert
+            // Assume that the input is a bracketed element string and convert
             // it to FNC1 format
             elementString = elementString.ConvertParenthesesAIsToFnc1(nameof(FromGs1ElementStringToDigitalLinkData), nameof(elementString), noValidation);
         }
@@ -475,13 +481,13 @@ public static partial class DigitalLinkConvert {
 
         if (!noValidation && !parsedData.IsRecognised) {
             var message = string.Format(Resources.Errors.ErrorMsgTheFormatOfTheElementString0IsNotRecognised, elementString);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidElementString, location, message);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: Logger);
         }
 
         // Determine if the parsed data represents GS1 data
         if (!noValidation && parsedData.DataElements.FirstOrDefault()?.Format != FormatIndicator.Gs1Ai) {
             var message = string.Format(Resources.Errors.ErrorMsgTheElementString0DoesNotRepresentGs1DigitalLinkData, elementString);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidElementString, location, message);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: Logger);
         }
 
         // Build the exceptions list
@@ -495,7 +501,7 @@ public static partial class DigitalLinkConvert {
                 exceptionsMessage.Append($"\r\n{exception.ErrorNumber}{fatalSpecifier}: {exception.Message}");
             }
 
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidElementString, location, exceptionsMessage.ToString());
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, exceptionsMessage.ToString(), logger: Logger);
         }
 
         // Extract the AI data
@@ -519,7 +525,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non- GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    /// <exception cref="ArgumentException">Invalid data was passed to the method.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid data was passed to the method.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink FromGs1DigitalLinkDataToDigitalLinkWithShortNames(
         Gs1DigitalLinkData digitalLinkData,
@@ -552,7 +558,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">Any additional fragment specifier to be included in the URI.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    /// <exception cref="ArgumentException">Invalid data was passed to the method.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid data was passed to the method.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink FromGs1DigitalLinkDataToDigitalLinkWithShortNames(
         IReadOnlyDictionary<string, string> gs1DigitalLinkData,
@@ -585,7 +591,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non- GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    /// <exception cref="ArgumentException">Invalid data was passed to the method.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid data was passed to the method.</exception>
     public static Gs1DigitalLink FromGs1DigitalLinkDataToDigitalLink(
         Gs1DigitalLinkData digitalLinkData,
         string? uriStem = null,
@@ -616,7 +622,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">Any additional fragment specifier to be included in the URI.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    /// <exception cref="ArgumentException">Invalid data was passed to the method.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid data was passed to the method.</exception>
     public static Gs1DigitalLink FromGs1DigitalLinkDataToDigitalLink(
         IReadOnlyDictionary<string, string> gs1DigitalLinkData,
         string? uriStem = null,
@@ -643,7 +649,6 @@ public static partial class DigitalLinkConvert {
     /// </summary>
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <returns>GS1 Digital Link data.</returns>
-    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
     public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this Gs1DigitalLink digitalLink) =>
         new (digitalLink.Value.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(digitalLink)));
 
@@ -652,7 +657,7 @@ public static partial class DigitalLinkConvert {
     /// </summary>
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>GS1 Digital Link data.</returns>
-    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid GS1 Digital Link.</exception>
     public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this string gs1DigitalLinkUri) =>
         new (gs1DigitalLinkUri.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(gs1DigitalLinkUri)));
 
@@ -662,6 +667,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="digitalLinkData">GS1 Digital Link data.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link data is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -671,10 +677,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -683,9 +689,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -704,6 +710,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="gs1DigitalLinkData">A dictionary of GS1 Digital Link AI values.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link data is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -713,10 +720,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -725,9 +732,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -769,8 +776,7 @@ public static partial class DigitalLinkConvert {
         // if brackets=true, use GS1 Digital Link ordering - identifier, Qualifiers then data attributes in numeric order
         if (brackets == true) {
             identifiers[0].VerifySyntax(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
-            identifiers[0].VerifyCheckDigit(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
-
+            identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
             elementStrings = ElementStringsPush(elementStrings, "(" + identifiers[0] + ")", gs1DigitalLinkData[identifiers[0]], string.Empty);
 
             // append any valid found Qualifiers for that primary identifier to the gs1ElementString
@@ -863,6 +869,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -872,10 +879,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -884,9 +891,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -930,6 +937,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">An additional fragment.</param>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <returns>A GS1 Digital Link.</returns>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
@@ -940,10 +948,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -952,9 +960,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -999,6 +1007,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -1008,10 +1017,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -1020,9 +1029,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -1063,6 +1072,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherQueryContent">Any additional non- key-value content to be included in the query string.</param>
     /// <param name="fragment">An additional fragment.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
     /// <para>
     /// <list type="number">
@@ -1072,10 +1082,10 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>Unbracketed</term>
-    ///         <description>An element string, as it would be reported by key barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
+    ///         <description>An element string, as it would be reported by a barcode scanner; e.g. "3103000189010541234500001339232172&#x241D;10ABC123".</description>
     ///     </item>
     /// </list>
-    /// <para>Unbracketed input may represent data directly read by key barcode scanner, in which case this code assumes the following:</para>
+    /// <para>Unbracketed input may represent data directly read by a barcode scanner, in which case this code assumes the following:</para>
     /// <list type="bullet">
     ///     <item>
     ///         <term>Precision</term>
@@ -1084,9 +1094,9 @@ public static partial class DigitalLinkConvert {
     ///     </item>
     ///     <item>
     ///         <term>AIM Identifiers</term>
-    ///         <description>If the barcode data is prefixed, the prefix is one of key set of expected AIM identifiers (those that represent
+    ///         <description>If the barcode data is prefixed, the prefix is one of a set of expected AIM identifiers (those that represent
     ///                      barcodes that may be correctly used to represent GS1 data in accordance with GS1 standards - NB., there are
-    ///                      other non-standard ways in which GS1 data could be represented in key barcode.</description>
+    ///                      other non-standard ways in which GS1 data could be represented in a barcode.</description>
     ///     </item>
     ///     <item>
     ///         <term>Prefixes and Suffixes</term>
@@ -1123,6 +1133,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link is invalid.</exception>
     public static Gs1ElementString FromGs1DigitalLinkToElementString(Gs1DigitalLink digitalLink, bool brackets = false) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 digitalLink.Value,
@@ -1138,6 +1149,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     public static Gs1ElementString FromGs1DigitalLinkToElementString(string gs1DigitalLinkUri, bool brackets = false) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 gs1DigitalLinkUri,
@@ -1153,6 +1165,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     public static Gs1ElementString FromGs1DigitalLinkToElementString(Uri gs1DigitalLinkUri, bool brackets = false) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 gs1DigitalLinkUri.ToString(),
@@ -1171,6 +1184,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link is invalid.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevelWithShortNames(
     Gs1DigitalLink digitalLink,
@@ -1194,6 +1208,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevelWithShortNames(
     string gs1DigitalLinkUri,
@@ -1217,6 +1232,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     [Obsolete("This method supports the use of short names ('convenience alphas') which are obsolete. This method is retained for legacy purposes, only.")]
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevelWithShortNames(
     Uri gs1DigitalLinkUri,
@@ -1239,6 +1255,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link is invalid.</exception>
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevel(
         Gs1DigitalLink digitalLink,
         CompressionLevel compressionLevel,
@@ -1259,6 +1276,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevel(
         string gs1DigitalLinkUri,
         CompressionLevel compressionLevel,
@@ -1279,6 +1297,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A GS1 Digital Link.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URIata is invalid.</exception>
     public static Gs1DigitalLink Gs1DigitalLinkCompressionLevel(
         Uri gs1DigitalLinkUri,
         CompressionLevel compressionLevel,
@@ -1292,14 +1311,14 @@ public static partial class DigitalLinkConvert {
                     compressNonGs1KeyValuePairs));
 
     /// <summary>
-    /// Analyse a GS1 Digital Link URI and return key structured data.
+    /// Analyse a GS1 Digital Link URI and return structured data.
     /// </summary>
     /// <param name="gs1DigitalLinkUri">The Digital Link URI.</param>
     /// <param name="extended">If true, the analyser returns additional structured data and an element string.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>The analysis results.</returns>
-    internal static UriAnalytics AnalyseUri(
+    internal static UriAnalysis AnalyseUri(
         Uri gs1DigitalLinkUri,
         bool extended,
         string methodName,
@@ -1307,14 +1326,15 @@ public static partial class DigitalLinkConvert {
             AnalyseUri(gs1DigitalLinkUri.ToString(), extended, methodName, paramName);
 
     /// <summary>
-    /// Analyse a GS1 Digital Link URI and return a structured data.
+    /// Analyse a GS1 Digital Link URI and return structured data.
     /// </summary>
     /// <param name="gs1DigitalLinkUri">The Digital Link URI.</param>
     /// <param name="extended">If true, the analyser returns additional structured data and an element string.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>The analysis results.</returns>
-    internal static UriAnalytics AnalyseUri(
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
+    internal static UriAnalysis AnalyseUri(
         string gs1DigitalLinkUri,
         bool extended,
         string methodName,
@@ -1423,6 +1443,9 @@ public static partial class DigitalLinkConvert {
             analysis["uriStem"] = protocol + domain;
         }
 
+        analysis["scheme"] = protocol.Split(':')[0];
+        analysis["hostname"] = domain;
+
         // If semicolon was used as delimiter between key=requiredAi parameters, replace with ampersand as delimiter
         var queryString = (string)analysis["queryString"];
         queryString = queryString.Replace(";", "&");
@@ -1483,7 +1506,7 @@ public static partial class DigitalLinkConvert {
         analysis["detected"] = DigitalLinkForm.Unknown;
         analysis["uncompressedPath"] = string.Empty;
         analysis["compressedPath"] = string.Empty;
-        analysis["structuredData"] = new Dictionary<string, ReadOnlyCollection<ReadOnlyDictionary<string, string>>>();
+        analysis["structuredData"] = new Dictionary<string, IReadOnlyDictionary<string, string>>();
 
         // Check conditions
         if ((relevantPathComponents.Count > 0) && ((relevantPathComponents.Count % 2) == 0)) {
@@ -1534,11 +1557,13 @@ public static partial class DigitalLinkConvert {
             }
         }
 
-        return new UriAnalytics {
+        return new UriAnalysis {
             Fragment = analysis["fragment"] as string ?? string.Empty,
             QueryString = analysis["queryString"] as string ?? string.Empty,
             UriPathInfo = analysis["uriPathInfo"] as string ?? string.Empty,
             UriStem = analysis["uriStem"] as string ?? string.Empty,
+            Scheme = analysis["scheme"] as string ?? string.Empty,
+            Hostname = analysis["hostname"] as string ?? string.Empty,
             PathComponents = analysis["pathComponents"] as string ?? string.Empty,
             PathCandidates = analysis["pathCandidates"] as Dictionary<string, string> ?? [],
             QueryStringGs1Pairs = analysis["queryStringGs1Pairs"] as Dictionary<string, string> ?? [],
@@ -1548,17 +1573,17 @@ public static partial class DigitalLinkConvert {
             UncompressedPath = analysis["uncompressedPath"] as string ?? string.Empty,
             CompressedPath = analysis["compressedPath"] as string ?? string.Empty,
             StructuredData = analysis.TryGetValue("structuredData", out var structuredOutput)
-                ? ConvertArrayToStructuredData((Dictionary<string, ReadOnlyCollection<ReadOnlyDictionary<string, string>>>)structuredOutput) ?? new StructuredData()
+                ? ConvertArrayToStructuredData((Dictionary<string, IReadOnlyDictionary<string, string>>)structuredOutput) ?? new StructuredData()
                 : new StructuredData(),
             ElementStringOutput = analysis.TryGetValue("elementStringOutput", out var elementStringOutput) ? elementStringOutput as string ?? string.Empty : string.Empty,
         };
 
-        static StructuredData ConvertArrayToStructuredData(Dictionary<string, ReadOnlyCollection<ReadOnlyDictionary<string, string>>> structuredArray) =>
+        static StructuredData ConvertArrayToStructuredData(Dictionary<string, IReadOnlyDictionary<string, string>> structuredArray) =>
             new () {
-                Identifiers = structuredArray.TryGetValue("identifiers", out var identifiers) ? identifiers : [],
-                Qualifiers = structuredArray.TryGetValue("qualifiers", out var qualifiers) ? qualifiers : [],
-                DataAttributes = structuredArray.TryGetValue("dataAttributes", out var dataAttributes) ? dataAttributes : [],
-                Other = structuredArray.TryGetValue("other", out var other) ? other : [],
+                Identifiers = structuredArray.TryGetValue("identifiers", out var identifiers) ? identifiers : new Dictionary<string, string>(),
+                Qualifiers = structuredArray.TryGetValue("qualifiers", out var qualifiers) ? qualifiers : new Dictionary<string, string>(),
+                DataAttributes = structuredArray.TryGetValue("dataAttributes", out var dataAttributes) ? dataAttributes : new Dictionary<string, string>(),
+                Other = structuredArray.TryGetValue("other", out var other) ? other : new Dictionary<string, string>()
             };
     }
 
@@ -1567,6 +1592,7 @@ public static partial class DigitalLinkConvert {
     /// </summary>
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>The analytical results.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     internal static UriSemantics AnalyseUriSemantics(string gs1DigitalLinkUri) {
         // Analyze the URI and get the structured data
         var returnValue = AnalyseUri(
@@ -1610,25 +1636,20 @@ public static partial class DigitalLinkConvert {
 
         // Process qualifiers
         foreach (var qualifier in returnValue.StructuredData.Qualifiers) {
-            foreach (var key in qualifier.Keys) {
-                nonID[key] = qualifier[key];
-                elementStrings[key] = qualifier[key];
-            }
+            nonID[qualifier.Key] = qualifier.Value;
+            elementStrings[qualifier.Key] = qualifier.Value;
         }
 
         // Process dataAttributes
         foreach (var attribute in returnValue.StructuredData.DataAttributes) {
-            foreach (var key in attribute.Keys) {
-                nonID[key] = attribute[key];
-                elementStrings[key] = attribute[key];
-            }
+            nonID[attribute.Key] = attribute.Value;
+            elementStrings[attribute.Key] = attribute.Value;
         }
 
         // Process identifiers
         foreach (var identifier in returnValue.StructuredData.Identifiers) {
-            foreach (var key in identifier.Keys) {
-                elementStrings[key] = identifier[key];
-            }
+            nonID[identifier.Key] = identifier.Value;
+            elementStrings[identifier.Key] = identifier.Value;
         }
 
         returnValue = returnValue with { NonIdMap = nonID };
@@ -1636,9 +1657,9 @@ public static partial class DigitalLinkConvert {
         var nonIDKeys = new List<string>(nonID.Keys);
         var aiKeys = new List<string>(elementStrings.Keys);
 
-        returnValue = returnValue with { IdentifierMap = returnValue.StructuredData.Identifiers.FirstOrDefault() ?? new Dictionary<string, string>() };
+        returnValue = returnValue with { IdentifierMap = returnValue.StructuredData.Identifiers ?? new Dictionary<string, string>() };
 
-        var primaryIdentifierMap = returnValue.StructuredData.Identifiers.FirstOrDefault();
+        var primaryIdentifierMap = returnValue.StructuredData.Identifiers;
         var primaryIdentifierMapKeys = new List<string>(primaryIdentifierMap?.Keys ?? []);
 
         returnValue = returnValue with { PrimaryIdentifier = primaryIdentifierMapKeys[0] };
@@ -1851,84 +1872,14 @@ public static partial class DigitalLinkConvert {
         return new UriSemantics(semantics ?? []);
     }
 
-    //////////private Dictionary<string, object> Canonical(Dictionary<string, object> aiDictionary) {
-    //////////    Dictionary<string, object> analysis = [];
-    //////////    var sortedKeys = aiDictionary.Keys.OrderBy(aiKey => aiKey).ToList();
-    //////////    foreach (var key in sortedKeys) {
-    //////////        analysis[key] = aiDictionary[key];
-    //////////    }
-    //////////    return analysis;
-    //////////}
-
     /// <summary>
-    /// Extracts GS1 Digital Link data values from a Digital Link URI.
+    /// Gets a list of all GS1 key-value pairs from the analysed data.
     /// </summary>
-    /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
-    /// <param name="methodName">The public method name.</param>
-    /// <param name="paramName">The public method parameter name.</param>
-    /// <param name="uriAnalysis">The URI analysis.</param>
-    /// <returns>The GS1 Digital Link data values.</returns>
-    /// <exception cref="ArgumentException">Invalid GS1 Digital Link.</exception>
-    private static ExtractedData DoExtractAIsFromGs1DigitalLink(
-        this string gs1DigitalLinkUri,
-        string methodName,
-        string paramName,
-        UriAnalytics? uriAnalysis = null) {
-
-        var gs1DigitalLinkData = new Dictionary<string, string>();
-
-        uriAnalysis ??= AnalyseUri(gs1DigitalLinkUri, false, methodName, paramName);
-
-        if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
-            var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, location, message);
-        }
-        else if (uriAnalysis.DetectedForm != DigitalLinkForm.Uncompressed) {
-            return ExtractFromCompressedGs1DigitalLink(
-                        gs1DigitalLinkUri,
-                        uriAnalysis,
-                        methodName,
-                        paramName);
-        }
-
-        var uriPathInfo = uriAnalysis.UriPathInfo;
+    /// <param name="uriAnalysis">The URI analysis data.</param>
+    /// <returns>A list of all GS1 key-value pairs.</returns>
+    internal static IReadOnlyDictionary<string, string> GetGs1AiPairs(UriAnalysis uriAnalysis) {
         var pathCandidates = uriAnalysis.PathCandidates;
-
-        // Split path and skip the leading empty element if URI starts with "/"
-        var splitPath = uriPathInfo.Split('/').Skip(1).ToArray();
-
-        var aiSeq = new List<string>();
-        var splitPathLength = splitPath.Length;
-
-        for (var idx = splitPathLength - 1; idx >= 0; idx--) {
-
-            if (idx % 2 == 0) {
-                var key = splitPath[idx];
-
-                if (!_regexAllNum.IsMatch(key)) {
-                    key = _shortNameToNumeric[key];
-                }
-
-                aiSeq.Add(key);
-            }
-        }
-
-        aiSeq.Reverse();
-
-        // Check the membership of the sequence.
-        aiSeq.ValidateSequenceMembership(methodName, paramName);
-
-        // Check that the URI path components appear in the correct sequence
-        aiSeq.ValidateSequenceOrder(methodName, paramName);
-
         var gs1Pairs = uriAnalysis.QueryStringGs1Pairs.ToDictionary();
-        var nonGS1queryStringPairs = uriAnalysis.QueryStringNonGs1Pairs.ToDictionary();
-
-        // Validate the non-GS1 key-value pairs.
-        nonGS1queryStringPairs.ValidateNonGs1KeyValuePairs(methodName, paramName);
-        uriAnalysis.OtherQueryContent.ValidateOtherQueryStringContent(methodName, paramName);
-        uriAnalysis.Fragment.ValidateFragmentSpecifier(methodName, paramName);
 
         // merge pathCandidates and queryStringGs1Pairs into gs1Pairs
         foreach (var kvp in pathCandidates) {
@@ -1956,18 +1907,110 @@ public static partial class DigitalLinkConvert {
             gs1Pairs.Remove(key);
         }
 
+        return gs1Pairs;
+    }
+
+    /// <summary>
+    /// Validates a GS1 Digital Link URI based on URI analysis data.
+    /// </summary>
+    /// <param name="uriAnalysis">The URI analysis data.</param>
+    /// <param name="gs1Pairs">A dictionary of all GS1 key-value pairs.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
+    internal static void ValidateDigitalLink(UriAnalysis uriAnalysis, IReadOnlyDictionary<string, string> gs1Pairs, string methodName, string paramName) {
+
+        // Validate the stem
+        uriAnalysis.UriStem.ValidateUriStem(methodName, paramName);
+
+        // Split path and skip the leading empty element if URI starts with "/"
+        var uriPathComponents = uriAnalysis.PathComponents;
+        var splitPath = uriPathComponents.Split('/').Skip(1).ToArray();
+
+        var aiSeq = new List<string>();
+        var splitPathLength = splitPath.Length;
+        for (var idx = splitPathLength - 1; idx >= 0; idx--) {
+            if (idx % 2 == 0) {
+                var key = splitPath[idx];
+
+                if (!_regexAllNum.IsMatch(key)) {
+                    key = _shortNameToNumeric[key];
+                }
+
+                aiSeq.Add(key);
+            }
+        }
+
+        aiSeq.Reverse();
+
+        // Check the membership of the sequence.
+        aiSeq.ValidateSequenceMembership(methodName, paramName);
+
+        // Check that the URI path components appear in the correct sequence
+        aiSeq.ValidateSequenceOrder(methodName, paramName);
+
+        var nonGS1queryStringPairs = uriAnalysis.QueryStringNonGs1Pairs.ToDictionary();
+
+        // Validate the non-GS1 key-value pairs.
+        nonGS1queryStringPairs.ValidateNonGs1KeyValuePairs(methodName, paramName);
+        uriAnalysis.OtherQueryContent.ValidateOtherQueryStringContent(methodName, paramName);
+        uriAnalysis.Fragment.ValidateFragmentSpecifier(methodName, paramName);
+
         // check that each entry in the associative array has correct syntax and correct digit (where appropriate)
         foreach (var key in gs1Pairs.Keys) {
             key.VerifySyntax(gs1Pairs[key], methodName, paramName);
-            key.VerifyCheckDigit(gs1Pairs[key], methodName, paramName);
+            key.VerifyGs1KeyPair(gs1Pairs[key], methodName, paramName);
+        }
+    }
+
+    /// <summary>
+    /// Extracts GS1 Digital Link data values from a Digital Link URI.
+    /// </summary>
+    /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="uriAnalysis">The URI analysis.</param>
+    /// <returns>The GS1 Digital Link data values.</returns>
+    /// <exception cref="Gs1DigitalLinkException">Invalid GS1 Digital Link.</exception>
+    private static ExtractedData DoExtractAIsFromGs1DigitalLink(
+        this string gs1DigitalLinkUri,
+        string methodName,
+        string paramName,
+        UriAnalysis? uriAnalysis = null) {
+
+        var gs1DigitalLinkData = new Dictionary<string, string>();
+
+        // By creating a GS1 Digital Link object, we validate the Digital Link before extracting data.
+        uriAnalysis ??= AnalyseUri(new Gs1DigitalLink(gs1DigitalLinkUri).Value, false, methodName, paramName);
+
+        if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
+            var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
+        }
+        else if (uriAnalysis.DetectedForm != DigitalLinkForm.Uncompressed) {
+            return ExtractFromCompressedGs1DigitalLink(
+                        gs1DigitalLinkUri,
+                        uriAnalysis,
+                        methodName,
+                        paramName);
+        }
+
+        var gs1Pairs = GetGs1AiPairs(uriAnalysis);
+        ValidateDigitalLink(uriAnalysis, gs1Pairs, methodName, paramName);
+
+        // Pad GTINs as necessary.
+        foreach (var key in gs1Pairs.Keys) {
             gs1DigitalLinkData[key] = PadGTIN(key, gs1Pairs[key]);
         }
 
         return new ExtractedData(
             gs1DigitalLinkData,
-            nonGS1queryStringPairs,
+            uriAnalysis.QueryStringNonGs1Pairs.ToDictionary(),
             uriAnalysis.OtherQueryContent,
-            uriAnalysis.Fragment);
+            uriAnalysis.Fragment,
+            uriAnalysis.UriStem,
+            uriAnalysis.StructuredData);
 
         static string PadGTIN(string ai, string value) {
 
@@ -2005,6 +2048,7 @@ public static partial class DigitalLinkConvert {
     /// Use short names ('convenience alphas') instead of AIs. This is a legacy feature.
     /// </param>
     /// <returns>A GS1 Digital Link URI.</returns>
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     private static string DoChangeGs1DigitalLinkCompression(
         this string digitalLinkUri,
         CompressionLevel compressionLevel,
@@ -2077,7 +2121,7 @@ public static partial class DigitalLinkConvert {
     /// <returns>A GS1 Digital Link URI.</returns>
     private static string DoDecompressGs1DigitalLink(
         string gs1DigitalLinkUri,
-        UriAnalytics uriAnalysis,
+        UriAnalysis uriAnalysis,
         string? uriStem,
         CompressionLevel compressionLevel,
         bool useOptimisations,
@@ -2260,7 +2304,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="otherKeys">Any other keys provided in the dictionary.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
-    /// <exception cref="ArgumentException">Invalid AI detected.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid AI detected.</exception>
     private static void PopulateClassificationLists(
         this IReadOnlyDictionary<string, string> gs1DigitalLinkData,
         List<string> identifiers,
@@ -2331,8 +2375,8 @@ public static partial class DigitalLinkConvert {
         }
 
         if (exceptions) {
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier, location, exceptionsMessage.ToString());
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier, apiCall, exceptionsMessage.ToString(), logger: Logger);
         }
     }
 
@@ -2351,7 +2395,7 @@ public static partial class DigitalLinkConvert {
     /// <param name="paramName">The public method parameter name.</param>
     /// <param name="useShortNames">Use short names ('convenience alphas') instead of AIs. This is a legacy feature.</param>
     /// <returns>A GS1 Digital Link.</returns>
-    /// <exception cref="ArgumentException">Invalid data was passed to the method.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid data was passed to the method.</exception>
     private static string DoBuildGs1DigitalLink(
         this IReadOnlyDictionary<string, string> gs1DigitalLinkData,
         string? uriStem,
@@ -2430,8 +2474,8 @@ public static partial class DigitalLinkConvert {
 
         if (!string.IsNullOrWhiteSpace(fragment) && !string.IsNullOrWhiteSpace(otherFragment)) {
             var message = string.Format(Resources.Errors.ErrorMsgThe0ParameterContains1AsAFragmentButAFragmentHasBeenProvidedUsingThe2Parameter, nameof(otherQueryContent), otherFragment, nameof(fragment));
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(otherQueryContent));
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(otherQueryContent));
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: Logger);
         }
 
         fragment = string.IsNullOrWhiteSpace(fragment) ? otherFragment : fragment;
@@ -2468,11 +2512,11 @@ public static partial class DigitalLinkConvert {
 
         if (identifiers.Count <= 0) {
             var message = Resources.Errors.ErrorMsgNoKeyIdentifierFoundInTheGsDigitallinkUriPathInformation;
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
         }
 
-        identifiers[0].VerifyCheckDigit(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
+        identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
 
         var aiSeq = new List<string>() { identifiers[0] };
         aiSeq.AddRange(from qualifier in qualifiers
@@ -2603,17 +2647,18 @@ public static partial class DigitalLinkConvert {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>A categorised dictionary of lists of dictionaries of AIs and non-GS1 key-value pairs.</returns>
-    private static Dictionary<string, ReadOnlyCollection<ReadOnlyDictionary<string, string>>> BuildStructuredArray(
+    /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link data is invalid.</exception>
+    private static Dictionary<string, IReadOnlyDictionary<string, string>> BuildStructuredArray(
             Dictionary<string, string> gs1DigitalLinkData,
             Dictionary<string, string> nonGs1KeyValuePairs,
             string methodName,
             string paramName) {
         var analyticsKeys = new List<string> { "identifiers", "qualifiers", "dataAttributes" };
-        var map = new Dictionary<string, List<ReadOnlyDictionary<string, string>>> {
-            ["identifiers"] = [],
-            ["qualifiers"] = [],
-            ["dataAttributes"] = [],
-            ["other"] = []
+        var map = new Dictionary<string, IReadOnlyDictionary<string, string>> {
+            ["identifiers"] = new Dictionary<string, string>(),
+            ["qualifiers"] = new Dictionary<string, string>(),
+            ["dataAttributes"] = new Dictionary<string, string>(),
+            ["other"] = new Dictionary<string, string>()
         };
 
         foreach (var key in gs1DigitalLinkData.Keys) {
@@ -2626,21 +2671,21 @@ public static partial class DigitalLinkConvert {
                 switch (analyticsKey) {
                     case "identifiers":
                         if (_aiMaps.Identifiers?.Contains(key) ?? false) {
-                            map["identifiers"].Add(new ReadOnlyDictionary<string, string>(aiValues));
+                            map["identifiers"] = map["identifiers"].Concat(aiValues).ToDictionary();
                             other = false;
                         }
 
                         break;
                     case "qualifiers":
                         if (_aiMaps.Qualifiers?.Contains(key) ?? false) {
-                            map["qualifiers"].Add(new ReadOnlyDictionary<string, string>(aiValues));
+                            map["qualifiers"] = map["qualifiers"].Concat(aiValues).ToDictionary();
                             other = false;
                         }
 
                         break;
                     case "dataAttributes":
                         if (_aiMaps.DataAttributes?.Contains(key) ?? false) {
-                            map["dataAttributes"].Add(new ReadOnlyDictionary<string, string>(aiValues));
+                            map["dataAttributes"] = map["dataAttributes"].Concat(aiValues).ToDictionary();
                             other = false;
                         }
 
@@ -2653,7 +2698,7 @@ public static partial class DigitalLinkConvert {
             }
 
             if (other) {
-                map["other"].Add(new ReadOnlyDictionary<string, string>(aiValues));
+                map["other"] = map["other"].Concat(aiValues).ToDictionary();
             }
         }
 
@@ -2661,21 +2706,22 @@ public static partial class DigitalLinkConvert {
             var otherArrayValue = new Dictionary<string, string> {
                 [key] = nonGs1KeyValuePairs[key]
             };
-            map["other"].Add(new ReadOnlyDictionary<string, string>(otherArrayValue));
+
+            map["other"] = map["other"].Concat(otherArrayValue).ToDictionary();
         }
 
-        var identifierDict = map["identifiers"][0];
+        var identifierDict = map["identifiers"];
 
-        // There'uriAnalysis exactly one key in identifierDict:
+        // There's exactly one key in identifierDict:
         var identifierKey = identifierDict.Keys.First();
         identifierKey.VerifySyntax(gs1DigitalLinkData[identifierKey], methodName, paramName);
-        identifierKey.VerifyCheckDigit(gs1DigitalLinkData[identifierKey], methodName, paramName);
+        identifierKey.VerifyGs1KeyPair(gs1DigitalLinkData[identifierKey], methodName, paramName);
 
-        return new Dictionary<string, ReadOnlyCollection<ReadOnlyDictionary<string, string>>> {
-            ["identifiers"] = new ReadOnlyCollection<ReadOnlyDictionary<string, string>>(map["identifiers"]),
-            ["qualifiers"] = new ReadOnlyCollection<ReadOnlyDictionary<string, string>>(map["qualifiers"]),
-            ["dataAttributes"] = new ReadOnlyCollection<ReadOnlyDictionary<string, string>>(map["dataAttributes"]),
-            ["other"] = new ReadOnlyCollection<ReadOnlyDictionary<string, string>>(map["other"])
+        return new Dictionary<string, IReadOnlyDictionary<string, string>> {
+            ["identifiers"] = map["identifiers"],
+            ["qualifiers"] = map["qualifiers"],
+            ["dataAttributes"] = map["dataAttributes"],
+            ["other"] = map["other"]
         };
     }
 
@@ -2689,15 +2735,15 @@ public static partial class DigitalLinkConvert {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>The extracted data.</returns>
-    /// <exception cref="ArgumentException">Invalid Digital Link.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid Digital Link.</exception>
     private static ExtractedData ExtractFromCompressedGs1DigitalLink(
         string gs1DigitalLinkUri,
-        UriAnalytics? uriAnalysis,
+        UriAnalysis? uriAnalysis,
         string methodName,
         string paramName) {
 
         if (string.IsNullOrWhiteSpace(gs1DigitalLinkUri)) {
-            return new ExtractedData([], [], string.Empty, string.Empty);
+            return new ExtractedData([], []);
         }
 
         // Need to remove unwanted trailing slash from gs1DigitalLinkUri if present
@@ -2713,8 +2759,8 @@ public static partial class DigitalLinkConvert {
 
         if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
             var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ExtensionMethods.ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
         }
         else if (uriAnalysis.DetectedForm == DigitalLinkForm.Uncompressed) {
             return DoExtractAIsFromGs1DigitalLink(gs1DigitalLinkUri, methodName, paramName, uriAnalysis);
@@ -2810,11 +2856,24 @@ public static partial class DigitalLinkConvert {
             returnedQueryString = returnedQueryString[1..];
         }
 
-        return new ExtractedData(
+        // Create a new Digital Link
+        var digitalLink = new Gs1DigitalLinkData(
             objGs1.gs1DigitalLinkData,
-            nonGS1queryStringCandidates,
+            objGs1.nonGs1KeyValuePairs,
             returnedQueryString,
-            fragmentSpecifier);
+            fragmentSpecifier,
+            uriAnalysis.UriStem).ToGs1DigitalLink().Value;
+
+        // Analyse the decompressed URI
+        uriAnalysis = AnalyseUri(digitalLink, true, methodName, paramName);
+
+        return new ExtractedData(
+        objGs1.gs1DigitalLinkData,
+        nonGS1queryStringCandidates,
+        returnedQueryString,
+        fragmentSpecifier,
+        uriAnalysis.UriStem,
+        uriAnalysis.StructuredData);
     }
 
     /// <summary>
@@ -3257,7 +3316,7 @@ public static partial class DigitalLinkConvert {
     }
 
     /// <summary>
-    /// Builds key compressed Digital Link.
+    /// Builds a compressed Digital Link.
     /// </summary>
     /// <param name="gs1DigitalLinkData">A dictionary of GS1 Application Identifiers.</param>
     /// <param name="uriStem">The URI stem for the Digital Link. If omitted, the library will use https://id.gs1.org.</param>

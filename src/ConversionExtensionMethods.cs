@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="ExtensionMethods.cs" company="Solidsoft Reply Ltd.">
+// <copyright file="ConversionExtensionMethods.cs" company="Solidsoft Reply Ltd.">
 // Copyright © 2025 Solidsoft Reply Ltd. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,6 +27,8 @@
 
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
+using Microsoft.Extensions.Logging;
+
 using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 
 using System.Collections.Immutable;
@@ -39,7 +41,7 @@ using System.Text.RegularExpressions;
 /// <summary>
 /// Extension methods for data manipulation and conversion.
 /// </summary>
-internal static partial class ExtensionMethods {
+internal static partial class ConversionExtensionMethods {
 
     /// <summary>
     /// Regex that checks that a string is composed only of digits.
@@ -64,9 +66,9 @@ internal static partial class ExtensionMethods {
 
     /// <summary>
     /// A regular expression to match a string that contains only characters
-    /// allowed in URI query string key-value values.
+    /// allowed in keys for non-GS12 query string key-value values.
     /// </summary>
-    private static readonly Regex _regexQueryStringValue = RegexQueryStringValue();
+    private static readonly Regex _regexQueryStringKey = RegexQueryStringKey();
 
     /// <summary>
     /// A regular expression to match a string that contains only characters
@@ -179,14 +181,14 @@ internal static partial class ExtensionMethods {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>An XSD date representation.</returns>
-    /// <exception cref="ArgumentException">Invalid date representation.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
     public static string TenDigitToXsdDateTime(this string tenDigit, string methodName, string paramName) {
         var dateRegex = RegexTenDigitDate();
 
         if (!dateRegex.IsMatch(tenDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddhhmmPattern, tenDigit);
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
         }
 
         var year = tenDigit[..2];
@@ -207,14 +209,14 @@ internal static partial class ExtensionMethods {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>An XSD date representation.</returns>
-    /// <exception cref="ArgumentException">Invalid date representation.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
     public static string MaxTwelveDigitToXsdDateTime(this string twelveDigit, string methodName, string paramName) {
         var dateRegex = RegexMaxTwelveDigitDate();
 
         if (!dateRegex.IsMatch(twelveDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddhhMmSsPattern, twelveDigit);
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
         }
 
         var year = twelveDigit[..2];
@@ -250,13 +252,13 @@ internal static partial class ExtensionMethods {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <returns>An XSD date representation.</returns>
-    /// <exception cref="ArgumentException">Invalid date representation.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
     public static string SixDigitToXsdDate(this string sixDigit, string methodName, string paramName) {
         var dateRegex = RegexSixDigitDate();
         if (!dateRegex.IsMatch(sixDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddPattern, sixDigit);
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
         }
 
         var year = sixDigit[..2];
@@ -279,8 +281,8 @@ internal static partial class ExtensionMethods {
 
         if (int.Parse(day) > lastDay) {
             var message = string.Format(Resources.Errors.ErrorMsgInputDate0InvalidDdTooLargeForMm, sixDigit);
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
         }
 
         string intendedDate;
@@ -376,7 +378,7 @@ internal static partial class ExtensionMethods {
         for (var idx = 0; idx < numChar; idx++) {
             var binFrag = binStr.Substring(6 * idx, 6);
             var safeFrag = Convert.ToInt32(binFrag, 2);
-            var base64char = DigitalLinkConvert.SafeBase64Alphabet.Substring(safeFrag, 1);
+            var base64char = Gs1DigitalLinkConvert.SafeBase64Alphabet.Substring(safeFrag, 1);
             returnValue += base64char;
         }
 
@@ -392,7 +394,7 @@ internal static partial class ExtensionMethods {
         var returnValue = string.Empty;
 
         for (var idx = 0; idx < safe64str.Length; idx++) {
-            var decimalDigit = DigitalLinkConvert.SafeBase64Alphabet.IndexOf(safe64str.Substring(idx, 1));
+            var decimalDigit = Gs1DigitalLinkConvert.SafeBase64Alphabet.IndexOf(safe64str.Substring(idx, 1));
             var binaryString = Convert.ToString(decimalDigit, 2);
 
             if (binaryString.Length < 6) {
@@ -432,15 +434,15 @@ internal static partial class ExtensionMethods {
                 break;
 
             case 1:
-                binStr += "001" + lengthBits + BuildBinaryValue(charStr.ToUpper(), 4, DigitalLinkConvert.HexAlphabet);
+                binStr += "001" + lengthBits + BuildBinaryValue(charStr.ToUpper(), 4, Gs1DigitalLinkConvert.HexAlphabet);
                 break;
 
             case 2:
-                binStr += "010" + lengthBits + BuildBinaryValue(charStr.ToUpper(), 4, DigitalLinkConvert.HexAlphabet);
+                binStr += "010" + lengthBits + BuildBinaryValue(charStr.ToUpper(), 4, Gs1DigitalLinkConvert.HexAlphabet);
                 break;
 
             case 3:
-                binStr += "011" + lengthBits + BuildBinaryValue(charStr, 6, DigitalLinkConvert.SafeBase64Alphabet);
+                binStr += "011" + lengthBits + BuildBinaryValue(charStr, 6, Gs1DigitalLinkConvert.SafeBase64Alphabet);
                 break;
 
             case 4:
@@ -492,21 +494,21 @@ internal static partial class ExtensionMethods {
 
                 case 1:
                     // lower case hexadecimal characters
-                    var ret1 = BuildString(numChars, DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
+                    var ret1 = BuildString(numChars, Gs1DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
                     cursor = (int)ret1.Cursor;
                     AppendToDictionary(key, (ret1?.gs1DigitalLinkData?[key] ?? string.Empty).ToLower());
                     break;
 
                 case 2:
                     // upper case hexadecimal characters
-                    var ret2 = BuildString(numChars, DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
+                    var ret2 = BuildString(numChars, Gs1DigitalLinkConvert.HexAlphabet, cursor, 4, binStr, key);
                     cursor = (int)ret2.Cursor;
                     AppendToDictionary(key, (ret2?.gs1DigitalLinkData?[key] ?? string.Empty).ToUpper());
                     break;
 
                 case 3:
                     // URI safe base64 alphabet at 6 bits per character
-                    var ret3 = BuildString(numChars, DigitalLinkConvert.SafeBase64Alphabet, cursor, 6, binStr, key);
+                    var ret3 = BuildString(numChars, Gs1DigitalLinkConvert.SafeBase64Alphabet, cursor, 6, binStr, key);
                     cursor = (int)ret3.Cursor;
                     AppendToDictionary(key, ret3?.gs1DigitalLinkData?[key] ?? string.Empty);
                     break;
@@ -519,7 +521,7 @@ internal static partial class ExtensionMethods {
                     break;
             }
 
-            return new ExtractedData(gs1DigitalLinkData, nonGs1KeyValuePairs, string.Empty, string.Empty, cursor);
+            return new ExtractedData(gs1DigitalLinkData, nonGs1KeyValuePairs, Cursor: cursor);
 
             void AppendToDictionary(string key, string value) {
                 if (gs1DigitalLinkData.ContainsKey(key)) {
@@ -551,41 +553,6 @@ internal static partial class ExtensionMethods {
     }
 
     /// <summary>
-    /// Verifies the check digit of a GS1 ID value.
-    /// </summary>
-    /// <param name="ai">A GS1 AI.</param>
-    /// <param name="gs1IDValue">An AI value.</param>
-    /// <param name="methodName">The public method name.</param>
-    /// <param name="paramName">The public method parameter name.</param>
-    /// <returns>True, if the check digit is valid; otherwise false.</returns>
-    /// <exception cref="ArgumentException">Invalid check digit.</exception>
-    public static bool VerifyCheckDigit(this string ai, string gs1IDValue, string methodName, string paramName) {
-        bool returnValue = true;
-        if (DigitalLinkConvert.AiCheckDigitPositions.TryGetValue(ai, out CheckDigitPosition? checkDigitPosition)) {
-            var expectedCheckDigit = CalculateCheckDigit(ai, gs1IDValue);
-            int amendedCdp;
-
-            if (checkDigitPosition == CheckDigitPosition.Last) {
-                amendedCdp = gs1IDValue.Length;
-            }
-            else {
-                amendedCdp = (int)(checkDigitPosition ?? 0);
-            }
-
-            var actualCheckDigit = int.Parse(gs1IDValue.Substring(amendedCdp - 1, 1));
-
-            if (actualCheckDigit != expectedCheckDigit) {
-                returnValue = false;
-                var message = string.Format(Resources.Errors.ErrorMsgAnInvalidCheckDigitWasFoundForThePrimaryIdentificationKey01TheCorrectCheckDigitShouldBe2AtPosition3, ai, gs1IDValue, expectedCheckDigit, amendedCdp);
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                ThrowArgumentException(Resources.Errors.ErrorTypeInvalidCheckDigit, location, message);
-            }
-        }
-
-        return returnValue;
-    }
-
-    /// <summary>
     /// Verifies the syntax of an AI value against a regular expression representing the
     /// expected format of the value.
     /// </summary>
@@ -593,21 +560,53 @@ internal static partial class ExtensionMethods {
     /// <param name="value">The Application Identifier value.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
-    /// <exception cref="ArgumentException">Invalid syntax.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
     public static void VerifySyntax(this string ai, string value, string methodName, string paramName) {
         try {
             if ((ai != null) && _regexAllNum.IsMatch(ai)) {
-                if (!DigitalLinkConvert.AiRegex[ai].IsMatch(value)) {
+                if (!Gs1DigitalLinkConvert.AiRegex[ai].IsMatch(value)) {
                     var message = string.Format(Resources.Errors.ErrorMsgInvalidSyntaxForValue0Of1, value, ai);
-                    var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                    ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+                    var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
                 }
             }
         }
-        catch (KeyNotFoundException) {
+        catch (KeyNotFoundException knfEx) {
             var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric, ai, value);
-            var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            ThrowArgumentException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, location, message);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, knfEx, logger: Gs1DigitalLinkConvert.Logger);
+        }
+    }
+
+    /// <summary>
+    /// Verifies the syntax and grammar of an AI value.
+    /// </summary>
+    /// <param name="ai">A GS1 Application Identifier.</param>
+    /// <param name="value">The Application Identifier value.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
+    public static void VerifyGs1KeyPair(this string ai, string value, string methodName, string paramName) {
+        var parsedData = Parsers.HighCapacityAidc.Parser.Parse($"{ai}{value}");
+
+        if (parsedData.Exceptions.Any()) {
+            var exceptionsMessage = new StringBuilder(string.Format(Resources.Errors.ErrorMsg01IsInvalid, ai, value));
+            exceptionsMessage.Append("\r\n");
+            exceptionsMessage.Append(Resources.Errors.ErrorMsgPartTheFollowingIssuesWereDetected);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+
+            foreach (var exception in parsedData.Exceptions) {
+                var fatalSpecifier = exception.IsFatal
+                    ? Resources.Errors.ErrorMsgPartFatal
+                    : string.Empty;
+                exceptionsMessage.Append($"\r\n{exception.ErrorNumber}{fatalSpecifier}: {exception.Message}");
+            }
+
+            throw ConversionExtensionMethods.LogAndReturnException(
+                Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier,
+                apiCall,
+                exceptionsMessage.ToString(),
+                logger: Gs1DigitalLinkConvert.Logger);
         }
     }
 
@@ -621,7 +620,7 @@ internal static partial class ExtensionMethods {
     /// If true, the element string is not validated. The GS1 AI dictionary may contain invalid AIs and AI values.
     /// </param>
     /// <returns>A FNC1 element string.</returns>
-    /// <exception cref="ArgumentException">Invalid syntax.</exception>
+    /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
     public static string ConvertParenthesesAIsToFnc1(
         this string input,
         string? methodName,
@@ -670,12 +669,12 @@ internal static partial class ExtensionMethods {
                     dataForThisAI = rawDataSection;
                 }
                 else {
-                    var length = DigitalLinkConvert.PredefinedLengthTable.ContainsKey(ai) ? DigitalLinkConvert.PredefinedLengthTable[ai] - ai.Length : rawDataSection.Length;
+                    var length = Gs1DigitalLinkConvert.PredefinedLengthTable.ContainsKey(ai) ? Gs1DigitalLinkConvert.PredefinedLengthTable[ai] - ai.Length : rawDataSection.Length;
 
                     if (!noValidation && rawDataSection.Length < length) {
                         var message = string.Format(Resources.Errors.ErrorMsgInvalidSyntaxForValueOf01Expected2Characters, ai, rawDataSection, length);
-                        var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                        ThrowArgumentException(Resources.Errors.ErrorTypeSyntaxError, location, message);
+                        var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                        throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
                     }
 
                     dataForThisAI = rawDataSection[..length];
@@ -752,12 +751,45 @@ internal static partial class ExtensionMethods {
     }
 
     /// <summary>
+    /// Validates the URI stem.
+    /// </summary>
+    /// <param name="uriStem">The URI stem.</param>
+    /// <param name="methodName">The method name.</param>
+    /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid URI stem.</exception>
+    public static void ValidateUriStem(this string? uriStem, string methodName, string paramName) {
+        // Validate the stem
+        try {
+            if (string.IsNullOrWhiteSpace(uriStem)) {
+                var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            }
+
+            var uri = new Uri(uriStem);
+            var scheme = uri.Scheme.ToLower();
+
+            if (scheme != "https" && scheme != "http") {
+                var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkScheme0IsNotRecognised, scheme);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            }
+        }
+        catch (UriFormatException ufEx) {
+            var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkUriStem0IsInvalid, uriStem);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, ufEx, Gs1DigitalLinkConvert.Logger);
+        }
+    }
+
+    /// <summary>
     /// Validates the sequence membership of a list of qualifiers.  If the qualifiers
     /// belong to more than one sequence, the method throws an exception.
     /// </summary>
     /// <param name="aiSeq">A list containing an identifier and qualifiers.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid sequence membership.</exception>
     public static void ValidateSequenceMembership(this List<string> aiSeq, string methodName, string paramName) {
         if (_pathSequenceConstraints.ContainsKey(aiSeq[0])) {
             var sequences = _pathSequenceConstraints[aiSeq[0]].ToList();
@@ -776,35 +808,36 @@ internal static partial class ExtensionMethods {
                  where sc.Value > 0
                  select sc.Value).ToList().Count > 1) {
                 var message = Resources.Errors.ErrorMsgInvalidSequenceOfKeyQualifiersFoundInTheGs1DigitallinkUriPathInformation;
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, location, message);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
             }
         }
     }
 
     /// <summary>
-    /// Validates the non-GS1 Key-Value Pairs.
+    /// Validates the non-GS1 key-value pairs.
     /// </summary>
-    /// <param name="nonGs1KeyValuePairs">The non-GS1 Key-Value Pairs.</param>
+    /// <param name="nonGs1KeyValuePairs">The non-GS1 key-value pairs.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid non-GS1 key-value pairs.</exception>
     public static void ValidateNonGs1KeyValuePairs(this IReadOnlyDictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName) {
         // Validate the non-GS1 key value parameters.
         if (nonGs1KeyValuePairs != null && nonGs1KeyValuePairs.Count > 0) {
             foreach (var key in nonGs1KeyValuePairs.Keys) {
                 var value = nonGs1KeyValuePairs[key];
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
 
                 // The key in a non-GS1 key-value param must contain at least one non-digit character
                 if (_regexAllNum.IsMatch(key)) {
                     var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric, key, value);
-                    ThrowArgumentException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, location, message);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
                 }
 
                 // The key-value param is limited to unencoded certain characters and %-encoded hexadecimal values.
-                if (!_regexQueryStringValue.IsMatch(key) || !_regexQueryStringValue.IsMatch(value)) {
+                if (!_regexQueryStringKey.IsMatch(key) || !_regexQueryString.IsMatch(value)) {
                     var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidTheParameterContainsIncorrectlyUnencodedCharacters, key, value);
-                    ThrowArgumentException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, location, message);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
                 }
             }
         }
@@ -817,6 +850,7 @@ internal static partial class ExtensionMethods {
     /// <param name="aiSeq">A list containing an identifier and qualifiers.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid sequence order.</exception>
     public static void ValidateSequenceOrder(this List<string> aiSeq, string methodName, string paramName) {
         // Check that the URI path components appear in the correct sequence
         if (_pathSequenceConstraints.ContainsKey(aiSeq[0])) {
@@ -843,8 +877,8 @@ internal static partial class ExtensionMethods {
 
             if (invalidSequence == sequences.Count) {
                 var message = Resources.Errors.ErrorMsgInvalidSequenceOfKeyQualifiersFoundInTheGs1DigitallinkUriPathInformation;
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                ThrowArgumentException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, location, message);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
             }
         }
     }
@@ -855,14 +889,15 @@ internal static partial class ExtensionMethods {
     /// <param name="otherQueryContent">Non key-pair query string content.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid non key-pair query string content.</exception>
     public static void ValidateOtherQueryStringContent(this string otherQueryContent, string methodName, string paramName) {
         // Validate any other query string content.
         if (!string.IsNullOrWhiteSpace(otherQueryContent)) {
             // The query string content is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexQueryString.IsMatch(otherQueryContent)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheValueContainsIncorrectlyUnencodedCharacters, otherQueryContent);
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                ThrowArgumentException(Resources.Errors.ErrorTypeInvalidQueryStringContent, location, message);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringContent, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
             }
         }
     }
@@ -873,35 +908,40 @@ internal static partial class ExtensionMethods {
     /// <param name="fragment">The fragment specifier.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <exception cref="Gs1DigitalLinkException">Invalid fragment specifier.</exception>
     public static void ValidateFragmentSpecifier(this string fragment, string methodName, string paramName) {
         // Validate any fragment specifier.
         if (!string.IsNullOrWhiteSpace(fragment)) {
             // The fragment specifier is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexFragments.IsMatch(fragment)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheFragmentContainsIncorrectlyUnencodedCharacters, fragment);
-                var location = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                ThrowArgumentException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, location, message);
+                var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
             }
         }
     }
 
     /// <summary>
-    /// Throws an ArgumentException and traces the exception for diagnostics.
+    /// Returns a Gs1DigitalLinkException and traces the exception for diagnostics.
     /// </summary>
     /// <param name="title">The error title.</param>
-    /// <param name="location">The public API location of th error.</param>
+    /// <param name="location">The public API location of the error.</param>
     /// <param name="message">The error message.</param>
+    /// <param name="innerException">An exception that will be added as an inner exception.</param>
+    /// <param name="logger">A logger.</param>
     /// <param name="lineNumber">The source code line number.</param>
     /// <param name="memberName">The member name where the exception was raised.</param>
     /// <param name="filePath">The source code file name.</param>
-    /// <exception cref="ArgumentException">A requested argument exception.</exception>
-    public static void ThrowArgumentException(
-        string title,
-        string location,
-        string message,
-        [CallerLineNumber] int lineNumber = 0,
-        [CallerMemberName] string memberName = "",
-        [CallerFilePath] string filePath = "") {
+    /// <returns>A requested argument exception..</returns>
+    public static Gs1DigitalLinkException LogAndReturnException(
+    string title,
+    string location,
+    string message,
+    Exception? innerException = null,
+    ILogger? logger = null,
+    [CallerLineNumber] int lineNumber = 0,
+    [CallerMemberName] string memberName = "",
+    [CallerFilePath] string filePath = "") {
         var directory = "<unknown>";
         var file = "<unknown>";
 
@@ -918,8 +958,11 @@ internal static partial class ExtensionMethods {
         // For trace insert the sigil at each subsequent new line in the message.
         var traceMessage = message.Replace(Environment.NewLine, Environment.NewLine + sigil);
 
-        Trace.TraceError($"{sigil}{location}: {traceMessage} [line {lineNumber} in ../{directory}/{file} ({memberName})]");
-        throw new ArgumentException($"{title}: {message}", location);
+        var logMessage = $"{sigil}{location}: {traceMessage} [line {lineNumber} in ../{directory}/{file} ({memberName})]";
+        Trace.TraceError(logMessage);
+        logger?.LogError("{LogMessage}", logMessage);
+
+        return new Gs1DigitalLinkException($"{title}: {message}", location, innerException);
     }
 
     /// <summary>
@@ -1050,7 +1093,7 @@ internal static partial class ExtensionMethods {
         var bytes = number.ToByteArray();
 
         // Initialize a StringBuilder to collect the binary digits
-        var binaryString = new System.Text.StringBuilder();
+        var binaryString = new StringBuilder();
 
         // Iterate over the bytes in reverse order to process the most significant byte first
         for (var idx = bytes.Length - 1; idx >= 0; idx--) {
@@ -1098,11 +1141,11 @@ internal static partial class ExtensionMethods {
         var total = 0;
         int valueLength;
 
-        if (DigitalLinkConvert.AiCheckDigitPositions.TryGetValue(ai, out CheckDigitPosition? value) && value == CheckDigitPosition.Last) {
+        if (Gs1DigitalLinkConvert.AiCheckDigitPositions.TryGetValue(ai, out CheckDigitPosition? value) && value == CheckDigitPosition.Last) {
             valueLength = gs1AiValue.Length;
         }
         else {
-            valueLength = (int)(DigitalLinkConvert.AiCheckDigitPositions[ai] ?? 0);
+            valueLength = (int)(Gs1DigitalLinkConvert.AiCheckDigitPositions[ai] ?? 0);
         }
 
         int multiplier;
@@ -1155,17 +1198,18 @@ internal static partial class ExtensionMethods {
     private static partial Regex RegexSixDigitDate();
 
     /// <summary>
-    /// Regex that checks that a string is composed of characters allowed in query string values.
+    /// Regex that checks that a string is composed of characters allowed in
+    /// non-GS1 key-value pair query string keys.
     /// </summary>
     /// <returns></returns>
-    [GeneratedRegex(@"^([A-Za-z0-9-._~:/?[\]@!$'()*+,;]|%[0-9A-Fa-f]{2})*$")]
-    private static partial Regex RegexQueryStringValue();
+    [GeneratedRegex(@"^([A-Za-z0-9!$ '()*+,;:/\-._~?@]|%[0-9A-Fa-f]{2})*$")]
+    private static partial Regex RegexQueryStringKey();
 
     /// <summary>
     /// Regex that checks that a string is composed of characters allowed in a query string.
     /// </summary>
     /// <returns></returns>
-    [GeneratedRegex(@"^([A-Za-z0-9-._~:/[\]@!$&'()*+,;=]|%[0-9A-Fa-f]{2})*$")]
+    [GeneratedRegex(@"^([A-Za-z0-9!$&'()*+,;=:/\-._~?@]|%[0-9A-Fa-f]{2})*$")]
     private static partial Regex RegexQueryString();
 
     /// <summary>

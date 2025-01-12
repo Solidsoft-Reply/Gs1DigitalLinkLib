@@ -26,7 +26,7 @@ using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 using System.Collections;
 
 /// <summary>
-/// A list of GS1 Application Identifiers with 4-digit numeric values.
+/// A list of GS1 Application Identifiers (first two digits, only) with 4-digit numeric values.
 /// </summary>
 public class FourDigitAIs : IReadOnlyList<string> {
 

@@ -47,7 +47,7 @@ public class ValidationExpressionTable : IReadOnlyDictionary<string, Regex> {
     /// </summary>
     static ValidationExpressionTable() {
 
-        _validationExpressions = DigitalLinkConvert.AiRegex;
+        _validationExpressions = Gs1DigitalLinkConvert.AiRegex;
         _validationExpressionsValues = from v in _validationExpressions.Values
                                        select v;
     }

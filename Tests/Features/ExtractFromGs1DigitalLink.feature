@@ -49,7 +49,7 @@ Scenario Outline: Extract AIs and values from a Digital Link
 	  | https://id.gs1.org/8006/054123450000130201/22/AJY3095721P49/21/72292641703           | 8006 | 054123450000130201      | 22   | AJY3095721P49 | 21  | 72292641703 |     |             |
 	  | https://id.gs1.org/8010/0541234537290A41%23GH33                                      | 8010 | 0541234537290A41#GH33   |      |               |     |             |     |             |
 	  | https://id.gs1.org/8010/0541234537290A41%23GH33/8011/6639047221                      | 8010 | 0541234537290A41#GH33   | 8011 | 6639047221    |     |             |     |             |
-	  | https://id.gs1.org/8013/12345678901234FF                                             | 8013 | 12345678901234FF        |      |               |     |             |     |             |
+	  | https://id.gs1.org/8013/12345678901234MS                                             | 8013 | 12345678901234MS        |      |               |     |             |     |             |
 	  | https://id.gs1.org/8017/817019610850151481                                           | 8017 | 817019610850151481      |      |               |     |             |     |             |
 	  | https://id.gs1.org/8017/817019610850151481/8019/4003812                              | 8017 | 817019610850151481      | 8019 | 4003812       |     |             |     |             |
 	  | https://id.gs1.org/8018/411369833821910265                                           | 8018 | 411369833821910265      |      |               |     |             |     |             |
@@ -99,7 +99,7 @@ Scenario Outline: Extract AIs and values from a Digital Link with short names
       | https://id.gs1.org/itip/054123450000130201/lot/ABC123                                   | 8006 | 054123450000130201      | 10   | ABC123        |     |             |     |             |
       | https://id.gs1.org/itip/054123450000130201/lot/ABC123/ser/72292641703                   | 8006 | 054123450000130201      | 10   | ABC123        | 21  | 72292641703 |     |             |
       | https://id.gs1.org/itip/054123450000130201/ser/72292641703                              | 8006 | 054123450000130201      | 21   | 72292641703   |     |             |     |             |
-      | https://id.gs1.org/gmn/12345678901234FF                                                 | 8013 | 12345678901234FF        |      |               |     |             |     |             |
+      | https://id.gs1.org/gmn/12345678901234MS                                                 | 8013 | 12345678901234MS        |      |               |     |             |     |             |
       | https://id.gs1.org/gsrnp/817019610850151481                                             | 8017 | 817019610850151481      |      |               |     |             |     |             |
       | https://id.gs1.org/gsrnp/817019610850151481/srin/4003812                                | 8017 | 817019610850151481      | 8019 | 4003812       |     |             |     |             |
       | https://id.gs1.org/gsrn/411369833821910265                                              | 8018 | 411369833821910265      |      |               |     |             |     |             |
@@ -155,7 +155,7 @@ Scenario Outline: Extract AIs and values from a compressed Digital Link
 	  | https://id.gs1.org/IQuGp9FdPAAwYCR-2aNgTI                       | 8006 | 054123450000130201      | 21   | 72292641703     |     |             |     |             |
 	  | https://id.gs1.org/gBCVYNWjFkzaNWbdk5YQWjFHHkM2cAI0xdvpGo       | 8010 | 0541234537290A41#GH33   | 8011 | 6639047221      |     |             |     |             |
 	  | https://id.gs1.org/gBCVYNWjFkzaNWbdk5YQWjFHHkM2Y                | 8010 | 0541234537290A41#GH33   |      |                 |     |             |     |             |
-	  | https://id.gs1.org/gBNQEjRWeJASNP8                              | 8013 | 12345678901234FF        |      |                 |     |             |     |             |
+	  | https://id.gs1.org/gBNw12345678901234MS                         | 8013 | 12345678901234MS        |      |                 |     |             |     |             |
 	  | https://id.gs1.org/gBe1ajAd9ATDk                                | 8017 | 817019610850151481      |      |                 |     |             |     |             |
 	  | https://id.gs1.org/gBe1ajAd9ATDmAGXPRfk                         | 8017 | 817019610850151481      | 8019 | 4003812         |     |             |     |             |
 	  | https://id.gs1.org/gBhbV6rzBENPk                                | 8018 | 411369833821910265      |      |                 |     |             |     |             |

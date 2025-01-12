@@ -17,9 +17,13 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Made further refinements to extension methods.
-		2) Made further improvements to JSON serialization.
-		3) Improved documentation.
+		1) Renamed DigitalLinkConvert to Gs1DigitalLinkConvert to improve consistency. All the primary classes now start with 'Gs1'.
+		2) Extended and improved JSON serialization and added support for Newtonsoft.Json.
+		3) Added logging support (Microsoft.Extensions.Logging). The library supports dependency injection for logging.
+		4) Introduced a new Gs1DigitalLinkException class which is now raised instead of ArgumentException. Made general improvements to exception handling. 
+		5) Improved validation. Gs1DigitalLink now only allows valid URIs. Non-GS1 key-value pairs are now fully validated in accordance with the GS1 standard. URI stems and schemes are validated.
+		6) Added a new Extension method to convert GS1 Digital Links to canonical form.
+		7) Added new constructor overloads to Gs1DigitalLink, Gs1DigitalLinkData and Gs1ElementString.
 	</PackageReleaseNotes>
 	<Description>
 		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
@@ -28,23 +32,12 @@
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.0.4</Version>
+	<Version>1.1.0</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
-	<PublishRepositoryUrl>true</PublishRepositoryUrl>    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<PublishRepositoryUrl>true</PublishRepositoryUrl>
+  <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
-
-	<ItemGroup>
-		<None Include="../LICENSE.txt" Pack="true" PackagePath="" />
-		<None Include="../README.md" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="../Solidsoft Reply - LOGO Square_small.jpg">
-			<Pack>True</Pack>
-			<PackagePath>\</PackagePath>
-		</None>
-	</ItemGroup>
 
 
 	<ItemGroup>
@@ -60,11 +53,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
-    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" />
+    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" Link="Documents\DEVELOPER-NOTICE.txt" />
+    <None Include="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" Link="Documents\NOTICE.txt" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -102,6 +96,12 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+	
+  <ItemGroup>
+    <None Include="Documents\LICENSE.txt" Pack="true" PackagePath="" />
+    <None Include="Documents\README.md" Pack="true" PackagePath="" />
+    <None Include="Images\Solidsoft Reply - LOGO Square_small.jpg" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <ItemGroup>

@@ -46,7 +46,7 @@ public class QualifiersTable : IReadOnlyDictionary<string, string[]> {
     /// </summary>
     static QualifiersTable() {
 
-        _qualifiers = DigitalLinkConvert.AiQualifiers;
+        _qualifiers = Gs1DigitalLinkConvert.AiQualifiers;
         _qualifierValues = from v in _qualifiers.Values
                             select v;
     }

@@ -35,28 +35,28 @@ public record StructuredData {
     /// </summary>
     [JsonProperty("identifiers")]
     [JsonPropertyName("identifiers")]
-    public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Identifiers { get; init; } = new List<Dictionary<string, string>>();
+    public IReadOnlyDictionary<string, string> Identifiers { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Gets a list of AIs recognised as Digital Link qualifiers.
     /// </summary>
     [JsonProperty("qualifiers")]
     [JsonPropertyName("qualifiers")]
-    public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Qualifiers { get; init; } = new List<Dictionary<string, string>>();
+    public IReadOnlyDictionary<string, string> Qualifiers { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Gets a list of AIs recognised as Digital Link data attributes.
     /// </summary>
     [JsonProperty("dataAttributes")]
     [JsonPropertyName("dataAttributes")]
-    public IReadOnlyCollection<IReadOnlyDictionary<string, string>> DataAttributes { get; init; } = new List<Dictionary<string, string>>();
+    public IReadOnlyDictionary<string, string> DataAttributes { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Gets a list of unrecognised AIs.
     /// </summary>
     [JsonProperty("other")]
     [JsonPropertyName("other")]
-    public IReadOnlyCollection<IReadOnlyDictionary<string, string>> Other { get; init; } = new List<Dictionary<string, string>>();
+    public IReadOnlyDictionary<string, string> Other { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
     /// Returns the structured data as JSON.

@@ -12,8 +12,8 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private Dictionary<string, string>? _nonGs1KeyValuePairs;
         private string? _elementString = new(string.Empty);
         private string? _digitalLink = new(string.Empty);
-        private Gs1DigitalLink? _digitalLinkObj = new(string.Empty);
-        private Gs1DigitalLink? _decompressedDigitalLink = new(string.Empty);
+        private Gs1DigitalLink? _digitalLinkObj = new("https://id.gs1.org/01/05060917510004");
+        private Gs1DigitalLink? _decompressedDigitalLink = new("https://id.gs1.org/01/05060917510004");
         private Gs1DigitalLinkData? _dataResult = new();
         private string? _otherQueryContent = new(string.Empty);
         private string? _fragment = new(string.Empty);
@@ -26,9 +26,9 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private string _compressedDigitalLink = string.Empty;
         private int _inputColumnWidth = 88;
         private int _resultColumnWidth = 88;
-        private Gs1ElementString _elementStringObj = new(string.Empty);
+        private Gs1ElementString _elementStringObj = new("(01)05060917510004");
         private readonly ScenarioContext _scenarioContext;
-        private UriAnalytics? _analytics;
+        private UriAnalysis? _analytics;
         private UriSemantics? _semanticAnalytics;
 
         /// <summary>
@@ -142,28 +142,28 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I convert the Digital Link to an element string")]
         [When(@"I convert the compressed Digital Link to an element string")]
         public void WhenIConvertTheDigitalLinkToElementStrings() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty);
+            _elementStringObj = Gs1DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty);
         }
 
         [When(@"I convert the Digital Link to an element string with brackets")]
         [When(@"I convert the compressed Digital Link to an element string with brackets")]
         public void WhenIConvertTheDigitalLinkToElementStringsWithBrackets() {
-            _elementStringObj = DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty, true);
+            _elementStringObj = Gs1DigitalLinkConvert.FromGs1DigitalLinkToElementString(_digitalLink ?? string.Empty, true);
         }
 
         [When(@"I extract AIs and values")]
         public void WhenIExtractAIsAndValues() {
             try {
-                _dataResult = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty);
+                _dataResult = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty);
             }
-            catch (ArgumentException e) {
+            catch (Gs1DigitalLinkException e) {
                 _thrownException = e;
             }
         }
 
         [When(@"I extract AIs and values without validation")]
         public void WhenIExtractAIsAndValuesWithoutValidation() {
-            _dataResult = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty, true);
+            _dataResult = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLinkData(_elementString ?? string.Empty, true);
         }
 
         [When(@"I extract AIs and values from the Digital Link")]
@@ -175,7 +175,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I extract data from the GS1 Digital Link")]
         public void WhenIExtractDataFromTheGs1DigitalLink() {
             try {
-                _dataResult = DigitalLinkConvert.FromGs1DigitalLinkToData(_digitalLink ?? string.Empty);
+                _dataResult = Gs1DigitalLinkConvert.FromGs1DigitalLinkToData(_digitalLink ?? string.Empty);
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -185,42 +185,42 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [When(@"I decompress the compressed Digital Link")]
         public void WhenIDecompressTheCompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_compressedDigitalLink, CompressionLevel.Uncompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_compressedDigitalLink, CompressionLevel.Uncompressed);
         }
 
         [When(@"I decompress the compressed Digital Link to a Digital Link with short names")]
         public void WhenIDecompressTheCompressedDigitalLinkToADigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
 #pragma warning disable CS0618 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_compressedDigitalLink, CompressionLevel.Uncompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_compressedDigitalLink, CompressionLevel.Uncompressed);
 #pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
         [When(@"I compress the decompressed Digital Link")]
         public void WhenICompressTheDecompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
         }
 
         [When(@"I compress the decompressed Digital Link with short names")]
         public void WhenICompressTheDecompressedDigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
 #pragma warning disable CS0618 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.Compressed);
 #pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
 
         [When(@"I partially compress the decompressed Digital Link")]
         public void WhenIPartiallyCompressTheDecompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
         }
 
         [When(@"I partially compress the decompressed Digital Link to a Digital Link with short names")]
         public void WhenIPartiallyCompressTheDecompressedDigitalLinkToADigitalLinkWithShortNames() {
 #pragma warning disable CS0612 // Type or member is obsolete
 #pragma warning disable CS0618 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevelWithShortNames(_decompressedDigitalLink?.Value ?? string.Empty, CompressionLevel.PartiallyCompressed);
 #pragma warning restore CS0618 // Type or member is obsolete
 #pragma warning restore CS0612 // Type or member is obsolete
         }
@@ -229,7 +229,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         public void WhenIBuildAGs1DigitalLink() {
 
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1DigitalLinkDataToDigitalLink(
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1DigitalLinkDataToDigitalLink(
                 _gs1DigitalLinkData ?? [],
                 null,
                 _digitalLinkForm,
@@ -260,7 +260,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             }
 
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLink(
                 _elementString ?? string.Empty,
                 null,
                 _digitalLinkForm,
@@ -291,7 +291,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             }
 
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, uriStem: "dlr.trvst4hp.org");
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, uriStem: "dlr.trvst4hp.org");
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -307,7 +307,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             uriStem = uriStem.Replace("<sp>", " ");
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, uriStem: uriStem);
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, uriStem: uriStem);
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -316,18 +316,18 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
         [When(@"I translate the element string to a compressed Digital Link")]
         public void WhenITranslateTheElementStringToCompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.Compressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.Compressed);
         }
 
         [When(@"I translate the element string to a partially compressed Digital Link")]
         public void WhenITranslateTheElementStringToPartiallyCompressedDigitalLink() {
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLink(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
         }
 
         [When(@"I translate the element string to a partially compressed Digital Link that uses short text")]
         public void WhenITranslateTheElementStringToPartiallyCompressedDigitalLinkWithShortText() {
 #pragma warning disable CS0618 // Type or member is obsolete
-            _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
+            _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty, digitalLinkForm: DigitalLinkForm.PartiallyCompressed);
 #pragma warning restore CS0618 // Type or member is obsolete
         }
 
@@ -343,7 +343,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
             try {
 #pragma warning disable CS0618 // Type or member is obsolete
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty);
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty);
 #pragma warning restore CS0618 // Type or member is obsolete
             }
             catch (Exception e) {
@@ -359,7 +359,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
 
 #pragma warning disable CS0618 // Type or member is obsolete
             try {
-                _digitalLinkObj = DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty, uriStem: "dlr.trvst4hp.org");
+                _digitalLinkObj = Gs1DigitalLinkConvert.FromGs1ElementStringToDigitalLinkWithShortNames(_elementString ?? string.Empty, uriStem: "dlr.trvst4hp.org");
             }
             catch (Exception e) {
                 _thrownException = e;
@@ -370,7 +370,7 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [When(@"I change the compression level of the GS1 Digital Link")]
         public void WhenIPartiallyCompressTheGs1DigitalLink() {
             try {
-                _digitalLinkObj = DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(
+                _digitalLinkObj = Gs1DigitalLinkConvert.Gs1DigitalLinkCompressionLevel(
                 _digitalLink ?? string.Empty,
                 _compressionLevel,
                 _optimisation,

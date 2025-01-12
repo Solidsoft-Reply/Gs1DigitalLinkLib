@@ -295,6 +295,12 @@ Scenario: Compressed Digital Link from element string with fragment specifier an
 	When I translate the element string to a Digital Link
 	Then the result should be "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etrue8K7RPRWwjc0D4#chapter1"
 
+Scenario: Handle a URI with additional non-GS1 path elements
+	Given the following Digital Link URI: "https://id.gs1.org/resolve/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And no compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/resolve/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+
 Scenario: Partially compress uncompressed Digital Link with non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
 	And partial compression
@@ -834,6 +840,31 @@ Scenario: Digital Link from invalid (invalid sequence) Digital Link during compr
 	When I change the compression level of the GS1 Digital Link
     Then an exception with message "Invalid sequence of key qualifiers found in the GS1 DigitalLink URI path information." is thrown
 
+Scenario: Digital Link from invalid (invalid scheme) Digital Link
+	Given the following Digital Link URI: "sptth://id.gs1.org/01/05412345000013/10/ABC123/21/R759025244015BJ?17=290331&arv=true&donor=bmgf"
+	When I extract data from the GS1 Digital Link
+    Then an exception with message "The Digital Link scheme 'sptth' is not recognised. It must be https or http." is thrown
+
+Scenario: Digital Link from invalid (invalid GS1 key-value - key) Digital Link
+	Given the following Digital Link URI: "https://id.gs1.org/01/09520123456788?5999=000195&3922=0299&17=291225"
+	When I extract data from the GS1 Digital Link
+    Then an exception with message "'5999=000195' is invalid. Non-GS1 key values must not be all-numeric." is thrown
+
+Scenario: Digital Link from invalid (invalid GS1 key-value - value) Digital Link
+	Given the following Digital Link URI: "https://id.gs1.org/01/09520123456788?3103=0001957&3922=0299&17=291225"
+	When I extract data from the GS1 Digital Link
+    Then an exception with message "Invalid syntax for value 0001957 of (3103)" is thrown
+
+Scenario: Digital Link from invalid (invalid non-GS1 key-value - value) Digital Link
+	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/10/ABC123/21/R759025244015BJ?17=290331&arv=true&donor=[bmgf]"
+	When I extract data from the GS1 Digital Link
+    Then an exception with message "'donor=[bmgf]' is invalid. The parameter contains incorrectly unencoded characters." is thrown
+
+Scenario: Digital Link from invalid (invalid non-GS1 key-value pair - key) Digital Link
+	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/10/ABC123/21/R759025244015BJ?17=290331&arv=true&[donor]=bmgf"
+	When I extract data from the GS1 Digital Link
+    Then an exception with message "'[donor]=bmgf' is invalid. The parameter contains incorrectly unencoded characters." is thrown
+
 Scenario: Digital Link from invalid data
 	Given the following Digital Link URI: "RY9V0U42Y325UR5723YY2YRWUIWERYWEWIBYRIHDYPW0NVEW9UT34YTYUTURIEWVUOIWETU"
 	And no compression
@@ -901,3 +932,9 @@ Scenario: Semantic analysis of Digital Link string with non-GS1 key-value pairs
 	| gs1:consumerProductVariant | 054123450000130123                                           |
 	| gs1:expirationDate         | 2029-03-31                                                   |
 	| gs1:elementStrings         | (01)05412345000013(22)054123450000130123(10)ABC123(17)290331 |
+
+Scenario: Ensure trailing slashes are tolerated
+	Given the following Digital Link URI: "https://id.gs1.org/resolve/01/05412345000013/10/ABC123/"
+	And no compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/resolve/01/05412345000013/10/ABC123"

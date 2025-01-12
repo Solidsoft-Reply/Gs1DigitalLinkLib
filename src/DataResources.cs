@@ -63,7 +63,7 @@ public static class DataResources {
     /// </summary>
     [JsonProperty("maps")]
     [JsonPropertyName("maps")]
-    public static Maps Maps { get; } = DigitalLinkConvert.AiMaps;
+    public static Maps Maps { get; } = Gs1DigitalLinkConvert.AiMaps;
 
     /// <summary>
     /// Gets a table of GS1 Application Identifier qualifiers.

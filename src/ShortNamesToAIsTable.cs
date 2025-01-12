@@ -49,7 +49,7 @@ public class ShortNamesToAIsTable : IReadOnlyDictionary<string, string> {
     /// </summary>
     static ShortNamesToAIsTable() {
 
-        _shortNamesToAIs = DigitalLinkConvert.AiShortNamesToAIs;
+        _shortNamesToAIs = Gs1DigitalLinkConvert.AiShortNamesToAIs;
         _shortNamesToAIsValues = from v in _shortNamesToAIs.Values
                                  select v;
     }

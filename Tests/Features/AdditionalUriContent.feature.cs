@@ -1419,14 +1419,14 @@ this.ScenarioInitialize(scenarioInfo);
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Partially compress uncompressed Digital Link with non-GS1 key-value pairs")]
+        [Xunit.SkippableFactAttribute(DisplayName="Handle a URI with additional non-GS1 path elements")]
         [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
-        [Xunit.TraitAttribute("Description", "Partially compress uncompressed Digital Link with non-GS1 key-value pairs")]
-        public async System.Threading.Tasks.Task PartiallyCompressUncompressedDigitalLinkWithNon_GS1Key_ValuePairs()
+        [Xunit.TraitAttribute("Description", "Handle a URI with additional non-GS1 path elements")]
+        public async System.Threading.Tasks.Task HandleAURIWithAdditionalNon_GS1PathElements()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress uncompressed Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Handle a URI with additional non-GS1 path elements", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 298
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -1438,31 +1438,31 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 await this.ScenarioStartAsync();
 #line 299
- await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123?1" +
-                        "7=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/resolve/01/05412345000013/10/" +
+                        "ABC123?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 300
- await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 301
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 302
- await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
-                        "donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync("the result should be \"https://id.gs1.org/resolve/01/05412345000013/10/ABC123?17=2" +
+                        "90331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Compress uncompressed Digital Link with non-GS1 key-value pairs")]
+        [Xunit.SkippableFactAttribute(DisplayName="Partially compress uncompressed Digital Link with non-GS1 key-value pairs")]
         [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
-        [Xunit.TraitAttribute("Description", "Compress uncompressed Digital Link with non-GS1 key-value pairs")]
-        public async System.Threading.Tasks.Task CompressUncompressedDigitalLinkWithNon_GS1Key_ValuePairs()
+        [Xunit.TraitAttribute("Description", "Partially compress uncompressed Digital Link with non-GS1 key-value pairs")]
+        public async System.Threading.Tasks.Task PartiallyCompressUncompressedDigitalLinkWithNon_GS1Key_ValuePairs()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress uncompressed Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 304
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -1478,12 +1478,48 @@ this.ScenarioInitialize(scenarioInfo);
                         "7=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 306
- await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+ await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 307
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 308
+ await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
+                        "donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Compress uncompressed Digital Link with non-GS1 key-value pairs")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Compress uncompressed Digital Link with non-GS1 key-value pairs")]
+        public async System.Threading.Tasks.Task CompressUncompressedDigitalLinkWithNon_GS1Key_ValuePairs()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 310
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 311
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123?1" +
+                        "7=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 312
+ await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 313
+ await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 314
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=true&donor=bmg" +
                         "f\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1502,7 +1538,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress uncompressed Digital Link with compressed non-GS1 key-value pa" +
                     "irs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 310
+#line 316
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1512,20 +1548,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 311
+#line 317
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123?1" +
                         "7=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 312
+#line 318
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 313
+#line 319
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 314
+#line 320
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 315
+#line 321
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG_BtV3sJbXc9" +
                         "4V2ieithG5oHw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1541,7 +1577,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with compressed non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 317
+#line 323
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1551,20 +1587,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 318
+#line 324
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123?1" +
                         "7=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 319
+#line 325
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 320
+#line 326
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 321
+#line 327
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 322
+#line 328
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etrue8K7RPRWwj" +
                         "c0D4\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1583,7 +1619,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with additional non-GS1 key-value pa" +
                     "irs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 324
+#line 330
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1593,17 +1629,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 325
+#line 331
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG" +
                         "w?arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 326
+#line 332
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 327
+#line 333
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 328
+#line 334
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1619,7 +1655,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with additional non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 330
+#line 336
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1629,17 +1665,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 331
+#line 337
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=tru" +
                         "e&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 332
+#line 338
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 333
+#line 339
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 334
+#line 340
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1658,7 +1694,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with additional non-GS1 key-value pa" +
                     "irs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 336
+#line 342
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1668,17 +1704,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 337
+#line 343
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=tru" +
                         "e&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 338
+#line 344
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 339
+#line 345
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 340
+#line 346
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
                         "donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1697,7 +1733,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with compressed non-GS1 key-value pa" +
                     "irs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 342
+#line 348
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1707,20 +1743,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 343
+#line 349
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG" +
                         "w?arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 344
+#line 350
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 345
+#line 351
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 346
+#line 352
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 347
+#line 353
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1736,7 +1772,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with compressed non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 349
+#line 355
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1746,20 +1782,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 350
+#line 356
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=tru" +
                         "e&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 351
+#line 357
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 352
+#line 358
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 353
+#line 359
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 354
+#line 360
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1778,7 +1814,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
                     "irs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 356
+#line 362
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1788,20 +1824,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 357
+#line 363
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=tru" +
                         "e&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 358
+#line 364
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 359
+#line 365
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 360
+#line 366
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 361
+#line 367
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG_BtV3sJbXc9" +
                         "4V2ieithG5oHw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1820,7 +1856,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link containing compressed non-GS1 key-va" +
                     "lue pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 363
+#line 369
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1830,17 +1866,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 364
+#line 370
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG" +
                         "_BtV3sJbXc94V2ieithG5oHw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 365
+#line 371
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 366
+#line 372
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 367
+#line 373
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1856,7 +1892,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link containing compressed non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 369
+#line 375
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1866,17 +1902,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 370
+#line 376
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etr" +
                         "ue8K7RPRWwjc0D4\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 371
+#line 377
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 372
+#line 378
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 373
+#line 379
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1895,45 +1931,6 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link containing compressed non-GS1 key-va" +
                     "lue pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 375
-this.ScenarioInitialize(scenarioInfo);
-#line hidden
-            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
-            {
-                testRunner.SkipScenario();
-            }
-            else
-            {
-                await this.ScenarioStartAsync();
-#line 376
- await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etr" +
-                        "ue8K7RPRWwjc0D4\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
-#line hidden
-#line 377
- await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 378
- await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
-#line hidden
-#line 379
- await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
-                        "donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
-#line hidden
-            }
-            await this.ScenarioCleanupAsync();
-        }
-        
-        [Xunit.SkippableFactAttribute(DisplayName="Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
-            "irs - specify compression of other key-value pairs")]
-        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
-        [Xunit.TraitAttribute("Description", "Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
-            "irs - specify compression of other key-value pairs")]
-        public async System.Threading.Tasks.Task PartiallyDecompressCompressedDigitalLinkWithCompressedNon_GS1Key_ValuePairs_SpecifyCompressionOfOtherKey_ValuePairs()
-        {
-            string[] tagsOfScenario = ((string[])(null));
-            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
-                    "irs - specify compression of other key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 381
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -1952,12 +1949,51 @@ this.ScenarioInitialize(scenarioInfo);
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
 #line 384
- await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
-#line hidden
-#line 385
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 386
+#line 385
+ await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
+                        "donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
+            "irs - specify compression of other key-value pairs")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
+            "irs - specify compression of other key-value pairs")]
+        public async System.Threading.Tasks.Task PartiallyDecompressCompressedDigitalLinkWithCompressedNon_GS1Key_ValuePairs_SpecifyCompressionOfOtherKey_ValuePairs()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with compressed non-GS1 key-value pa" +
+                    "irs - specify compression of other key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 387
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 388
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etr" +
+                        "ue8K7RPRWwjc0D4\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 389
+ await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 390
+ await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 391
+ await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 392
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuG_BtV3sJbXc9" +
                         "4V2ieithG5oHw\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -1981,7 +2017,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLinkUri", digitalLinkUri);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non key-value data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 388
+#line 394
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1991,19 +2027,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 389
+#line 395
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 390
+#line 396
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 391
+#line 397
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 392
+#line 398
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 393
+#line 399
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2029,7 +2065,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non key-value data and no compression of " +
                     "non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 401
+#line 407
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2039,16 +2075,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 402
+#line 408
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 403
+#line 409
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 404
+#line 410
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 405
+#line 411
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2071,7 +2107,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLinkUri", digitalLinkUri);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with non key-value data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 413
+#line 419
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2081,16 +2117,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 414
+#line 420
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 415
+#line 421
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 416
+#line 422
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 417
+#line 423
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2116,7 +2152,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with non key-value data and uncompressed non-G" +
                     "S1 key-pair values", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 425
+#line 431
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2126,16 +2162,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 426
+#line 432
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 427
+#line 433
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 428
+#line 434
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 429
+#line 435
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2161,7 +2197,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with non key-value data and compress" +
                     " non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 437
+#line 443
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2171,19 +2207,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 438
+#line 444
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 439
+#line 445
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 440
+#line 446
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 441
+#line 447
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 442
+#line 448
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2206,7 +2242,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLinkUri", digitalLinkUri);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with non key-value data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 451
+#line 457
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2216,16 +2252,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 452
+#line 458
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 453
+#line 459
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 454
+#line 460
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 455
+#line 461
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2252,7 +2288,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with non key-value data and compress" +
                     "ed non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 463
+#line 469
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2262,16 +2298,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 464
+#line 470
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 465
+#line 471
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 466
+#line 472
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 467
+#line 473
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2298,7 +2334,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with non key-value data and uncompre" +
                     "ssed non-GS1 key-pair values", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 475
+#line 481
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2308,16 +2344,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 476
+#line 482
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 477
+#line 483
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 478
+#line 484
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 479
+#line 485
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2345,7 +2381,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non key-value data and fragment specifier" +
                     "", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 487
+#line 493
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2355,19 +2391,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 488
+#line 494
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 489
+#line 495
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 490
+#line 496
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 491
+#line 497
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 492
+#line 498
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2395,7 +2431,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress uncompressed Digital Link with non key-value data and no compression of " +
                     "non-GS1 key-value pairs and fragment specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 501
+#line 507
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2405,16 +2441,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 502
+#line 508
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 503
+#line 509
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 504
+#line 510
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 505
+#line 511
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2442,7 +2478,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with non key-value data and fragment specifier" +
                     "", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 514
+#line 520
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2452,16 +2488,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 515
+#line 521
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 516
+#line 522
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 517
+#line 523
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 518
+#line 524
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2489,7 +2525,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress compressed Digital Link with non key-value data and uncompressed non-G" +
                     "S1 key-pair values and fragment specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 527
+#line 533
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2499,16 +2535,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 528
+#line 534
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 529
+#line 535
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 530
+#line 536
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 531
+#line 537
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2536,7 +2572,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with non key-value data and compress" +
                     "ed non-GS1 key-value pairs and fragment specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 540
+#line 546
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2546,19 +2582,19 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 541
+#line 547
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 542
+#line 548
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 543
+#line 549
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 544
+#line 550
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 545
+#line 551
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2586,7 +2622,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially decompress compressed Digital Link with non key-value data and fragment" +
                     " specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 555
+#line 561
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2596,16 +2632,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 556
+#line 562
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 557
+#line 563
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 558
+#line 564
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 559
+#line 565
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2633,7 +2669,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with non key-value data and compress" +
                     "ed non-GS1 key-value pairs and fragment specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 568
+#line 574
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2643,16 +2679,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 569
+#line 575
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 570
+#line 576
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 571
+#line 577
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 572
+#line 578
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2680,7 +2716,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("compressedDigitalLinkUri", compressedDigitalLinkUri);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Decompress partially compressed Digital Link with non key-value data and uncompre" +
                     "ssed non-GS1 key-pair values and fragment specifier", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 581
+#line 587
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2690,16 +2726,16 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 582
+#line 588
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 583
+#line 589
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 584
+#line 590
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 585
+#line 591
  await testRunner.ThenAsync(string.Format("the result should be \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -2728,7 +2764,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("fragmentSpecifier", fragmentSpecifier);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract data from a GS1 Digital Link with non key-value data and fragment specifi" +
                     "er", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 595
+#line 601
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2738,10 +2774,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 596
+#line 602
  await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLinkUri), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 597
+#line 603
  await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table31 = new global::Reqnroll.Table(new string[] {
@@ -2759,7 +2795,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table31.AddRow(new string[] {
                             "FragmentSpecifier",
                             string.Format("{0}", fragmentSpecifier)});
-#line 598
+#line 604
  await testRunner.ThenAsync("the data result should be:", ((string)(null)), table31, "Then ");
 #line hidden
             }
@@ -2774,7 +2810,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Optimised Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 612
+#line 618
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2799,7 +2835,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table32.AddRow(new string[] {
                             "21",
                             "R759025244015BJ"});
-#line 613
+#line 619
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table32, "Given ");
 #line hidden
                 global::Reqnroll.Table table33 = new global::Reqnroll.Table(new string[] {
@@ -2811,19 +2847,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table33.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 619
+#line 625
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table33, "And ");
 #line hidden
-#line 623
+#line 629
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 624
+#line 630
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 625
+#line 631
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 626
+#line 632
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123/21/R75902524" +
                         "4015BJ?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -2839,7 +2875,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Optimised partially compressed Digital Link with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 628
+#line 634
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2864,7 +2900,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table34.AddRow(new string[] {
                             "21",
                             "R759025244015BJ"});
-#line 629
+#line 635
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table34, "Given ");
 #line hidden
                 global::Reqnroll.Table table35 = new global::Reqnroll.Table(new string[] {
@@ -2876,19 +2912,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table35.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 635
+#line 641
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table35, "And ");
 #line hidden
-#line 639
+#line 645
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 640
+#line 646
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 641
+#line 647
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 642
+#line 648
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGyFvR7590252" +
                         "44015BJ?arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -2906,7 +2942,7 @@ this.ScenarioInitialize(scenarioInfo);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Optimised compressed Digital Link with non-GS1 key-value pairs", "\t\t  unoptimised: https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DZC3o98-6bc7ccaa8gkg?arv=t" +
                     "rue&donor=bmgf\r\n\t\t  optimised:   https://id.gs1.org/GgnYUc1gmo1Xgkbej3z7ptztxxpr" +
                     "yCSjcNg?arv=true&donor=bmgf", tagsOfScenario, argumentsOfScenario, featureTags);
-#line 644
+#line 650
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2931,7 +2967,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table36.AddRow(new string[] {
                             "21",
                             "R759025244015BJ"});
-#line 647
+#line 653
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table36, "Given ");
 #line hidden
                 global::Reqnroll.Table table37 = new global::Reqnroll.Table(new string[] {
@@ -2943,19 +2979,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table37.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 653
+#line 659
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table37, "And ");
 #line hidden
-#line 657
+#line 663
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 658
+#line 664
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 659
+#line 665
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 660
+#line 666
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/GgnYUc1gmo1Xgkbej3z7ptztxxpryCSjcNg?arv=" +
                         "true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -2971,7 +3007,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Optimised Digital Link from element string with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 662
+#line 668
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -2981,7 +3017,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 663
+#line 669
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)290331(21)R7590252" +
                         "44015BJ\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -2994,19 +3030,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table38.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 664
+#line 670
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table38, "And ");
 #line hidden
-#line 668
+#line 674
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 669
+#line 675
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 670
+#line 676
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 671
+#line 677
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123/21/R75902524" +
                         "4015BJ?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3025,7 +3061,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Optimised partially compressed Digital Link from element string with non-GS1 key-" +
                     "value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 673
+#line 679
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3035,7 +3071,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 674
+#line 680
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)290331(21)R7590252" +
                         "44015BJ\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -3048,19 +3084,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table39.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 675
+#line 681
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table39, "And ");
 #line hidden
-#line 679
+#line 685
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 680
+#line 686
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 681
+#line 687
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 682
+#line 688
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGyFvR7590252" +
                         "44015BJ?arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3081,7 +3117,7 @@ this.ScenarioInitialize(scenarioInfo);
                     "s", "\t\t  unoptimised: https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DZC3o98-6bc7ccaa8gkg?arv=t" +
                     "rue&donor=bmgf\r\n\t\t  optimised:   https://id.gs1.org/GgnYUc1gmo1Xgkbej3z7ptztxxpr" +
                     "yCSjcNg?arv=true&donor=bmgf", tagsOfScenario, argumentsOfScenario, featureTags);
-#line 684
+#line 690
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3091,7 +3127,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 687
+#line 693
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)290331(21)R7590252" +
                         "44015BJ\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -3104,19 +3140,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table40.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 688
+#line 694
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table40, "And ");
 #line hidden
-#line 692
+#line 698
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 693
+#line 699
  await testRunner.AndAsync("optimisation", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 694
+#line 700
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 695
+#line 701
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/GgnYUc1gmo1Xgkbej3z7ptztxxpryCSjcNg?arv=" +
                         "true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3132,7 +3168,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link with non-GS1 key-value pairs and other content", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 697
+#line 703
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3154,7 +3190,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table41.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 698
+#line 704
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table41, "Given ");
 #line hidden
                 global::Reqnroll.Table table42 = new global::Reqnroll.Table(new string[] {
@@ -3166,19 +3202,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table42.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 703
+#line 709
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table42, "And ");
 #line hidden
-#line 707
+#line 713
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 708
+#line 714
  await testRunner.AndAsync("other query content: \"abc=123&someotherparameter&xyz=321\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 709
+#line 715
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 710
+#line 716
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&ar" +
                         "v=true&donor=bmgf&abc=123&xyz=321&someotherparameter\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3194,7 +3230,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compressed Digital Link with non-GS1 key-value pairs and other content", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 712
+#line 718
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3216,7 +3252,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table43.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 713
+#line 719
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table43, "Given ");
 #line hidden
                 global::Reqnroll.Table table44 = new global::Reqnroll.Table(new string[] {
@@ -3228,19 +3264,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table44.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 718
+#line 724
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table44, "And ");
 #line hidden
-#line 722
+#line 728
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 723
+#line 729
  await testRunner.AndAsync("other query content: \"abc=123&someotherparameter&xyz=321\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 724
+#line 730
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 725
+#line 731
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&" +
                         "donor=bmgf&abc=123&xyz=321&someotherparameter\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3256,7 +3292,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compressed Digital Link with non-GS1 key-value pairs and other content", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 727
+#line 733
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3278,7 +3314,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table45.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 728
+#line 734
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table45, "Given ");
 #line hidden
                 global::Reqnroll.Table table46 = new global::Reqnroll.Table(new string[] {
@@ -3290,19 +3326,19 @@ this.ScenarioInitialize(scenarioInfo);
                 table46.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 733
+#line 739
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table46, "And ");
 #line hidden
-#line 737
+#line 743
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 738
+#line 744
  await testRunner.AndAsync("other query content: \"abc=123&someotherparameter&xyz=321\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 739
+#line 745
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 740
+#line 746
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=true&donor=bmg" +
                         "f&abc=123&xyz=321&someotherparameter\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3321,7 +3357,7 @@ this.ScenarioInitialize(scenarioInfo);
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compressed Digital Link with compressed non-GS1 key-value pairs and other content" +
                     "", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 742
+#line 748
  this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3343,7 +3379,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table47.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 743
+#line 749
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table47, "Given ");
 #line hidden
                 global::Reqnroll.Table table48 = new global::Reqnroll.Table(new string[] {
@@ -3355,22 +3391,22 @@ this.ScenarioInitialize(scenarioInfo);
                 table48.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 748
+#line 754
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table48, "And ");
 #line hidden
-#line 752
+#line 758
  await testRunner.AndAsync("compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 753
+#line 759
  await testRunner.AndAsync("compress other key-value pairs", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 754
+#line 760
  await testRunner.AndAsync("other query content: \"abc=123&someotherparameter&xyz=321\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 755
+#line 761
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 756
+#line 762
  await testRunner.ThenAsync("the result should be \"https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etrue8K7RPRWwj" +
                         "c0D_g2m3ADHvweOWYBqC?someotherparameter\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3386,7 +3422,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (check digit) element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 758
+#line 764
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3396,21 +3432,21 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 759
+#line 765
  await testRunner.GivenAsync("the following element string: \"(01)05412345000012(10)ABC123(17)290331\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 760
+#line 766
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 761
+#line 767
     await testRunner.ThenAsync("an exception with message \"The value 05412345000012 is invalid for AI 01.\" is thr" +
                         "own", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 762
+#line 768
  await testRunner.AndAsync("an exception with message \"The value 05412345000012 has an invalid checksum.\" is " +
                         "thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 763
+#line 769
  await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3426,7 +3462,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (disallowed character) element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 765
+#line 771
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3436,25 +3472,25 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 766
+#line 772
  await testRunner.GivenAsync("the following element string: \"(01)0541234B000013(10)ABC123(17)290331\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 767
+#line 773
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 768
+#line 774
     await testRunner.ThenAsync("an exception with message \"The value 0541234B000013 is invalid for AI 01.\" is thr" +
                         "own", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 769
+#line 775
  await testRunner.AndAsync("an exception with message \"The value 0541234B000013 does not match the specified " +
                         "pattern for the data element.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 770
+#line 776
  await testRunner.AndAsync("an exception with message \"The value 0541234B000013 has an invalid checksum.\" is " +
                         "thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 771
+#line 777
  await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3470,7 +3506,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid date) element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 773
+#line 779
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3480,20 +3516,20 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 774
+#line 780
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)294731\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 775
+#line 781
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 776
+#line 782
     await testRunner.ThenAsync("an exception with message \"The value 294731 is invalid for AI 17.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 777
+#line 783
  await testRunner.AndAsync("an exception with message \"The value 294731 does not match the specified pattern " +
                         "for the data element.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 778
+#line 784
  await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3509,7 +3545,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid data (invalid date)", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 780
+#line 786
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3531,20 +3567,20 @@ this.ScenarioInitialize(scenarioInfo);
                 table49.AddRow(new string[] {
                             "17",
                             "290366"});
-#line 781
+#line 787
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table49, "Given ");
 #line hidden
-#line 786
+#line 792
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 787
+#line 793
     await testRunner.ThenAsync("an exception with message \"The value 290366 is invalid for AI 17.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 788
+#line 794
     await testRunner.AndAsync("an exception with message \"The value 290366 does not match the specified pattern " +
                         "for the data element.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 789
+#line 795
     await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3560,7 +3596,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid data (check digit)", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 791
+#line 797
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3582,21 +3618,21 @@ this.ScenarioInitialize(scenarioInfo);
                 table50.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 792
+#line 798
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table50, "Given ");
 #line hidden
-#line 797
+#line 803
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 798
+#line 804
     await testRunner.ThenAsync("an exception with message \"The value 05412345000012 is invalid for AI 01.\" is thr" +
                         "own", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 799
+#line 805
     await testRunner.AndAsync("an exception with message \"The value 05412345000012 has an invalid checksum.\" is " +
                         "thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 800
+#line 806
     await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3612,7 +3648,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid data (no AI)", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 802
+#line 808
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3631,13 +3667,13 @@ this.ScenarioInitialize(scenarioInfo);
                 table51.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 803
+#line 809
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table51, "Given ");
 #line hidden
-#line 807
+#line 813
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 808
+#line 814
     await testRunner.ThenAsync("an exception with message \"No key identifier found in the GS1 DigitalLink URI pat" +
                         "h information.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3653,7 +3689,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid data (invalid sequence)", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 810
+#line 816
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3681,13 +3717,13 @@ this.ScenarioInitialize(scenarioInfo);
                 table52.AddRow(new string[] {
                             "235",
                             "7BRT873085HF7298"});
-#line 811
+#line 817
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table52, "Given ");
 #line hidden
-#line 818
+#line 824
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 819
+#line 825
     await testRunner.ThenAsync("an exception with message \"Invalid sequence of key qualifiers found in the GS1 Di" +
                         "gitalLink URI path information.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3703,7 +3739,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid sequence) element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 821
+#line 827
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3713,14 +3749,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 822
+#line 828
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)290331(22)05412345" +
                         "0000130123(235)7BRT873085HF7298\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 823
+#line 829
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 824
+#line 830
     await testRunner.ThenAsync("an exception with message \"Invalid sequence of key qualifiers found in the GS1 Di" +
                         "gitalLink URI path information.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3736,7 +3772,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid sequence) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 826
+#line 832
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3746,14 +3782,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 827
+#line 833
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
                         "2/054123450000130123/235/7BRT873085HF7298?17=290331\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 828
+#line 834
  await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 829
+#line 835
     await testRunner.ThenAsync("an exception with message \"Invalid sequence of key qualifiers found in the GS1 Di" +
                         "gitalLink URI path information.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3769,7 +3805,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid sequence) Digital Link during compression", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 831
+#line 837
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3779,19 +3815,183 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 832
+#line 838
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
                         "2/054123450000130123/235/7BRT873085HF7298?17=290331\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 833
+#line 839
  await testRunner.AndAsync("partial compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 834
+#line 840
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 835
+#line 841
     await testRunner.ThenAsync("an exception with message \"Invalid sequence of key qualifiers found in the GS1 Di" +
                         "gitalLink URI path information.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Digital Link from invalid (invalid scheme) Digital Link")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Digital Link from invalid (invalid scheme) Digital Link")]
+        public async System.Threading.Tasks.Task DigitalLinkFromInvalidInvalidSchemeDigitalLink()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid scheme) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 843
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 844
+ await testRunner.GivenAsync("the following Digital Link URI: \"sptth://id.gs1.org/01/05412345000013/10/ABC123/2" +
+                        "1/R759025244015BJ?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 845
+ await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 846
+    await testRunner.ThenAsync("an exception with message \"The Digital Link scheme \'sptth\' is not recognised. It " +
+                        "must be https or http.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Digital Link from invalid (invalid GS1 key-value - key) Digital Link")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Digital Link from invalid (invalid GS1 key-value - key) Digital Link")]
+        public async System.Threading.Tasks.Task DigitalLinkFromInvalidInvalidGS1Key_Value_KeyDigitalLink()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid GS1 key-value - key) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 848
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 849
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/09520123456788?5999=000195" +
+                        "&3922=0299&17=291225\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 850
+ await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 851
+    await testRunner.ThenAsync("an exception with message \"\'5999=000195\' is invalid. Non-GS1 key values must not " +
+                        "be all-numeric.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Digital Link from invalid (invalid GS1 key-value - value) Digital Link")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Digital Link from invalid (invalid GS1 key-value - value) Digital Link")]
+        public async System.Threading.Tasks.Task DigitalLinkFromInvalidInvalidGS1Key_Value_ValueDigitalLink()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid GS1 key-value - value) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 853
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 854
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/09520123456788?3103=000195" +
+                        "7&3922=0299&17=291225\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 855
+ await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 856
+    await testRunner.ThenAsync("an exception with message \"Invalid syntax for value 0001957 of (3103)\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Digital Link from invalid (invalid non-GS1 key-value - value) Digital Link")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Digital Link from invalid (invalid non-GS1 key-value - value) Digital Link")]
+        public async System.Threading.Tasks.Task DigitalLinkFromInvalidInvalidNon_GS1Key_Value_ValueDigitalLink()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid non-GS1 key-value - value) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 858
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 859
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
+                        "1/R759025244015BJ?17=290331&arv=true&donor=[bmgf]\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 860
+ await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 861
+    await testRunner.ThenAsync("an exception with message \"\'donor=[bmgf]\' is invalid. The parameter contains inco" +
+                        "rrectly unencoded characters.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Digital Link from invalid (invalid non-GS1 key-value pair - key) Digital Link")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Digital Link from invalid (invalid non-GS1 key-value pair - key) Digital Link")]
+        public async System.Threading.Tasks.Task DigitalLinkFromInvalidInvalidNon_GS1Key_ValuePair_KeyDigitalLink()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid (invalid non-GS1 key-value pair - key) Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 863
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 864
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
+                        "1/R759025244015BJ?17=290331&arv=true&[donor]=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 865
+ await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 866
+    await testRunner.ThenAsync("an exception with message \"\'[donor]=bmgf\' is invalid. The parameter contains inco" +
+                        "rrectly unencoded characters.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -3805,7 +4005,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from invalid data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 837
+#line 868
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3815,17 +4015,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 838
+#line 869
  await testRunner.GivenAsync("the following Digital Link URI: \"RY9V0U42Y325UR5723YY2YRWUIWERYWEWIBYRIHDYPW0NVEW" +
                         "9UT34YTYUTURIEWVUOIWETU\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 839
+#line 870
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 840
+#line 871
  await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 841
+#line 872
     await testRunner.ThenAsync("an exception with message \"Unable to determine the form of the Digital Link.\" is " +
                         "thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3841,7 +4041,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from element string with invalid data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 843
+#line 874
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3851,17 +4051,17 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 844
+#line 875
  await testRunner.GivenAsync("the following element string: \"RY9V0U42Y325UR5723YY2YRWUIWERYWEWIBYRIHDYPW0NVEW9U" +
                         "T34YTYUTURIEWVUOIWETU\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 845
+#line 876
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 846
+#line 877
     await testRunner.ThenAsync("an exception with message \"Invalid application identifier RY.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
-#line 847
+#line 878
     await testRunner.AndAsync("an exception with message \"The barcode contains invalid or unrecognised data.\" is" +
                         " thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
@@ -3877,7 +4077,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from element string with MH10.8.2 data", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 849
+#line 880
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3887,14 +4087,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 850
+#line 881
  await testRunner.GivenAsync("the following element string: \"[)><RS>06<GS>9N110186865770<GS>1TABC123<GS>D290331" +
                         "<GS>SR759025244015BJ<RS><EOT>\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 851
+#line 882
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 852
+#line 883
     await testRunner.ThenAsync("an exception with message \"The element string \'[)>069N1101868657701TABC123D29" +
                         "0331SR759025244015BJ\' does not represent GS1 Digital Link data.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3910,7 +4110,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link with invalid non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 854
+#line 885
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3932,7 +4132,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table53.AddRow(new string[] {
                             "17",
                             "290331"});
-#line 855
+#line 886
  await testRunner.GivenAsync("the following AIs:", ((string)(null)), table53, "Given ");
 #line hidden
                 global::Reqnroll.Table table54 = new global::Reqnroll.Table(new string[] {
@@ -3944,16 +4144,16 @@ this.ScenarioInitialize(scenarioInfo);
                 table54.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 860
+#line 891
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table54, "And ");
 #line hidden
-#line 864
+#line 895
  await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
 #line hidden
-#line 865
+#line 896
  await testRunner.WhenAsync("I build a GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 866
+#line 897
     await testRunner.ThenAsync("an exception with message \"\'999=true\' is invalid. Non-GS1 key values must not be " +
                         "all-numeric.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -3969,7 +4169,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Digital Link from element string with invalid non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 868
+#line 899
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -3979,7 +4179,7 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 869
+#line 900
  await testRunner.GivenAsync("the following element string: \"(01)05412345000013(10)ABC123(17)290331(22)05412345" +
                         "0000130123\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
@@ -3992,13 +4192,13 @@ this.ScenarioInitialize(scenarioInfo);
                 table55.AddRow(new string[] {
                             "donor",
                             "bmgf"});
-#line 870
+#line 901
  await testRunner.AndAsync("the following non-GS1 key-value pairs:", ((string)(null)), table55, "And ");
 #line hidden
-#line 874
+#line 905
  await testRunner.WhenAsync("I translate the element string to a Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 875
+#line 906
     await testRunner.ThenAsync("an exception with message \"\'999=true\' is invalid. Non-GS1 key values must not be " +
                         "all-numeric.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -4014,7 +4214,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Data from Digital Link string with invalid non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 877
+#line 908
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -4024,14 +4224,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 878
+#line 909
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
                         "2/054123450000130123?17=290331&999=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 879
+#line 910
  await testRunner.WhenAsync("I extract data from the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 880
+#line 911
     await testRunner.ThenAsync("an exception with message \"\'999=true\' is invalid. Non-GS1 key values must not be " +
                         "all-numeric.\" is thrown", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
@@ -4047,7 +4247,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Analysis of Digital Link string with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 882
+#line 913
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -4057,11 +4257,11 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 883
+#line 914
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
                         "2/054123450000130123?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 884
+#line 915
  await testRunner.WhenAsync("I analyse the GS1 Digital Link URI", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table56 = new global::Reqnroll.Table(new string[] {
@@ -4082,7 +4282,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table56.AddRow(new string[] {
                             "UriStem",
                             "https://id.gs1.org"});
-#line 885
+#line 916
  await testRunner.ThenAsync("the analysis should contain:", ((string)(null)), table56, "Then ");
 #line hidden
             }
@@ -4097,7 +4297,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Semantic analysis of Digital Link string with non-GS1 key-value pairs", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 893
+#line 924
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -4107,11 +4307,11 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 894
+#line 925
  await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/01/05412345000013/10/ABC123/2" +
                         "2/054123450000130123?17=290331&arv=true&donor=bmgf\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 895
+#line 926
  await testRunner.WhenAsync("I analyse the semantics of the GS1 Digital Link URI", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table57 = new global::Reqnroll.Table(new string[] {
@@ -4135,8 +4335,43 @@ this.ScenarioInitialize(scenarioInfo);
                 table57.AddRow(new string[] {
                             "gs1:elementStrings",
                             "(01)05412345000013(22)054123450000130123(10)ABC123(17)290331"});
-#line 896
+#line 927
  await testRunner.ThenAsync("the semantic analysis should contain:", ((string)(null)), table57, "Then ");
+#line hidden
+            }
+            await this.ScenarioCleanupAsync();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Ensure trailing slashes are tolerated")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdditionalUriContent")]
+        [Xunit.TraitAttribute("Description", "Ensure trailing slashes are tolerated")]
+        public async System.Threading.Tasks.Task EnsureTrailingSlashesAreTolerated()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Ensure trailing slashes are tolerated", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 936
+this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                await this.ScenarioStartAsync();
+#line 937
+ await testRunner.GivenAsync("the following Digital Link URI: \"https://id.gs1.org/resolve/01/05412345000013/10/" +
+                        "ABC123/\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
+#line hidden
+#line 938
+ await testRunner.AndAsync("no compression", ((string)(null)), ((global::Reqnroll.Table)(null)), "And ");
+#line hidden
+#line 939
+ await testRunner.WhenAsync("I change the compression level of the GS1 Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line hidden
+#line 940
+ await testRunner.ThenAsync("the result should be \"https://id.gs1.org/resolve/01/05412345000013/10/ABC123\"", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();

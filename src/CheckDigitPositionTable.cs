@@ -49,7 +49,7 @@ public class CheckDigitPositionTable : IReadOnlyDictionary<string, CheckDigitPos
     /// </summary>
     static CheckDigitPositionTable() {
 
-        _checkDigitPositions = DigitalLinkConvert.AiCheckDigitPositions;
+        _checkDigitPositions = Gs1DigitalLinkConvert.AiCheckDigitPositions;
         _checkDigitPositionValuesSparse = from v in _checkDigitPositions.Values
                                           select (CheckDigitPosition?)v;
         _checkDigitPositionValues = from v in _checkDigitPositionValuesSparse

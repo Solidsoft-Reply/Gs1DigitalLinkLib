@@ -47,7 +47,7 @@
   Scenario: Handle invalid AI value syntax (bracketed)
     Given I have a bracketed GS1 element string "(01)05412345000013(15)ABCDEF"
     When I extract AIs and values
-    Then an exception with message "The value ABCDEF is invalid for AI 15." is thrown
+    Then an exception with message "The value ABCDEF is invalid for AI 15" is thrown
 
   Scenario: Handle invalid AI value syntax (unbracketed)
     Given I have an unbracketed GS1 element string "010541234500001310ABC123<GS>15ABCDEF"

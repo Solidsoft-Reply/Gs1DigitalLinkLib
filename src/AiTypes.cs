@@ -26,7 +26,7 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 /// </summary>
 public enum AiTypes {
     /// <summary>
-    /// AI used a a key identifier.
+    /// AI used as a key identifier.
     /// </summary>
     Identifier,
 

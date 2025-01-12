@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------
-// <copyright file="UriAnalytics.cs" company="Solidsoft Reply Ltd.">
+// <copyright file="UriAnalysis.cs" company="Solidsoft Reply Ltd.">
 // Copyright © 2025 Solidsoft Reply Ltd. All rights reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ using System.Text.Json.Serialization;
 /// <summary>
 /// The result of analysis of a Digital Link URI.
 /// </summary>
-public record UriAnalytics {
+public record UriAnalysis {
 
     /// <summary>
     /// Gets the URI stem.
@@ -36,6 +36,22 @@ public record UriAnalytics {
     [JsonProperty("uriStem")]
     [JsonPropertyName("uriStem")]
     public string UriStem { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets the URI scheme.
+    /// </summary>
+    [JsonProperty("scheme")]
+    [JsonPropertyName("scheme")]
+    public string Scheme { get; init; } = string.Empty;
+
+    /// <summary>
+    /// Gets the URI hostname.
+    /// </summary>
+    [JsonProperty("hostname")]
+    [JsonPropertyName("hostname")]
+#pragma warning disable VSSpell001 // Spell Check
+    public string Hostname { get; init; } = string.Empty;
+#pragma warning restore VSSpell001 // Spell Check
 
     /// <summary>
     /// Gets the URI path components.
@@ -136,7 +152,7 @@ public record UriAnalytics {
     public IReadOnlyDictionary<string, string> NonIdMap { get; init; } = new Dictionary<string, string>();
 
     /// <summary>
-    /// Gets the structured output. This is a structured representation of the GS1 elements in the Digital Link.
+    /// Gets a structured representation of the GS1 elements in the Digital Link.
     /// </summary>
     [JsonProperty("structuredData")]
     [JsonPropertyName("structuredData")]
