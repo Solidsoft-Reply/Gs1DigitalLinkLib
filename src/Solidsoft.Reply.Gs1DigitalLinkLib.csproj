@@ -33,7 +33,6 @@
   <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
 
-
 	<ItemGroup>
     <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
     <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" />
