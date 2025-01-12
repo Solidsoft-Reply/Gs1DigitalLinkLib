@@ -47,12 +47,12 @@ public class Gs1DigitalLink {
         if (string.IsNullOrWhiteSpace((string)gs1DigitalLinkUriOrElementString)) {
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, nameof(Gs1DigitalLinkLib.Gs1DigitalLinkData), nameof(gs1DigitalLinkUriOrElementStringAsSpan));
             var message = Resources.Errors.ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty;
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: _logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? _logger);
         }
 
         try {
             // Validate the Digital Link
-            Validate(gs1DigitalLinkUriOrElementString, nameof(Gs1DigitalLink), nameof(gs1DigitalLinkUriOrElementString));
+            Validate(gs1DigitalLinkUriOrElementString, nameof(Gs1DigitalLink), nameof(gs1DigitalLinkUriOrElementString), logger ?? _logger);
 
             // If we get here, the Digital Link is valid.
             Value = gs1DigitalLinkUriOrElementString;
@@ -67,7 +67,7 @@ public class Gs1DigitalLink {
             }
             catch {
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, nameof(Gs1DigitalLinkData), nameof(gs1DigitalLinkUriOrElementStringAsSpan));
-                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, gs1DlEx.Message, logger: _logger);
+                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, gs1DlEx.Message, logger: logger ?? _logger);
             }
         }
     }
@@ -180,13 +180,13 @@ public class Gs1DigitalLink {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
-    private void Validate(string uri, string methodName, string paramName) {
+    private void Validate(string uri, string methodName, string paramName, ILogger? logger = null) {
         var uriAnalysis = AnalyseUri(uri);
 
         if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
             var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: _logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? logger ?? _logger);
         }
         else if (uriAnalysis.DetectedForm != DigitalLinkForm.Uncompressed) {
             // Decompress the URI if it is compressed, and re-analyse it.

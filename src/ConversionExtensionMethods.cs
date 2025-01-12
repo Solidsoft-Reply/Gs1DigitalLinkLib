@@ -34,6 +34,7 @@ using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -180,15 +181,16 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="tenDigit">The six-digit date (YYMMDDhhmm).</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <returns>An XSD date representation.</returns>
     /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
-    public static string TenDigitToXsdDateTime(this string tenDigit, string methodName, string paramName) {
+    public static string TenDigitToXsdDateTime(this string tenDigit, string methodName, string paramName, ILogger? logger = null) {
         var dateRegex = RegexTenDigitDate();
 
         if (!dateRegex.IsMatch(tenDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddhhmmPattern, tenDigit);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
 
         var year = tenDigit[..2];
@@ -208,15 +210,16 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="twelveDigit">The (max) twelve-digit date (YYMMDDhh[mm][ss]).</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <returns>An XSD date representation.</returns>
     /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
-    public static string MaxTwelveDigitToXsdDateTime(this string twelveDigit, string methodName, string paramName) {
+    public static string MaxTwelveDigitToXsdDateTime(this string twelveDigit, string methodName, string paramName, ILogger? logger = null) {
         var dateRegex = RegexMaxTwelveDigitDate();
 
         if (!dateRegex.IsMatch(twelveDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddhhMmSsPattern, twelveDigit);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
 
         var year = twelveDigit[..2];
@@ -251,14 +254,15 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="sixDigit">The six-digit date (YYMMDD).</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <returns>An XSD date representation.</returns>
     /// <exception cref="Gs1DigitalLinkException">Invalid date representation.</exception>
-    public static string SixDigitToXsdDate(this string sixDigit, string methodName, string paramName) {
+    public static string SixDigitToXsdDate(this string sixDigit, string methodName, string paramName, ILogger? logger = null) {
         var dateRegex = RegexSixDigitDate();
         if (!dateRegex.IsMatch(sixDigit)) {
             var message = string.Format(Resources.Errors.ErrorMsgInput0ToDateConversionDidNotMatchValidYymmddPattern, sixDigit);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
 
         var year = sixDigit[..2];
@@ -282,7 +286,7 @@ internal static partial class ConversionExtensionMethods {
         if (int.Parse(day) > lastDay) {
             var message = string.Format(Resources.Errors.ErrorMsgInputDate0InvalidDdTooLargeForMm, sixDigit);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
 
         string intendedDate;
@@ -345,7 +349,7 @@ internal static partial class ConversionExtensionMethods {
     /// </summary>
     /// <param name="key">The GS1 AI.</param>
     /// <returns>A binary encoding.</returns>
-    public static string BinaryEncodingOfGS1AIKey(this string key) {
+    public static string BinaryEncodingOfGs1AIKey(this string key) {
         // Construct binary encoding of AI key as sequence of 4-bit digits.
         // This also supports hex values of key.
         var binAi = new StringBuilder();
@@ -561,20 +565,20 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
-    public static void VerifySyntax(this string ai, string value, string methodName, string paramName) {
+    public static void VerifySyntax(this string ai, string value, string methodName, string paramName, ILogger? logger = null) {
         try {
             if ((ai != null) && _regexAllNum.IsMatch(ai)) {
                 if (!Gs1DigitalLinkConvert.AiRegex[ai].IsMatch(value)) {
                     var message = string.Format(Resources.Errors.ErrorMsgInvalidSyntaxForValue0Of1, value, ai);
                     var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                    throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
                 }
             }
         }
         catch (KeyNotFoundException knfEx) {
             var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric, ai, value);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, knfEx, logger: Gs1DigitalLinkConvert.Logger);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, knfEx, logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
     }
 
@@ -586,7 +590,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
-    public static void VerifyGs1KeyPair(this string ai, string value, string methodName, string paramName) {
+    public static void VerifyGs1KeyPair(this string ai, string value, string methodName, string paramName, ILogger? logger = null) {
         var parsedData = Parsers.HighCapacityAidc.Parser.Parse($"{ai}{value}");
 
         if (parsedData.Exceptions.Any()) {
@@ -606,7 +610,7 @@ internal static partial class ConversionExtensionMethods {
                 Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier,
                 apiCall,
                 exceptionsMessage.ToString(),
-                logger: Gs1DigitalLinkConvert.Logger);
+                logger: logger ?? Gs1DigitalLinkConvert.Logger);
         }
     }
 
@@ -625,7 +629,8 @@ internal static partial class ConversionExtensionMethods {
         this string input,
         string? methodName,
         string? paramName,
-        bool noValidation) {
+        bool noValidation,
+        ILogger? logger = null) {
             // This regex finds sequences like (01), (3103), (3923), (10), etc.
             var aiPattern = RegexBracketedAiParser();
             var matches = aiPattern.Matches(input);
@@ -694,10 +699,12 @@ internal static partial class ConversionExtensionMethods {
     /// if none is provided.
     /// </summary>
     /// <param name="uriStem">The URI stem.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
     /// <returns>An absolute URI stem, favouring https: if no scheme is provided, or the
     /// default (canonical) stem if no URI stem is provided.</returns>
     /// <exception cref="UriFormatException">Thrown when the URI stem is not a valid relative or absolute URI.</exception>"
-    public static string GetNormalisedUriStem(this string? uriStem) {
+    public static string GetNormalisedUriStem(this string? uriStem, string methodName, string paramName, ILogger? logger = null) {
         uriStem = uriStem?.Trim() ?? null;
         const string canonicalStem = "https://id.gs1.org";
 
@@ -712,6 +719,9 @@ internal static partial class ConversionExtensionMethods {
                 };
         }
         catch (UriFormatException) {
+            var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkUriStem0IsInvalid, uriStem);
+            var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
+            throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             throw;
         }
 
@@ -757,13 +767,13 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid URI stem.</exception>
-    public static void ValidateUriStem(this string? uriStem, string methodName, string paramName) {
+    public static void ValidateUriStem(this string? uriStem, string methodName, string paramName, ILogger? logger = null) {
         // Validate the stem
         try {
             if (string.IsNullOrWhiteSpace(uriStem)) {
                 var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty);
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
 
             var uri = new Uri(uriStem);
@@ -772,13 +782,13 @@ internal static partial class ConversionExtensionMethods {
             if (scheme != "https" && scheme != "http") {
                 var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkScheme0IsNotRecognised, scheme);
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
         }
         catch (UriFormatException ufEx) {
             var message = string.Format(Resources.Errors.ErrorMsgTheDigitalLinkUriStem0IsInvalid, uriStem);
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, ufEx, Gs1DigitalLinkConvert.Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, ufEx, logger ?? Gs1DigitalLinkConvert.Logger);
         }
     }
 
@@ -790,7 +800,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid sequence membership.</exception>
-    public static void ValidateSequenceMembership(this List<string> aiSeq, string methodName, string paramName) {
+    public static void ValidateSequenceMembership(this List<string> aiSeq, string methodName, string paramName, ILogger? logger = null) {
         if (_pathSequenceConstraints.ContainsKey(aiSeq[0])) {
             var sequences = _pathSequenceConstraints[aiSeq[0]].ToList();
             var sequenceCounts = new Dictionary<int, int>();
@@ -809,7 +819,7 @@ internal static partial class ConversionExtensionMethods {
                  select sc.Value).ToList().Count > 1) {
                 var message = Resources.Errors.ErrorMsgInvalidSequenceOfKeyQualifiersFoundInTheGs1DigitallinkUriPathInformation;
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
         }
     }
@@ -821,7 +831,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid non-GS1 key-value pairs.</exception>
-    public static void ValidateNonGs1KeyValuePairs(this IReadOnlyDictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName) {
+    public static void ValidateNonGs1KeyValuePairs(this IReadOnlyDictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName, ILogger? logger = null) {
         // Validate the non-GS1 key value parameters.
         if (nonGs1KeyValuePairs != null && nonGs1KeyValuePairs.Count > 0) {
             foreach (var key in nonGs1KeyValuePairs.Keys) {
@@ -831,13 +841,13 @@ internal static partial class ConversionExtensionMethods {
                 // The key in a non-GS1 key-value param must contain at least one non-digit character
                 if (_regexAllNum.IsMatch(key)) {
                     var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidNonGs1KeyValuesMustNotBeAllNumeric, key, value);
-                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
                 }
 
                 // The key-value param is limited to unencoded certain characters and %-encoded hexadecimal values.
                 if (!_regexQueryStringKey.IsMatch(key) || !_regexQueryString.IsMatch(value)) {
                     var message = string.Format(Resources.Errors.ErrorMsg01IsInvalidTheParameterContainsIncorrectlyUnencodedCharacters, key, value);
-                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                    throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringKeyValuePair, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
                 }
             }
         }
@@ -851,7 +861,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid sequence order.</exception>
-    public static void ValidateSequenceOrder(this List<string> aiSeq, string methodName, string paramName) {
+    public static void ValidateSequenceOrder(this List<string> aiSeq, string methodName, string paramName, ILogger? logger = null) {
         // Check that the URI path components appear in the correct sequence
         if (_pathSequenceConstraints.ContainsKey(aiSeq[0])) {
             var invalidSequence = 0;
@@ -878,7 +888,7 @@ internal static partial class ConversionExtensionMethods {
             if (invalidSequence == sequences.Count) {
                 var message = Resources.Errors.ErrorMsgInvalidSequenceOfKeyQualifiersFoundInTheGs1DigitallinkUriPathInformation;
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
         }
     }
@@ -890,14 +900,14 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid non key-pair query string content.</exception>
-    public static void ValidateOtherQueryStringContent(this string otherQueryContent, string methodName, string paramName) {
+    public static void ValidateOtherQueryStringContent(this string otherQueryContent, string methodName, string paramName, ILogger? logger = null) {
         // Validate any other query string content.
         if (!string.IsNullOrWhiteSpace(otherQueryContent)) {
             // The query string content is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexQueryString.IsMatch(otherQueryContent)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheValueContainsIncorrectlyUnencodedCharacters, otherQueryContent);
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringContent, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidQueryStringContent, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
         }
     }
@@ -909,14 +919,14 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid fragment specifier.</exception>
-    public static void ValidateFragmentSpecifier(this string fragment, string methodName, string paramName) {
+    public static void ValidateFragmentSpecifier(this string fragment, string methodName, string paramName, ILogger? logger = null) {
         // Validate any fragment specifier.
         if (!string.IsNullOrWhiteSpace(fragment)) {
             // The fragment specifier is limited to unencoded certain characters and %-encoded hexadecimal values.
             if (!_regexFragments.IsMatch(fragment)) {
                 var message = string.Format(Resources.Errors.ErrorMsg0IsInvalidTheFragmentContainsIncorrectlyUnencodedCharacters, fragment);
                 var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                throw LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
             }
         }
     }

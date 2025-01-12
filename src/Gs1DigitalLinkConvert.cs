@@ -381,6 +381,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="noValidation">
     /// If true, the GS1 element string is not validated. The Digital Link data values may contain invalid AIs and AI values.
     /// </param>
+    /// <param name="logger">A logger.</param>
     /// <returns>GS1 Digital Link data.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     /// <remarks>The GS1 element string may be in one of two forms.
@@ -416,8 +417,8 @@ public static partial class Gs1DigitalLinkConvert {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1DigitalLinkData FromGs1ElementStringToDigitalLinkData(Gs1ElementString elementString, bool noValidation = false) =>
-        FromGs1ElementStringToDigitalLinkData(elementString.Value, noValidation);
+    public static Gs1DigitalLinkData FromGs1ElementStringToDigitalLinkData(Gs1ElementString elementString, bool noValidation = false, ILogger? logger = null) =>
+        FromGs1ElementStringToDigitalLinkData(elementString.Value, noValidation, logger ?? Logger);
 
     /// <summary>
     /// Translates a GS1 element string to data.
@@ -461,7 +462,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1DigitalLinkData FromGs1ElementStringToDigitalLinkData(string elementString, bool noValidation = false) {
+    public static Gs1DigitalLinkData FromGs1ElementStringToDigitalLinkData(string elementString, bool noValidation = false, ILogger? logger = null) {
 
         // Remove AIM symbology identifier if present
         elementString = RegexAimIdentifierDetector().Match(elementString).Groups["input"].Value;
@@ -473,7 +474,7 @@ public static partial class Gs1DigitalLinkConvert {
         if (initialParenthesisedAiDetector.IsMatch(elementString)) {
             // Assume that the input is a bracketed element string and convert
             // it to FNC1 format
-            elementString = elementString.ConvertParenthesesAIsToFnc1(nameof(FromGs1ElementStringToDigitalLinkData), nameof(elementString), noValidation);
+            elementString = elementString.ConvertParenthesesAIsToFnc1(nameof(FromGs1ElementStringToDigitalLinkData), nameof(elementString), noValidation, logger ?? Logger);
         }
 
         // Parse the element strings
@@ -481,13 +482,13 @@ public static partial class Gs1DigitalLinkConvert {
 
         if (!noValidation && !parsedData.IsRecognised) {
             var message = string.Format(Resources.Errors.ErrorMsgTheFormatOfTheElementString0IsNotRecognised, elementString);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: logger ?? Logger);
         }
 
         // Determine if the parsed data represents GS1 data
         if (!noValidation && parsedData.DataElements.FirstOrDefault()?.Format != FormatIndicator.Gs1Ai) {
             var message = string.Format(Resources.Errors.ErrorMsgTheElementString0DoesNotRepresentGs1DigitalLinkData, elementString);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, message, logger: logger ?? Logger);
         }
 
         // Build the exceptions list
@@ -501,7 +502,7 @@ public static partial class Gs1DigitalLinkConvert {
                 exceptionsMessage.Append($"\r\n{exception.ErrorNumber}{fatalSpecifier}: {exception.Message}");
             }
 
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, exceptionsMessage.ToString(), logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidElementString, apiCall, exceptionsMessage.ToString(), logger: logger ?? Logger);
         }
 
         // Extract the AI data
@@ -532,7 +533,8 @@ public static partial class Gs1DigitalLinkConvert {
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
-        bool compressNonGs1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false,
+        ILogger? logger = null) =>
            new (DoBuildGs1DigitalLink(
                     digitalLinkData.Gs1AIs,
                     uriStem,
@@ -544,7 +546,8 @@ public static partial class Gs1DigitalLinkConvert {
                     digitalLinkData.FragmentSpecifier,
                     nameof(FromGs1DigitalLinkDataToDigitalLinkWithShortNames),
                     nameof(digitalLinkData),
-                    true));
+                    true,
+                    logger ?? Logger));
 
     /// <summary>
     /// Translates GS1 Digital Link data to a Digital Link using short names.
@@ -568,7 +571,8 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null
+        , ILogger? logger = null) =>
            new (DoBuildGs1DigitalLink(
                     gs1DigitalLinkData,
                     uriStem,
@@ -580,7 +584,8 @@ public static partial class Gs1DigitalLinkConvert {
                     fragment,
                     nameof(FromGs1DigitalLinkDataToDigitalLinkWithShortNames),
                     nameof(gs1DigitalLinkData),
-                    true));
+                    true,
+                    logger ?? Logger));
 
     /// <summary>
     /// Translates GS1 Digital Link data into a Digital Link.
@@ -597,7 +602,8 @@ public static partial class Gs1DigitalLinkConvert {
         string? uriStem = null,
         DigitalLinkForm digitalLinkForm = DigitalLinkForm.Uncompressed,
         bool useOptimisations = false,
-        bool compressNonGs1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false
+        , ILogger? logger = null) =>
             new (DoBuildGs1DigitalLink(
                     digitalLinkData.Gs1AIs,
                     uriStem,
@@ -608,7 +614,8 @@ public static partial class Gs1DigitalLinkConvert {
                     digitalLinkData.OtherQueryStringContent,
                     digitalLinkData.FragmentSpecifier,
                     nameof(FromGs1DigitalLinkDataToDigitalLink),
-                    nameof(digitalLinkData)));
+                    nameof(digitalLinkData),
+                    logger: logger ?? Logger));
 
     /// <summary>
     /// Translates GS1 Digital Link data into a Digital Link.
@@ -631,7 +638,8 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null
+        , ILogger? logger = null) =>
             new (DoBuildGs1DigitalLink(
                     gs1DigitalLinkData,
                     uriStem,
@@ -642,15 +650,16 @@ public static partial class Gs1DigitalLinkConvert {
                     otherQueryContent,
                     fragment,
                     nameof(FromGs1DigitalLinkDataToDigitalLink),
-                    nameof(gs1DigitalLinkData)));
+                    nameof(gs1DigitalLinkData),
+                    logger: logger ?? Logger));
 
     /// <summary>
     /// Translates a GS1 Digital Link to data.
     /// </summary>
     /// <param name="digitalLink">The GS1 Digital Link.</param>
     /// <returns>GS1 Digital Link data.</returns>
-    public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this Gs1DigitalLink digitalLink) =>
-        new (digitalLink.Value.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(digitalLink)));
+    public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this Gs1DigitalLink digitalLink, ILogger? logger = null) =>
+        new (digitalLink.Value.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(digitalLink), logger: logger ?? Logger));
 
     /// <summary>
     /// Translates a GS1 Digital Link to data.
@@ -658,8 +667,8 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>GS1 Digital Link data.</returns>
     /// <exception cref="Gs1DigitalLinkException">Invalid GS1 Digital Link.</exception>
-    public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this string gs1DigitalLinkUri) =>
-        new (gs1DigitalLinkUri.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(gs1DigitalLinkUri)));
+    public static Gs1DigitalLinkData FromGs1DigitalLinkToData(this string gs1DigitalLinkUri, ILogger? logger = null) =>
+        new (gs1DigitalLinkUri.DoExtractAIsFromGs1DigitalLink(nameof(FromGs1DigitalLinkToData), nameof(gs1DigitalLinkUri), logger: logger ?? Logger));
 
     /// <summary>
     /// Translates GS1 Digital Link data to an element string.
@@ -701,8 +710,8 @@ public static partial class Gs1DigitalLinkConvert {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1ElementString FromGs1DigitalLinkDataToElementString(Gs1DigitalLinkData digitalLinkData, bool brackets = false) =>
-        FromGs1DigitalLinkDataToElementString(digitalLinkData.Gs1AIs, brackets);
+    public static Gs1ElementString FromGs1DigitalLinkDataToElementString(Gs1DigitalLinkData digitalLinkData, bool brackets = false, ILogger? logger = null) =>
+        FromGs1DigitalLinkDataToElementString(digitalLinkData.Gs1AIs, brackets, logger ?? Logger);
 
     /// <summary>
     /// Translates GS1 Digital Link data to an element string.
@@ -744,7 +753,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// </para>
     /// <para>If any of these assumptions does not hold, you may need to perform additional processing before invoking this method.</para>
     /// </remarks>
-    public static Gs1ElementString FromGs1DigitalLinkDataToElementString(IReadOnlyDictionary<string, string> gs1DigitalLinkData, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkDataToElementString(IReadOnlyDictionary<string, string> gs1DigitalLinkData, bool brackets = false, ILogger? logger = null) {
 
         var methodName = nameof(FromGs1DigitalLinkDataToElementString);
         var paramName = nameof(gs1DigitalLinkData);
@@ -771,12 +780,13 @@ public static partial class Gs1DigitalLinkConvert {
             nonFnc1Elements,
             otherKeys,
             methodName,
-            paramName);
+            paramName,
+            logger ?? Logger);
 
         // if brackets=true, use GS1 Digital Link ordering - identifier, Qualifiers then data attributes in numeric order
         if (brackets == true) {
-            identifiers[0].VerifySyntax(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
-            identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
+            identifiers[0].VerifySyntax(gs1DigitalLinkData[identifiers[0]], methodName, paramName, logger ?? Logger);
+            identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName, logger ?? Logger);
             elementStrings = ElementStringsPush(elementStrings, "(" + identifiers[0] + ")", gs1DigitalLinkData[identifiers[0]], string.Empty);
 
             // append any valid found Qualifiers for that primary identifier to the gs1ElementString
@@ -912,9 +922,10 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null,
+        ILogger? logger = null) =>
             new (DoBuildGs1DigitalLink(
-                    FromGs1ElementStringToDigitalLinkData(elementString).Gs1AIs,
+                    FromGs1ElementStringToDigitalLinkData(elementString, logger: logger ?? Logger).Gs1AIs,
                     uriStem,
                     digitalLinkForm,
                     useOptimisations,
@@ -924,7 +935,8 @@ public static partial class Gs1DigitalLinkConvert {
                     fragment,
                     nameof(FromGs1ElementStringToDigitalLinkWithShortNames),
                     nameof(elementString),
-                    true));
+                    true, 
+                    logger ?? Logger));
 
     /// <summary>
     /// Translates a GS1 element string into a Digital Link URI.
@@ -981,9 +993,10 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null,
+        ILogger? logger = null) =>
             new (DoBuildGs1DigitalLink(
-                    FromGs1ElementStringToDigitalLinkData(gs1ElementString).Gs1AIs,
+                    FromGs1ElementStringToDigitalLinkData(gs1ElementString, logger: logger ?? Logger).Gs1AIs,
                     uriStem,
                     digitalLinkForm,
                     useOptimisations,
@@ -993,7 +1006,8 @@ public static partial class Gs1DigitalLinkConvert {
                     fragment,
                     nameof(FromGs1ElementStringToDigitalLinkWithShortNames),
                     nameof(gs1ElementString),
-                    true));
+                    true,
+                    logger ?? Logger));
 
     /// <summary>
     /// Translates a GS1 element string into a Digital Link.
@@ -1049,7 +1063,8 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null,
+        ILogger? logger = null) =>
             FromGs1ElementStringToDigitalLink(
                 elementString.Value,
                 uriStem,
@@ -1058,7 +1073,8 @@ public static partial class Gs1DigitalLinkConvert {
                 nonGs1KeyValuePairs,
                 compressNonGs1KeyValuePairs,
                 otherQueryContent,
-                fragment);
+                fragment,
+                logger ?? Logger);
 
     /// <summary>
     /// Translates a GS1 element string into a Digital Link.
@@ -1114,9 +1130,10 @@ public static partial class Gs1DigitalLinkConvert {
         IReadOnlyDictionary<string, string>? nonGs1KeyValuePairs = null,
         bool compressNonGs1KeyValuePairs = false,
         string? otherQueryContent = null,
-        string? fragment = null) =>
+        string? fragment = null,
+        ILogger? logger = null) =>
             new (DoBuildGs1DigitalLink(
-                    FromGs1ElementStringToDigitalLinkData(gs1ElementString).Gs1AIs,
+                    FromGs1ElementStringToDigitalLinkData(gs1ElementString, logger: logger ?? Logger).Gs1AIs,
                     uriStem,
                     digitalLinkForm,
                     useOptimisations,
@@ -1134,13 +1151,14 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link is invalid.</exception>
-    public static Gs1ElementString FromGs1DigitalLinkToElementString(Gs1DigitalLink digitalLink, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkToElementString(Gs1DigitalLink digitalLink, bool brackets = false, ILogger? logger = null) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 digitalLink.Value,
                                 nameof(FromGs1DigitalLinkToElementString),
-                                nameof(digitalLink));
+                                nameof(digitalLink),
+                                logger: logger ?? Logger);
         var digitalLInkData = extractedData.gs1DigitalLinkData;
-        return FromGs1DigitalLinkDataToElementString(digitalLInkData ?? [], brackets);
+        return FromGs1DigitalLinkDataToElementString(digitalLInkData ?? [], brackets, logger ?? Logger);
     }
 
     /// <summary>
@@ -1150,13 +1168,14 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
-    public static Gs1ElementString FromGs1DigitalLinkToElementString(string gs1DigitalLinkUri, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkToElementString(string gs1DigitalLinkUri, bool brackets = false, ILogger? logger = null) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 gs1DigitalLinkUri,
                                 nameof(FromGs1DigitalLinkToElementString),
-                                nameof(gs1DigitalLinkUri));
+                                nameof(gs1DigitalLinkUri),
+                                logger: logger ?? Logger);
         var digitalLinkData = extractedData.gs1DigitalLinkData;
-        return FromGs1DigitalLinkDataToElementString(digitalLinkData ?? [], brackets);
+        return FromGs1DigitalLinkDataToElementString(digitalLinkData ?? [], brackets, logger ?? Logger);
     }
 
     /// <summary>
@@ -1166,13 +1185,14 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="brackets">If true, the method returns an element string using bracket notation.</param>
     /// <returns>A GS1 element string.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
-    public static Gs1ElementString FromGs1DigitalLinkToElementString(Uri gs1DigitalLinkUri, bool brackets = false) {
+    public static Gs1ElementString FromGs1DigitalLinkToElementString(Uri gs1DigitalLinkUri, bool brackets = false, ILogger? logger = null) {
         var extractedData = DoExtractAIsFromGs1DigitalLink(
                                 gs1DigitalLinkUri.ToString(),
                                 nameof(FromGs1DigitalLinkToElementString),
-                                nameof(gs1DigitalLinkUri));
+                                nameof(gs1DigitalLinkUri),
+                                logger: logger ?? Logger);
         var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
-        return FromGs1DigitalLinkDataToElementString(gs1DigitalLinkData ?? [], brackets);
+        return FromGs1DigitalLinkDataToElementString(gs1DigitalLinkData ?? [], brackets, logger ?? Logger);
     }
 
     /// <summary>
@@ -1190,14 +1210,16 @@ public static partial class Gs1DigitalLinkConvert {
     Gs1DigitalLink digitalLink,
     CompressionLevel compressionLevel,
     bool useOptimisations = false,
-    bool compressNonGs1KeyValuePairs = false) =>
+    bool compressNonGs1KeyValuePairs = false,
+    ILogger? logger = null) =>
         new (digitalLink.Value.DoChangeGs1DigitalLinkCompression(
                 compressionLevel,
                 nameof(DoChangeGs1DigitalLinkCompression),
                 nameof(digitalLink),
                 useOptimisations,
                 compressNonGs1KeyValuePairs,
-                true));
+                true, 
+                logger ?? Logger));
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI, using short names for partially
@@ -1214,14 +1236,16 @@ public static partial class Gs1DigitalLinkConvert {
     string gs1DigitalLinkUri,
     CompressionLevel compressionLevel,
     bool useOptimisations = false,
-    bool compressNonGs1KeyValuePairs = false) =>
+    bool compressNonGs1KeyValuePairs = false,
+    ILogger? logger = null) =>
         new (gs1DigitalLinkUri.DoChangeGs1DigitalLinkCompression(
                 compressionLevel,
                 nameof(DoChangeGs1DigitalLinkCompression),
                 nameof(gs1DigitalLinkUri),
                 useOptimisations,
                 compressNonGs1KeyValuePairs,
-                true));
+                true,
+                logger ?? Logger));
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI, using short names for partially
@@ -1238,14 +1262,16 @@ public static partial class Gs1DigitalLinkConvert {
     Uri gs1DigitalLinkUri,
     CompressionLevel compressionLevel,
     bool useOptimisations = false,
-    bool compressNonGs1KeyValuePairs = false) =>
+    bool compressNonGs1KeyValuePairs = false,
+    ILogger? logger = null) =>
         new (gs1DigitalLinkUri.ToString().DoChangeGs1DigitalLinkCompression(
                 compressionLevel,
                 nameof(DoChangeGs1DigitalLinkCompression),
                 nameof(gs1DigitalLinkUri),
                 useOptimisations,
                 compressNonGs1KeyValuePairs,
-                true));
+                true,
+                logger ?? Logger));
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link.
@@ -1260,13 +1286,15 @@ public static partial class Gs1DigitalLinkConvert {
         Gs1DigitalLink digitalLink,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGs1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false,
+        ILogger? logger = null) =>
             new (digitalLink.Value.DoChangeGs1DigitalLinkCompression(
                     compressionLevel,
                     nameof(Gs1DigitalLinkCompressionLevel),
                     nameof(digitalLink),
                     useOptimisations,
-                    compressNonGs1KeyValuePairs));
+                    compressNonGs1KeyValuePairs,
+                    logger: logger ?? Logger));
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI.
@@ -1281,13 +1309,15 @@ public static partial class Gs1DigitalLinkConvert {
         string gs1DigitalLinkUri,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGs1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false,
+        ILogger? logger = null) =>
             new (gs1DigitalLinkUri.DoChangeGs1DigitalLinkCompression(
                     compressionLevel,
                     nameof(Gs1DigitalLinkCompressionLevel),
                     nameof(gs1DigitalLinkUri),
                     useOptimisations,
-                    compressNonGs1KeyValuePairs));
+                    compressNonGs1KeyValuePairs,
+                    logger: logger ?? Logger));
 
     /// <summary>
     /// Changes the compression level of a GS1 Digital Link URI.
@@ -1302,13 +1332,15 @@ public static partial class Gs1DigitalLinkConvert {
         Uri gs1DigitalLinkUri,
         CompressionLevel compressionLevel,
         bool useOptimisations = false,
-        bool compressNonGs1KeyValuePairs = false) =>
+        bool compressNonGs1KeyValuePairs = false,
+        ILogger? logger = null) =>
             new (gs1DigitalLinkUri.ToString().DoChangeGs1DigitalLinkCompression(
                     compressionLevel,
                     nameof(Gs1DigitalLinkCompressionLevel),
                     nameof(gs1DigitalLinkUri),
                     useOptimisations,
-                    compressNonGs1KeyValuePairs));
+                    compressNonGs1KeyValuePairs,
+                    logger: logger ?? Logger));
 
     /// <summary>
     /// Analyse a GS1 Digital Link URI and return structured data.
@@ -1322,8 +1354,9 @@ public static partial class Gs1DigitalLinkConvert {
         Uri gs1DigitalLinkUri,
         bool extended,
         string methodName,
-        string paramName) =>
-            AnalyseUri(gs1DigitalLinkUri.ToString(), extended, methodName, paramName);
+        string paramName,
+        ILogger? logger = null) =>
+            AnalyseUri(gs1DigitalLinkUri.ToString(), extended, methodName, paramName, logger ?? Logger);
 
     /// <summary>
     /// Analyse a GS1 Digital Link URI and return structured data.
@@ -1338,7 +1371,8 @@ public static partial class Gs1DigitalLinkConvert {
         string gs1DigitalLinkUri,
         bool extended,
         string methodName,
-        string paramName) {
+        string paramName,
+        ILogger? logger = null) {
         var analysis = new Dictionary<string, object> {
             ["fragment"] = string.Empty
         };
@@ -1515,12 +1549,12 @@ public static partial class Gs1DigitalLinkConvert {
                 analysis["uncompressedPath"] = "/" + string.Join("/", relevantPathComponents);
 
                 if (extended) {
-                    var extractedData = gs1DigitalLinkUri.DoExtractAIsFromGs1DigitalLink(methodName, paramName);
+                    var extractedData = gs1DigitalLinkUri.DoExtractAIsFromGs1DigitalLink(methodName, paramName, logger: logger ?? Logger);
                     var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
                     var otherArray = extractedData.NonGs1KeyValuePairs;
-                    var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName);
+                    var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName, logger ?? Logger);
                     analysis["structuredData"] = structuredArray;
-                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
+                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true, logger ?? Logger).Value;
                 }
             }
         }
@@ -1532,12 +1566,12 @@ public static partial class Gs1DigitalLinkConvert {
                 analysis["compressedPath"] = relevantPathComponents[2];
 
                 if (extended) {
-                    var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, null, methodName, paramName);
+                    var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, null, methodName, paramName, logger ?? Logger);
                     var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
                     var otherArray = extractedData.NonGs1KeyValuePairs;
-                    var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName);
+                    var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName, logger ?? Logger);
                     analysis["structuredData"] = structuredArray;
-                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
+                    analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true, logger ?? Logger).Value;
                 }
             }
         }
@@ -1548,12 +1582,12 @@ public static partial class Gs1DigitalLinkConvert {
             analysis["compressedPath"] = reversedPathComponents[0];
 
             if (extended) {
-                var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, null, methodName, paramName);
+                var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, null, methodName, paramName, logger ?? Logger);
                 var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
                 var otherArray = extractedData.NonGs1KeyValuePairs;
-                var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName);
+                var structuredArray = BuildStructuredArray(gs1DigitalLinkData ?? [], otherArray ?? [], methodName, paramName, logger ?? Logger);
                 analysis["structuredData"] = structuredArray;
-                analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true).Value;
+                analysis["elementStringOutput"] = FromGs1DigitalLinkToElementString(gs1DigitalLinkUri, true, logger ?? Logger).Value;
             }
         }
 
@@ -1593,13 +1627,15 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>The analytical results.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
-    internal static UriSemantics AnalyseUriSemantics(string gs1DigitalLinkUri) {
+    internal static UriSemantics AnalyseUriSemantics(string gs1DigitalLinkUri,
+        ILogger? logger = null) {
         // Analyze the URI and get the structured data
         var returnValue = AnalyseUri(
                             gs1DigitalLinkUri,
                             true,
                             nameof(AnalyseUriSemantics),
-                            nameof(gs1DigitalLinkUri));
+                            nameof(gs1DigitalLinkUri),
+                            logger ?? Logger);
         var uncompressedDL = gs1DigitalLinkUri;
         var methodName = nameof(AnalyseUriSemantics);
         var paramName = nameof(gs1DigitalLinkUri);
@@ -1614,7 +1650,8 @@ public static partial class Gs1DigitalLinkConvert {
                                     false,
                                     false,
                                     nameof(AnalyseUriSemantics),
-                                    nameof(gs1DigitalLinkUri));
+                                    nameof(gs1DigitalLinkUri),
+                                    logger: logger ?? Logger);
             }
         }
 
@@ -1629,7 +1666,8 @@ public static partial class Gs1DigitalLinkConvert {
                             excludeQueryString,
                             false,
                             nameof(AnalyseUriSemantics),
-                            nameof(gs1DigitalLinkUri));
+                            nameof(gs1DigitalLinkUri),
+                            logger: logger ?? Logger);
 
         var nonID = new Dictionary<string, string>();
         var elementStrings = new Dictionary<string, string>();
@@ -1796,7 +1834,7 @@ public static partial class Gs1DigitalLinkConvert {
                     foreach (var predicate in predicates) {
                         context[predicate] = new Dictionary<string, string> { { "@type", "xsd:date" } };
                         var bareValue = elementStrings[dv].ToString();
-                        var xsdDateValue = bareValue.SixDigitToXsdDate(methodName, paramName);
+                        var xsdDateValue = bareValue.SixDigitToXsdDate(methodName, paramName, logger ?? Logger);
                         outputObject[predicate] = xsdDateValue;
                     }
                 }
@@ -1810,7 +1848,7 @@ public static partial class Gs1DigitalLinkConvert {
                     foreach (var predicate in predicates) {
                         context[predicate] = new Dictionary<string, string> { { "@type", "xsd:dateTime" } };
                         var bareValue = elementStrings[dtsv].ToString();
-                        var xsdDateTimeValue = bareValue.MaxTwelveDigitToXsdDateTime(methodName, paramName);
+                        var xsdDateTimeValue = bareValue.MaxTwelveDigitToXsdDateTime(methodName, paramName, logger ?? Logger);
                         outputObject[predicate] = xsdDateTimeValue;
                     }
                 }
@@ -1824,7 +1862,7 @@ public static partial class Gs1DigitalLinkConvert {
                     foreach (var predicate in predicates) {
                         context[predicate] = new Dictionary<string, string> { { "@type", "xsd:dateTime" } };
                         var bareValue = elementStrings[dtmv].ToString();
-                        var xsdDateTimeValue = bareValue.TenDigitToXsdDateTime(methodName, paramName);
+                        var xsdDateTimeValue = bareValue.TenDigitToXsdDateTime(methodName, paramName, logger ?? Logger);
                         outputObject[predicate] = xsdDateTimeValue;
                     }
                 }
@@ -1839,13 +1877,13 @@ public static partial class Gs1DigitalLinkConvert {
                         var bareValue = elementStrings[dr].ToString();
 
                         if (bareValue.Length == 6) {
-                            var xsdDateValue = bareValue.SixDigitToXsdDate(methodName, paramName);
+                            var xsdDateValue = bareValue.SixDigitToXsdDate(methodName, paramName, logger ?? Logger);
                             context[predicate] = new Dictionary<string, string> { { "@type", "xsd:dateTime" } };
                             outputObject[predicate] = xsdDateValue;
                         }
                         else if (bareValue.Length == 12) {
-                            var xsdStartDateValue = bareValue[..6].SixDigitToXsdDate(methodName, paramName);
-                            var xsdEndDateValue = bareValue.Substring(6, 6).SixDigitToXsdDate(methodName, paramName);
+                            var xsdStartDateValue = bareValue[..6].SixDigitToXsdDate(methodName, paramName, logger ?? Logger);
+                            var xsdEndDateValue = bareValue.Substring(6, 6).SixDigitToXsdDate(methodName, paramName, logger ?? Logger);
                             context[predicate + "Start"] = new Dictionary<string, string> { { "@type", "xsd:dateTime" } };
                             context[predicate + "End"] = new Dictionary<string, string> { { "@type", "xsd:dateTime" } };
                             outputObject[predicate + "Start"] = xsdStartDateValue;
@@ -1918,7 +1956,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
-    internal static void ValidateDigitalLink(UriAnalysis uriAnalysis, IReadOnlyDictionary<string, string> gs1Pairs, string methodName, string paramName) {
+    internal static void ValidateDigitalLink(UriAnalysis uriAnalysis, IReadOnlyDictionary<string, string> gs1Pairs, string methodName, string paramName, ILogger? logger = null) {
 
         // Validate the stem
         uriAnalysis.UriStem.ValidateUriStem(methodName, paramName);
@@ -1944,22 +1982,22 @@ public static partial class Gs1DigitalLinkConvert {
         aiSeq.Reverse();
 
         // Check the membership of the sequence.
-        aiSeq.ValidateSequenceMembership(methodName, paramName);
+        aiSeq.ValidateSequenceMembership(methodName, paramName, logger ?? Logger);
 
         // Check that the URI path components appear in the correct sequence
-        aiSeq.ValidateSequenceOrder(methodName, paramName);
+        aiSeq.ValidateSequenceOrder(methodName, paramName, logger ?? Logger);
 
         var nonGS1queryStringPairs = uriAnalysis.QueryStringNonGs1Pairs.ToDictionary();
 
         // Validate the non-GS1 key-value pairs.
-        nonGS1queryStringPairs.ValidateNonGs1KeyValuePairs(methodName, paramName);
-        uriAnalysis.OtherQueryContent.ValidateOtherQueryStringContent(methodName, paramName);
-        uriAnalysis.Fragment.ValidateFragmentSpecifier(methodName, paramName);
+        nonGS1queryStringPairs.ValidateNonGs1KeyValuePairs(methodName, paramName, logger ?? Logger);
+        uriAnalysis.OtherQueryContent.ValidateOtherQueryStringContent(methodName, paramName, logger ?? Logger);
+        uriAnalysis.Fragment.ValidateFragmentSpecifier(methodName, paramName, logger ?? Logger);
 
         // check that each entry in the associative array has correct syntax and correct digit (where appropriate)
         foreach (var key in gs1Pairs.Keys) {
-            key.VerifySyntax(gs1Pairs[key], methodName, paramName);
-            key.VerifyGs1KeyPair(gs1Pairs[key], methodName, paramName);
+            key.VerifySyntax(gs1Pairs[key], methodName, paramName, logger ?? Logger);
+            key.VerifyGs1KeyPair(gs1Pairs[key], methodName, paramName, logger ?? Logger);
         }
     }
 
@@ -1976,28 +2014,30 @@ public static partial class Gs1DigitalLinkConvert {
         this string gs1DigitalLinkUri,
         string methodName,
         string paramName,
-        UriAnalysis? uriAnalysis = null) {
+        UriAnalysis? uriAnalysis = null,
+        ILogger? logger = null) {
 
         var gs1DigitalLinkData = new Dictionary<string, string>();
 
         // By creating a GS1 Digital Link object, we validate the Digital Link before extracting data.
-        uriAnalysis ??= AnalyseUri(new Gs1DigitalLink(gs1DigitalLinkUri).Value, false, methodName, paramName);
+        uriAnalysis ??= AnalyseUri(new Gs1DigitalLink(gs1DigitalLinkUri).Value, false, methodName, paramName, logger ?? Logger);
 
         if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
             var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Logger);
         }
         else if (uriAnalysis.DetectedForm != DigitalLinkForm.Uncompressed) {
             return ExtractFromCompressedGs1DigitalLink(
                         gs1DigitalLinkUri,
                         uriAnalysis,
                         methodName,
-                        paramName);
+                        paramName,
+                        logger ?? Logger);
         }
 
         var gs1Pairs = GetGs1AiPairs(uriAnalysis);
-        ValidateDigitalLink(uriAnalysis, gs1Pairs, methodName, paramName);
+        ValidateDigitalLink(uriAnalysis, gs1Pairs, methodName, paramName, logger ?? Logger);
 
         // Pad GTINs as necessary.
         foreach (var key in gs1Pairs.Keys) {
@@ -2056,9 +2096,10 @@ public static partial class Gs1DigitalLinkConvert {
         string paramName,
         bool useOptimisations = false,
         bool compressNonGs1KeyValuePairs = false,
-        bool useShortNames = false) {
+        bool useShortNames = false,
+        ILogger? logger = null) {
 
-        var analysis = AnalyseUri(digitalLinkUri, false, methodName, paramName);
+        var analysis = AnalyseUri(digitalLinkUri, false, methodName, paramName, logger ?? Logger);
 
         // If the URI is uncompressed, then validate it
         if (analysis.DetectedForm == DigitalLinkForm.Uncompressed) {
@@ -2067,10 +2108,10 @@ public static partial class Gs1DigitalLinkConvert {
             aiSeq.Reverse();
 
             // Check the membership of the sequence.
-            aiSeq.ValidateSequenceMembership(methodName, paramName);
+            aiSeq.ValidateSequenceMembership(methodName, paramName, logger ?? Logger);
 
             // Check that the URI path components appear in the correct sequence
-            aiSeq.ValidateSequenceOrder(methodName, paramName);
+            aiSeq.ValidateSequenceOrder(methodName, paramName, logger ?? Logger);
         }
 
         // If no change is required, return the original Digital Link.
@@ -2084,11 +2125,14 @@ public static partial class Gs1DigitalLinkConvert {
         if ((int)compressionLevel > (int)analysis.DetectedForm) {
             return DoCompressGs1DigitalLink(
                     digitalLinkUri,
+                    methodName,
+                    paramName,
                     uriStem,
                     compressionLevel,
                     useOptimisations,
                     compressNonGs1KeyValuePairs,
-                    useShortNames);
+                    useShortNames,
+                    logger ?? Logger);
         }
 
         return DoDecompressGs1DigitalLink(
@@ -2100,7 +2144,8 @@ public static partial class Gs1DigitalLinkConvert {
                     compressNonGs1KeyValuePairs,
                     nameof(DoChangeGs1DigitalLinkCompression),
                     nameof(digitalLinkUri),
-                    useShortNames);
+                    useShortNames,
+                    logger ?? Logger);
     }
 
     /// <summary>
@@ -2128,10 +2173,11 @@ public static partial class Gs1DigitalLinkConvert {
         bool compressNonGs1KeyValuePairs,
         string methodName,
         string paramName,
-        bool useShortNames = false) {
+        bool useShortNames = false,
+        ILogger? logger = null) {
 
         // Extract a dictionary of AIs and AI values from the compressed Digital Link
-        var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, uriAnalysis, methodName, paramName);
+        var extractedData = ExtractFromCompressedGs1DigitalLink(gs1DigitalLinkUri, uriAnalysis, methodName, paramName, logger ?? Logger);
 
         // Build the uncompressed Digital Link
         var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
@@ -2148,7 +2194,8 @@ public static partial class Gs1DigitalLinkConvert {
                             nonGs1KeyValuePairs,
                             false,
                             extractedData.OtherQueryStringContent,
-                            extractedData.FragmentSpecifier).Value;
+                            extractedData.FragmentSpecifier,
+                            logger ?? Logger).Value;
 #pragma warning restore CS0618 // Type or member is obsolete
             }
 
@@ -2160,16 +2207,20 @@ public static partial class Gs1DigitalLinkConvert {
                         nonGs1KeyValuePairs,
                         false,
                         extractedData.OtherQueryStringContent,
-                        extractedData.FragmentSpecifier).Value;
+                        extractedData.FragmentSpecifier,
+                        logger ?? Logger).Value;
         }
         else {
             return DoCompressGs1DigitalLink(
                         gs1DigitalLinkUri,
+                        methodName,
+                        paramName,
                         uriStem,
                         compressionLevel,
                         useOptimisations,
                         compressNonGs1KeyValuePairs,
-                        useShortNames);
+                        useShortNames,
+                        logger ?? Logger);
         }
     }
 
@@ -2177,6 +2228,8 @@ public static partial class Gs1DigitalLinkConvert {
     /// Compress a GS1 Digital Link URI.
     /// </summary>
     /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
     /// <param name="uriStem">The URI stem.</param>
     /// <param name="compressionLevel">The desired level of compression (partial or full).</param>
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
@@ -2188,11 +2241,14 @@ public static partial class Gs1DigitalLinkConvert {
     /// <returns>The compressed GS1 Digital Link URI.</returns>
     private static string DoCompressGs1DigitalLink(
         string digitalLinkUri,
+        string methodName,
+        string paramName,
         string? uriStem,
         CompressionLevel compressionLevel,
         bool useOptimisations,
         bool compressNonGs1KeyValuePairs,
-        bool useShortNames = false) {
+        bool useShortNames = false,
+        ILogger? logger = null) {
 
         // extract query string
         var firstQuestionMark = digitalLinkUri.IndexOf('?');
@@ -2241,8 +2297,9 @@ public static partial class Gs1DigitalLinkConvert {
         }
 
         var extractedData = digitalLinkUri.DoExtractAIsFromGs1DigitalLink(
-                                            nameof(DoCompressGs1DigitalLink),
-                                            nameof(digitalLinkUri));
+                                            methodName,
+                                            paramName,
+                                            logger: logger ?? Logger);
         var gs1DigitalLinkData = extractedData.gs1DigitalLinkData;
         var other = extractedData.NonGs1KeyValuePairs;
 
@@ -2252,7 +2309,15 @@ public static partial class Gs1DigitalLinkConvert {
 
         var compressedDL = compressionLevel == CompressionLevel.PartiallyCompressed
             ? BuildPartiallyCompressedGs1DigitalLink(nonGs1KeyValuePairs)
-            : BuildCompressedGS1digitalLink(gs1DigitalLinkData ?? [], uriStem, useOptimisations, nonGs1KeyValuePairs, compressNonGs1KeyValuePairs);
+            : BuildCompressedGs1digitalLink(
+                gs1DigitalLinkData ?? [],
+                methodName,
+                paramName,
+                uriStem ?? "https://id.gs1.org",
+                useOptimisations,
+                nonGs1KeyValuePairs,
+                compressNonGs1KeyValuePairs,
+                logger ?? Logger);
 
         var returnedQueryString = queryStringOther.ToString();
         var qsDelim = compressedDL.Contains('?') ? "&" : "?";
@@ -2267,11 +2332,11 @@ public static partial class Gs1DigitalLinkConvert {
             var separated = SeparateIdNonId(gs1DigitalLinkData ?? []);
 #pragma warning disable CS0618 // Type or member is obsolete
             var keyPart = useShortNames
-                ? FromGs1DigitalLinkDataToDigitalLinkWithShortNames(separated["ID"], uriStem, DigitalLinkForm.Uncompressed).Value
-                : FromGs1DigitalLinkDataToDigitalLink(separated["ID"], uriStem, DigitalLinkForm.Uncompressed).Value;
+                ? FromGs1DigitalLinkDataToDigitalLinkWithShortNames(separated["ID"], uriStem, DigitalLinkForm.Uncompressed, logger: logger ?? Logger).Value
+                : FromGs1DigitalLinkDataToDigitalLink(separated["ID"], uriStem, DigitalLinkForm.Uncompressed, logger: logger ?? Logger).Value;
 #pragma warning restore CS0618 // Type or member is obsolete
 
-            var compressedPart = Compressgs1DigitalLinkDataToBinary(
+            var compressedPart = CompressGs1DigitalLinkDataToBinary(
                 separated["nonID"],
                 useOptimisations,
                 compressNonGs1KeyValuePairs ? nonGs1KeyValuePairs : []).BinaryToSafe64();
@@ -2314,7 +2379,8 @@ public static partial class Gs1DigitalLinkConvert {
         List<string> nonFnc1Elements,
         List<string> otherKeys,
         string methodName,
-        string paramName) {
+        string paramName,
+        ILogger? logger = null) {
 
         var exceptionsMessage = new StringBuilder(Resources.Errors.ErrorMsgPartTheFollowingIssuesWereDetected);
         var exceptions = false;
@@ -2376,7 +2442,7 @@ public static partial class Gs1DigitalLinkConvert {
 
         if (exceptions) {
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier, apiCall, exceptionsMessage.ToString(), logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1ApplicationIdentifier, apiCall, exceptionsMessage.ToString(), logger: logger ?? Logger);
         }
     }
 
@@ -2407,7 +2473,8 @@ public static partial class Gs1DigitalLinkConvert {
         string? fragment,
         string methodName,
         string paramName,
-        bool useShortNames = false) {
+        bool useShortNames = false,
+        ILogger? logger = null) {
 
         // return an empty string if the input dictionary is empty.
         if (gs1DigitalLinkData.Count == 0) {
@@ -2475,15 +2542,15 @@ public static partial class Gs1DigitalLinkConvert {
         if (!string.IsNullOrWhiteSpace(fragment) && !string.IsNullOrWhiteSpace(otherFragment)) {
             var message = string.Format(Resources.Errors.ErrorMsgThe0ParameterContains1AsAFragmentButAFragmentHasBeenProvidedUsingThe2Parameter, nameof(otherQueryContent), otherFragment, nameof(fragment));
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, nameof(otherQueryContent));
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidFragmentSpecifier, apiCall, message, logger: logger ?? Logger);
         }
 
         fragment = string.IsNullOrWhiteSpace(fragment) ? otherFragment : fragment;
 
         // Validate non-GS1 key-value pairs.
-        nonGs1KeyValuePairs?.ValidateNonGs1KeyValuePairs(methodName, paramName);
-        otherQueryContent.ValidateOtherQueryStringContent(methodName, paramName);
-        fragment.ValidateFragmentSpecifier(methodName, paramName);
+        nonGs1KeyValuePairs?.ValidateNonGs1KeyValuePairs(methodName, paramName, logger ?? Logger);
+        otherQueryContent.ValidateOtherQueryStringContent(methodName, paramName, logger ?? Logger);
+        fragment.ValidateFragmentSpecifier(methodName, paramName, logger ?? Logger);
 
         List<string> identifiers = [];
         List<string> qualifiers = [];
@@ -2500,7 +2567,8 @@ public static partial class Gs1DigitalLinkConvert {
             nonFnc1Elements,
             otherKeys,
             methodName,
-            paramName);
+            paramName,
+            logger ?? Logger);
 
         string path = string.Empty;
         var queryStringArray = new List<string>();
@@ -2508,15 +2576,15 @@ public static partial class Gs1DigitalLinkConvert {
         string webUri = string.Empty;
 
         // Get the normalised URI stem or the default (canonical) URI stem, if no stem is provided.
-        uriStem = uriStem.GetNormalisedUriStem();
+        uriStem = uriStem.GetNormalisedUriStem(methodName, paramName, logger ?? Logger);
 
         if (identifiers.Count <= 0) {
             var message = Resources.Errors.ErrorMsgNoKeyIdentifierFoundInTheGsDigitallinkUriPathInformation;
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Logger);
         }
 
-        identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName);
+        identifiers[0].VerifyGs1KeyPair(gs1DigitalLinkData[identifiers[0]], methodName, paramName, logger ?? Logger);
 
         var aiSeq = new List<string>() { identifiers[0] };
         aiSeq.AddRange(from qualifier in qualifiers
@@ -2527,7 +2595,7 @@ public static partial class Gs1DigitalLinkConvert {
         // dictionary, and the correct order is imposed at the point that the
         // Digital Link is created, so the only check here is to make sure that
         // all qualifiers are for a single sequence.
-        aiSeq.ValidateSequenceMembership(methodName, paramName);
+        aiSeq.ValidateSequenceMembership(methodName, paramName, logger ?? Logger);
 
         if (useShortNames) {
             // Using short names
@@ -2608,14 +2676,16 @@ public static partial class Gs1DigitalLinkConvert {
                                             paramName,
                                             useOptimisations,
                                             compressNonGs1KeyValuePairs,
-                                            useShortNames),
+                                            useShortNames,
+                                            logger ?? Logger),
             DigitalLinkForm.PartiallyCompressed => webUri.DoChangeGs1DigitalLinkCompression(
                                                             CompressionLevel.PartiallyCompressed,
                                                             methodName,
                                                             paramName,
                                                             useOptimisations,
                                                             compressNonGs1KeyValuePairs,
-                                                            useShortNames),
+                                                            useShortNames,
+                                                            logger ?? Logger),
                                                         _ => webUri
         };
 
@@ -2652,7 +2722,8 @@ public static partial class Gs1DigitalLinkConvert {
             Dictionary<string, string> gs1DigitalLinkData,
             Dictionary<string, string> nonGs1KeyValuePairs,
             string methodName,
-            string paramName) {
+            string paramName,
+            ILogger? logger = null) {
         var analyticsKeys = new List<string> { "identifiers", "qualifiers", "dataAttributes" };
         var map = new Dictionary<string, IReadOnlyDictionary<string, string>> {
             ["identifiers"] = new Dictionary<string, string>(),
@@ -2714,8 +2785,8 @@ public static partial class Gs1DigitalLinkConvert {
 
         // There's exactly one key in identifierDict:
         var identifierKey = identifierDict.Keys.First();
-        identifierKey.VerifySyntax(gs1DigitalLinkData[identifierKey], methodName, paramName);
-        identifierKey.VerifyGs1KeyPair(gs1DigitalLinkData[identifierKey], methodName, paramName);
+        identifierKey.VerifySyntax(gs1DigitalLinkData[identifierKey], methodName, paramName, logger ?? Logger);
+        identifierKey.VerifyGs1KeyPair(gs1DigitalLinkData[identifierKey], methodName, paramName, logger ?? Logger);
 
         return new Dictionary<string, IReadOnlyDictionary<string, string>> {
             ["identifiers"] = map["identifiers"],
@@ -2740,7 +2811,8 @@ public static partial class Gs1DigitalLinkConvert {
         string gs1DigitalLinkUri,
         UriAnalysis? uriAnalysis,
         string methodName,
-        string paramName) {
+        string paramName,
+        ILogger? logger = null) {
 
         if (string.IsNullOrWhiteSpace(gs1DigitalLinkUri)) {
             return new ExtractedData([], []);
@@ -2755,15 +2827,15 @@ public static partial class Gs1DigitalLinkConvert {
         var nonGS1queryStringCandidates = new Dictionary<string, string>();
         var queryStringOther = new StringBuilder();
 
-        uriAnalysis ??= AnalyseUri(gs1DigitalLinkUri, false, methodName, paramName);
+        uriAnalysis ??= AnalyseUri(gs1DigitalLinkUri, false, methodName, paramName, logger ?? Logger);
 
         if (uriAnalysis.DetectedForm == DigitalLinkForm.Unknown) {
             var message = Resources.Errors.ErrorMsgUnableToDetermineTheFormOfTheDigitalLink;
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: Logger);
+            throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? Logger);
         }
         else if (uriAnalysis.DetectedForm == DigitalLinkForm.Uncompressed) {
-            return DoExtractAIsFromGs1DigitalLink(gs1DigitalLinkUri, methodName, paramName, uriAnalysis);
+            return DoExtractAIsFromGs1DigitalLink(gs1DigitalLinkUri, methodName, paramName, uriAnalysis, logger ?? Logger);
         }
 
         var queryString = uriAnalysis.QueryString;
@@ -2862,10 +2934,10 @@ public static partial class Gs1DigitalLinkConvert {
             objGs1.nonGs1KeyValuePairs,
             returnedQueryString,
             fragmentSpecifier,
-            uriAnalysis.UriStem).ToGs1DigitalLink().Value;
+            uriAnalysis.UriStem).ToGs1DigitalLink(logger: logger ?? Logger).Value;
 
         // Analyse the decompressed URI
-        uriAnalysis = AnalyseUri(digitalLink, true, methodName, paramName);
+        uriAnalysis = AnalyseUri(digitalLink, true, methodName, paramName, logger ?? Logger);
 
         return new ExtractedData(
         objGs1.gs1DigitalLinkData,
@@ -2881,8 +2953,8 @@ public static partial class Gs1DigitalLinkConvert {
     /// </summary>
     /// <param name="binstr">The binary string.</param>
     /// <returns>A dictionary of GS1 AIs.</returns>
-    /// <exception cref="Exception">Binary string processing errors.</exception>
-    private static (Dictionary<string, string> gsAIs, Dictionary<string, string> nonGs1KeyValuePairs) DecompressBinaryTogs1DigitalLinkData(string binstr) {
+    private static (Dictionary<string, string> gsAIs, Dictionary<string, string> nonGs1KeyValuePairs) DecompressBinaryTogs1DigitalLinkData(
+        string binstr) {
         var totallength = binstr.Length;
         var cursor = 0;
         Dictionary<string, string> gs1DigitalLinkData = [];
@@ -3105,7 +3177,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="nonGs1KeyValuePairs">Any additional non-GS1 key-value parameters to be included in the query string.</param>
     /// <returns>A binary representation of a compressed GS1 Digital LInk URI.</returns>
-    private static string Compressgs1DigitalLinkDataToBinary(
+    private static string CompressGs1DigitalLinkDataToBinary(
         Dictionary<string, string> gs1DigitalLinkData,
         bool useOptimisations,
         IReadOnlyDictionary<string, string> nonGs1KeyValuePairs) {
@@ -3136,7 +3208,7 @@ public static partial class Gs1DigitalLinkConvert {
 
         // Encode binary string for any optimised values from _optimisationsTable first
         foreach (var key in optimisations) {
-            binstr += key.BinaryEncodingOfGS1AIKey();
+            binstr += key.BinaryEncodingOfGs1AIKey();
             string[] optArray = [.. _optimisationsTable[key]];
 
             foreach (var optKey in optArray) {
@@ -3148,7 +3220,7 @@ public static partial class Gs1DigitalLinkConvert {
         // AI key=requiredAi parameters for which no optimisations were found.
         foreach (var key in orderedKeys) {
             if (gs1DigitalLinkData.ContainsKey(key)) {
-                binstr += key.BinaryEncodingOfGS1AIKey();
+                binstr += key.BinaryEncodingOfGs1AIKey();
                 binstr += BinaryEncodingOfValue(gs1DigitalLinkData, key);
             }
         }
@@ -3179,7 +3251,7 @@ public static partial class Gs1DigitalLinkConvert {
 
                 // After encoding the binary key, encode the corresponding requiredAi,
                 // using optimisations where possible.
-                binstr += BinaryEncodingOfNonGS1Value(kvp.Value);
+                binstr += BinaryEncodingOfNonGs1Value(kvp.Value);
             }
         }
 
@@ -3307,7 +3379,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// </summary>
     /// <param name="charstr">The non-GS1 parameter value.</param>
     /// <returns>A binary encoding of the parameter value.</returns>
-    private static string BinaryEncodingOfNonGS1Value(string charstr) {
+    private static string BinaryEncodingOfNonGs1Value(string charstr) {
         var lengthBits = Convert.ToString(charstr.Length, 2);
         lengthBits = lengthBits.PadStringToLength(7);
         var enc = charstr.DetermineEncoding();
@@ -3319,17 +3391,22 @@ public static partial class Gs1DigitalLinkConvert {
     /// Builds a compressed Digital Link.
     /// </summary>
     /// <param name="gs1DigitalLinkData">A dictionary of GS1 Application Identifiers.</param>
+    /// <param name="methodName">The public method name.</param>
+    /// <param name="paramName">The public method parameter name.</param>
     /// <param name="uriStem">The URI stem for the Digital Link. If omitted, the library will use https://id.gs1.org.</param>
     /// <param name="useOptimisations">If true, compression optimisations are applied, if any exist.</param>
     /// <param name="nonGs1KeyValuePairs">Any additional non-GS1 key-value parameters to be included in the query string.</param>
     /// <param name="compressNonGs1KeyValuePairs">If true, non-GS1 key-value pairs are compressed.</param>
     /// <returns>A compressed representation of a GS1 Digital Link.</returns>
-    private static string BuildCompressedGS1digitalLink(
+    private static string BuildCompressedGs1digitalLink(
         Dictionary<string, string> gs1DigitalLinkData,
-        string? uriStem,
+        string methodName,
+        string paramName,
+        string uriStem,
         bool useOptimisations,
         IReadOnlyDictionary<string, string> nonGs1KeyValuePairs,
-        bool compressNonGs1KeyValuePairs) {
+        bool compressNonGs1KeyValuePairs,
+        ILogger? logger = null) {
 
         // Minimal translation of logic
         var queryString = string.Empty;
@@ -3348,9 +3425,9 @@ public static partial class Gs1DigitalLinkConvert {
         }
 
         // Get the normalised URI stem or the default (canonical) URI stem, if no stem is provided.
-        uriStem = uriStem.GetNormalisedUriStem();
+        uriStem = uriStem.GetNormalisedUriStem(methodName, paramName, logger ?? Logger);
 
-        var path = "/" + Compressgs1DigitalLinkDataToBinary(
+        var path = "/" + CompressGs1DigitalLinkDataToBinary(
             gs1DigitalLinkData,
             useOptimisations,
             compressNonGs1KeyValuePairs ? nonGs1KeyValuePairs : new Dictionary<string, string>()).BinaryToSafe64();
