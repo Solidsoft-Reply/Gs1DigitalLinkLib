@@ -764,7 +764,7 @@ catch (Exception ex) {
 }
 ```
 
-## Transform a Digital Link to a canonical form
+## Translate a Digital Link to a canonical form
 
 The **ToCanonicalForm()** [Gs1DigitalLink] and **FromDigitalLinkUriToCanonicalForm()** [string or Uri] methods translate a Digital Link to a canonical form that references the GS1 Digital Link service (id.gs1.org).  A canonical Digital Link contains GS1 key-value pairs, only.  The scheme is always https and query string parameters are sorted in lexical order.
 
