@@ -17,13 +17,7 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Renamed DigitalLinkConvert to Gs1DigitalLinkConvert to improve consistency. All the primary classes now start with 'Gs1'.
-		2) Extended and improved JSON serialization and added support for Newtonsoft.Json.
-		3) Added logging support (Microsoft.Extensions.Logging). The library supports dependency injection for logging.
-		4) Introduced a new Gs1DigitalLinkException class which is now raised instead of ArgumentException. Made general improvements to exception handling. 
-		5) Improved validation. Gs1DigitalLink now only allows valid URIs. Non-GS1 key-value pairs are now fully validated in accordance with the GS1 standard. URI stems and schemes are validated.
-		6) Added a new Extension method to convert GS1 Digital Links to canonical form.
-		7) Added new constructor overloads to Gs1DigitalLink, Gs1DigitalLinkData and Gs1ElementString.
+		1) Fixed naming and parameter inconsistencies for Canonical Form extension methods.
 	</PackageReleaseNotes>
 	<Description>
 		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
@@ -32,7 +26,7 @@
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.1.0</Version>
+	<Version>1.1.1</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>

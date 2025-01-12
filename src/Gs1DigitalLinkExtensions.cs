@@ -859,26 +859,26 @@ public static partial class Gs1DigitalLinkExtensions {
     /// <summary>
     /// Translates a GS1 Digital Link to Canonical GS1 Digital Link.
     /// </summary>
-    /// <param name="digitalLinkUri">The GS1 Digital Link URI.</param>
+    /// <param name="gs1DigitalLinkUri">The GS1 Digital Link URI.</param>
     /// <returns>A canonical GS1 Digital Link.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
     /// <exception cref="ArgumentException">The URI is invalid.</exception>
     /// <exception cref="ArgumentNullException">The URI cannot be null.</exception>
     /// <exception cref="UriFormatException">The URI has an invalid format.</exception>
-    public static Gs1DigitalLink FromGs1DigitalLinkToCanonicalForm(this string digitalLinkUri) =>
-        new Uri(digitalLinkUri, UriKind.RelativeOrAbsolute).ToCanonicalForm();
+    public static Gs1DigitalLink FromGs1DigitalLinkToCanonicalForm(this string gs1DigitalLinkUri) =>
+        new Uri(gs1DigitalLinkUri, UriKind.RelativeOrAbsolute).FromDigitalLinkUriToGs1CanonicalForm();
 
     /// <summary>
     /// Translates a GS1 Digital Link to Canonical GS1 Digital Link.
     /// </summary>
-    /// <param name="digitalLink">The GS1 Digital Link.</param>
+    /// <param name="gs1DigitalLink">The GS1 Digital Link.</param>
     /// <returns>A canonical GS1 Digital Link.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link is invalid.</exception>
     /// <exception cref="ArgumentException">The URI is invalid.</exception>
     /// <exception cref="ArgumentNullException">The URI cannot be null.</exception>
     /// <exception cref="UriFormatException">The URI has an invalid format.</exception>
-    public static Gs1DigitalLink ToCanonicalForm(this Gs1DigitalLink digitalLink) =>
-        new Uri(digitalLink.Value, UriKind.RelativeOrAbsolute).ToCanonicalForm();
+    public static Gs1DigitalLink ToCanonicalForm(this Gs1DigitalLink gs1DigitalLink) =>
+        new Uri(gs1DigitalLink.Value, UriKind.RelativeOrAbsolute).FromDigitalLinkUriToGs1CanonicalForm();
 
     /// <summary>
     /// Converts a GS1 Digital Link URI to a Canonical GS1 Digital Link.
@@ -886,7 +886,7 @@ public static partial class Gs1DigitalLinkExtensions {
     /// <param name="gs1DigitalLinkUri">The Digital Link URI.</param>
     /// <returns>The canonical GS1 Digital Link.</returns>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link URI is invalid.</exception>
-    public static Gs1DigitalLink ToCanonicalForm(this Uri gs1DigitalLinkUri) {
+    public static Gs1DigitalLink FromDigitalLinkUriToGs1CanonicalForm(this Uri gs1DigitalLinkUri) {
         var data = gs1DigitalLinkUri.ToGs1DigitalLinkData();
 
         // Sort the Gs1AIs lexically by key
