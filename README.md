@@ -663,7 +663,15 @@ The library includes additional extension methods. N.B. There are no equivalent 
         <td>FromGS1DigitalLinkToStructuredData()</td>
         <td>string, Uri</td>
     </tr>
-</table>
+    <tr>
+        <td>ToCanonicalForm()</td>
+        <td>Gs1DigitalLink</td>
+        <td rowspan=2 valign="top">Translates a GS1 Digital Link to Canonical GS1 Digital Link.</td>
+    </tr>
+    <tr>
+        <td>FromGs1DigitalLinkToCanonicalForm()</td>
+        <td>string, Uri</td>
+    </tr></table>
 <hr></br>
 
 ## Analyse a Digital Link URI
@@ -751,6 +759,33 @@ try {
     // GS1 structured data = {"identifiers":[{"01":"00054123450013"}],"qualifiers":[{"10":"ABC\u0026\u002B123"}],"dataAttributes":[{"3103":"000189"},{"3923":"2172"}],"other":[]}
 }
 
+catch (Exception ex) {
+    Console.WriteLine(ex);
+}
+```
+
+## Transform a Digital Link to a canonical form
+
+The **ToCanonicalForm()** [Gs1DigitalLink] and **FromDigitalLinkUriToCanonicalForm()** [string or Uri] methods translate a Digital Link to a canonical form that references the GS1 Digital Link service (id.gs1.org).  A canonical Digital Link contains GS1 key-value pairs, only.  The scheme is always https and query string parameters are sorted in lexical order.
+
+* **digitalLink** [Gs1DigitalLink] or **gs1DigitalLinkUri** [string or Uri]
+  Provide a representation of a valid GS1 Digital Link URI.
+
+**Return Value**
+
+This method returns a Digital Link in canonical form.
+
+**Example**
+```cs
+using Solidsoft.Reply.Gs1DigitalLinkLib;
+
+var gs1DigitalLink = new Gs1DigitalLink("http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&17=290331&3923=2172&linkType=gs1:traceability&foo=bar");
+
+try {
+    var canonical = gs1DigitalLink.ToCanonicalForm();
+    Console.WriteLine($"Canonical GS1 Digital Link = {canonical}");
+    //  Canonical GS1 Digital Link = https://id.gs1.org/01/05412345000013/10/ABC%26%2B123?17=290331&3103=000189&3923=2172
+}
 catch (Exception ex) {
     Console.WriteLine(ex);
 }
