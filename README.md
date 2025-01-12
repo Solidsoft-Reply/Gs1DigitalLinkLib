@@ -26,7 +26,7 @@ This GS1 Digital Link Library provides seven translation methods, as indicated i
 
 These methods provide the same functionality as the ten methods provided by the [GS1 Digital Link Compression Prototype](https://github.com/gs1/GS1DigitalLinkCompressionPrototype). However, the Library views compression and partial compression as different forms of an uncompressed Digital Link and supports transitions between these three forms through a single method. In addition, the library eliminates any need to first decompress a Digital Link before extracting data from it or converting it to an element string. Decompression is performed automatically. Similarly, an element string or a data representation of a Digital Link can be transformed into a Digital Link in any of the three forms through a single method call.
 
-All seven methods are implemented as static methods of the **DigitalLinkConvert** class. They can be used as global methods operating over the data. Alternatively, you can use extension methods. For example, the following calls in C# to populate elementString1 and elementString2 are equivalent:
+All seven methods are implemented as static methods of the **Gs1DigitalLinkConvert** class. They can be used as global methods operating over the data. Alternatively, you can use extension methods. For example, the following calls in C# to populate elementString1 and elementString2 are equivalent:
 
 ```cs
 using Solidsoft.Reply.Gs1DigitalLinkLib;
@@ -35,7 +35,7 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 string digitalLink = "https://id.gs1.org/01/00054123450013";
 
-Gs1ElementString elementString1 = DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLink);
+Gs1ElementString elementString1 = Gs1DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLink);
 
 Gs1ElementString elementString2 = digitalLink.ToGs1ElementString();
 ```
@@ -60,11 +60,11 @@ The library provides three classes to represent Digital Link data:
 
 **GS1ElementString** – a representation of the GS1 data in a Digital Link URI, either in FNC1 format (as reported by a barcode scanner) or as a formatted string in which each AI is enclosed in parenthesis.
 
-The seven core methods provided by **DigitalLinkConvert** and their equivalent extension methods are:
+The seven core methods provided by **Gs1DigitalLinkConvert** and their equivalent extension methods are:
 
 <table>
   <tr>
-    <th>DigitalLinkConvert Method</th>
+    <th>Gs1DigitalLinkConvert Method</th>
     <th>Extension Method</th>
     <th>Description</th>
   </tr>
@@ -430,11 +430,11 @@ catch (Exception ex) {
 
 # Handling Legacy Short Names
 
-**DigitalLinkConvert** implements three additional methods to handle legacy ‘short names’. Short names (“convenience alphas”) are no longer supported from version 1.1.3 of the GS1 Digital Link standard. These three methods and their equivalent extension methods are:
+**Gs1DigitalLinkConvert** implements three additional methods to handle legacy ‘short names’. Short names (“convenience alphas”) are no longer supported from version 1.1.3 of the GS1 Digital Link standard. These three methods and their equivalent extension methods are:
 
 <table>
   <tr>
-    <th>DigitalLinkConvert Method</th>
+    <th>Gs1DigitalLinkConvert Method</th>
     <th>Extension Method</th>
     <th>Description</th>
   </tr>
@@ -628,7 +628,7 @@ catch (Exception ex) {
 
 # Additional Methods
 
-The library includes additional extension methods. N.B. There are no equivalent non-extension methods in **DigitalLinkConvert**:
+The library includes additional extension methods. N.B. There are no equivalent non-extension methods in **Gs1DigitalLinkConvert**:
 
 <table>
     <tr>
