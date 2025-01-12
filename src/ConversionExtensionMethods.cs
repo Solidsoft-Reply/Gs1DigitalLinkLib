@@ -564,6 +564,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="value">The Application Identifier value.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
     public static void VerifySyntax(this string ai, string value, string methodName, string paramName, ILogger? logger = null) {
         try {
@@ -589,6 +590,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="value">The Application Identifier value.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
     public static void VerifyGs1KeyPair(this string ai, string value, string methodName, string paramName, ILogger? logger = null) {
         var parsedData = Parsers.HighCapacityAidc.Parser.Parse($"{ai}{value}");
@@ -623,6 +625,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="noValidation">
     /// If true, the element string is not validated. The GS1 AI dictionary may contain invalid AIs and AI values.
     /// </param>
+    /// <param name="logger">A logger.</param>
     /// <returns>A FNC1 element string.</returns>
     /// <exception cref="Gs1DigitalLinkException">Invalid syntax.</exception>
     public static string ConvertParenthesesAIsToFnc1(
@@ -701,6 +704,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="uriStem">The URI stem.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <returns>An absolute URI stem, favouring https: if no scheme is provided, or the
     /// default (canonical) stem if no URI stem is provided.</returns>
     /// <exception cref="UriFormatException">Thrown when the URI stem is not a valid relative or absolute URI.</exception>"
@@ -711,11 +715,12 @@ internal static partial class ConversionExtensionMethods {
         // Use the canonical stem if no uriStem is provided.
         // Be forgiving regarding the format of the URI stem, if provided.
         try {
-            uriStem = string.IsNullOrWhiteSpace(uriStem)
+            var normalisedUriStem = GetNormalisedUriStem();
+            uriStem = string.IsNullOrWhiteSpace(normalisedUriStem)
                 ? canonicalStem
-                : new Uri(uriStem, UriKind.RelativeOrAbsolute) switch {
+                : new Uri(normalisedUriStem, UriKind.RelativeOrAbsolute) switch {
                     var uri when uri.IsAbsoluteUri => uri.AbsoluteUri,
-                    _ => new Uri($"https://{uriStem}", UriKind.Absolute).AbsoluteUri,
+                    _ => new Uri($"https://{normalisedUriStem}", UriKind.Absolute).AbsoluteUri,
                 };
         }
         catch (UriFormatException) {
@@ -731,6 +736,18 @@ internal static partial class ConversionExtensionMethods {
         }
 
         return uriStem;
+
+        string GetNormalisedUriStem() {
+            if (string.IsNullOrWhiteSpace(uriStem)) {
+                return uriStem?.Trim() ?? string.Empty;
+            }
+
+            if (uriStem.StartsWith('/')) {
+                return uriStem[1..];
+            }
+
+            return uriStem;
+        }
     }
 
     /// <summary>
@@ -766,6 +783,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="uriStem">The URI stem.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid URI stem.</exception>
     public static void ValidateUriStem(this string? uriStem, string methodName, string paramName, ILogger? logger = null) {
         // Validate the stem
@@ -799,6 +817,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="aiSeq">A list containing an identifier and qualifiers.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid sequence membership.</exception>
     public static void ValidateSequenceMembership(this List<string> aiSeq, string methodName, string paramName, ILogger? logger = null) {
         if (_pathSequenceConstraints.ContainsKey(aiSeq[0])) {
@@ -830,6 +849,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="nonGs1KeyValuePairs">The non-GS1 key-value pairs.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid non-GS1 key-value pairs.</exception>
     public static void ValidateNonGs1KeyValuePairs(this IReadOnlyDictionary<string, string> nonGs1KeyValuePairs, string methodName, string paramName, ILogger? logger = null) {
         // Validate the non-GS1 key value parameters.
@@ -860,6 +880,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="aiSeq">A list containing an identifier and qualifiers.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid sequence order.</exception>
     public static void ValidateSequenceOrder(this List<string> aiSeq, string methodName, string paramName, ILogger? logger = null) {
         // Check that the URI path components appear in the correct sequence
@@ -899,6 +920,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="otherQueryContent">Non key-pair query string content.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid non key-pair query string content.</exception>
     public static void ValidateOtherQueryStringContent(this string otherQueryContent, string methodName, string paramName, ILogger? logger = null) {
         // Validate any other query string content.
@@ -918,6 +940,7 @@ internal static partial class ConversionExtensionMethods {
     /// <param name="fragment">The fragment specifier.</param>
     /// <param name="methodName">The method name.</param>
     /// <param name="paramName">The parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">Invalid fragment specifier.</exception>
     public static void ValidateFragmentSpecifier(this string fragment, string methodName, string paramName, ILogger? logger = null) {
         // Validate any fragment specifier.

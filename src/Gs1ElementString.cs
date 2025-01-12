@@ -92,7 +92,7 @@ public class Gs1ElementString() {
     /// </param>
     /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">The GS1 Digital Link data is invalid.</exception>
-    public Gs1ElementString(Gs1DigitalLinkData gs1DigitalLinkData, bool noValidation = false, ILogger<Gs1DigitalLink>? logger = null) 
+    public Gs1ElementString(Gs1DigitalLinkData gs1DigitalLinkData, bool noValidation = false, ILogger<Gs1DigitalLink>? logger = null)
         : this(gs1DigitalLinkData.ToGs1ElementString().Value, noValidation, logger) {
     }
 

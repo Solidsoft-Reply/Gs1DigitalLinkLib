@@ -179,6 +179,7 @@ public class Gs1DigitalLink {
     /// <param name="uri">The Digital Link URI.</param>
     /// <param name="methodName">The public method name.</param>
     /// <param name="paramName">The public method parameter name.</param>
+    /// <param name="logger">A logger.</param>
     /// <exception cref="Gs1DigitalLinkException">The GS1 element string is invalid.</exception>
     private void Validate(string uri, string methodName, string paramName, ILogger? logger = null) {
         var uriAnalysis = AnalyseUri(uri);

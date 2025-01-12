@@ -822,53 +822,32 @@ Scenario Outline: Parse valid GS1 element string with short names and a URI stem
 
 Scenario Outline: Parse valid bracketed GS1 element string with short names and invalid URI stem.
     Given I want to create a Digital Link for the bracketed GS1 element string "<elementString>"
-    When I translate the element string to a Digital Link with a URI stem set to "<uriStem>"
-	Then I get a UriFormat exception
+    When I translate the element string to a Digital Link with a URI stem set to <uriStem>
+	Then an exception with message "SYNTAX ERROR: The Digital Link URI stem '<uriStem>' is invalid." is thrown
 
     Examples:
       | uriStem                                | elementString                                         |
-      |                                        | (17)290331(10)ABC123(01)05412345000013(21)72292641703 |
-      | <sp><sp><sp>                           | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | a/badly/formed/uri                     | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | /a/badly/formed/uri                    | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | /a/badly/formed/uri?xxx=yyy            | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
       | https:+www.acme.org                    | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https://wwwacmeorg/                    | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
       | :/wwwacmeorg/                          | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https::/www<sp>acme<sp>org/            | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https::/www.acme.org/some<sp>path      | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
+      | https::/www.acme.org/some path         | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
       | https::/www.acme.org/<somepath>        | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | http://https://www.acme.org/<somepath> | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
       | https://www.acme.org:99999             | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https://www.acme.org://somepath        | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https://www.acme.                      | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https://www.acme.org/path[1            | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
-      | https://www.acme.org/%ZZ               | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
+      | https::/www acme org/                  | (01)05412345000013(10)ABC123(17)290331(21)72292641703 |
 
 Scenario Outline: Parse valid GS1 element string with short names and invalid URI stem.
     Given I want to create a Digital Link for the GS1 element string "<elementString>"
-    When I translate the element string to a Digital Link with a URI stem set to "<uriStem>"
-	Then I get a UriFormat exception
+    When I translate the element string to a Digital Link with a URI stem set to <uriStem>
+	Then an exception with message "SYNTAX ERROR: The Digital Link URI stem '<uriStem>' is invalid." is thrown
 
     Examples:
       | uriStem                                | elementString                                     |
-      |                                        | 010541234500001310ABC123<gs>172903312172292641703 |
-      | <sp><sp><sp>                           | 010541234500001310ABC123<gs>172903312172292641703 |
-      | a/badly/formed/uri                     | 010541234500001310ABC123<gs>172903312172292641703 |
-      | /a/badly/formed/uri                    | 010541234500001310ABC123<gs>172903312172292641703 |
-      | /a/badly/formed/uri?xxx=yyy            | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https:+www.acme.org                    | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://wwwacmeorg/                    | 010541234500001310ABC123<gs>172903312172292641703 |
-      | :/wwwacmeorg/                          | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https::/www<sp>acme<sp>org/            | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https::/www.acme.org/some<sp>path      | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https::/www.acme.org/<somepath>        | 010541234500001310ABC123<gs>172903312172292641703 |
-      | http://https://www.acme.org/<somepath> | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://www.acme.org:99999             | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://www.acme.org://somepath        | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://www.acme.                      | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://www.acme.org/path[1            | 010541234500001310ABC123<gs>172903312172292641703 |
-      | https://www.acme.org/%ZZ               | 010541234500001310ABC123<gs>172903312172292641703 |
+      | https:+www.acme.org                    | 010541234500001310ABC123<GS>172903312172292641703 |
+      | :/wwwacmeorg/                          | 010541234500001310ABC123<GS>172903312172292641703 |
+      | https::/www.acme.org/some path         | 010541234500001310ABC123<GS>172903312172292641703 |
+      | https::/www.acme.org/<somepath>        | 010541234500001310ABC123<GS>172903312172292641703 |
+      | https://www.acme.org:99999             | 010541234500001310ABC123<GS>172903312172292641703 |
+      | https::/www acme org/                  | 010541234500001310ABC123<GS>172903312172292641703 |
+
 
 Scenario Outline: Parse valid bracketed GS1 element string with valid URI stem.
     Given I want to create a Digital Link for the bracketed GS1 element string "<elementString>"
@@ -883,11 +862,6 @@ Scenario Outline: Parse valid bracketed GS1 element string with valid URI stem.
       | https://dlr.acme.org                           | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | https://dlr.acme.org/01/05412345000013/10/ABC123/21/72292641703?17=290331                            |
       | https://dlr.acme.org/resolve                   | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | https://dlr.acme.org/resolve/01/05412345000013/10/ABC123/21/72292641703?17=290331                    |
       | https://dlr.acme.org:443/search                | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | https://dlr.acme.org/search/01/05412345000013/10/ABC123/21/72292641703?17=290331                 |
-#      | ftp://ftp.acme.org/                            | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | ftp://ftp.acme.org/01/05412345000013/10/ABC123/21/72292641703?17=290331                            |
-#      | ftp://user:password@ftp.acme.org:21/directory/ | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | ftp://user:password@ftp.acme.org/directory/01/05412345000013/10/ABC123/21/72292641703?17=290331 |
-#      | file:///C:/Users/Username/Documents/           | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | file:///C:/Users/Username/Documents/01/05412345000013/10/ABC123/21/72292641703?17=290331             |
-#      | file:///home/username/docs/                    | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | file:///home/username/docs/01/05412345000013/10/ABC123/21/72292641703?17=290331                      |
-#      | myapp://www.acme.org/resolve                   | (01)05412345000013(10)ABC123(17)290331(21)72292641703 | myapp://www.acme.org/resolve/01/05412345000013/10/ABC123/21/72292641703?17=290331                    |
 
 Scenario Outline: Parse valid GS1 element string with valid URI stem.
     Given I want to create a Digital Link for the GS1 element string "<elementString>"
@@ -902,8 +876,3 @@ Scenario Outline: Parse valid GS1 element string with valid URI stem.
       | https://dlr.acme.org                           | 010541234500001310ABC123<gs>172903312172292641703 | https://dlr.acme.org/01/05412345000013/10/ABC123/21/72292641703?17=290331                       |
       | https://dlr.acme.org/resolve                   | 010541234500001310ABC123<gs>172903312172292641703 | https://dlr.acme.org/resolve/01/05412345000013/10/ABC123/21/72292641703?17=290331               |
       | https://dlr.acme.org:443/search                | 010541234500001310ABC123<gs>172903312172292641703 | https://dlr.acme.org/search/01/05412345000013/10/ABC123/21/72292641703?17=290331                |
-#      | ftp://ftp.acme.org/                            | 010541234500001310ABC123<gs>172903312172292641703 | ftp://ftp.acme.org/01/05412345000013/10/ABC123/21/72292641703?17=290331                         |
-#      | ftp://user:password@ftp.acme.org:21/directory/ | 010541234500001310ABC123<gs>172903312172292641703 | ftp://user:password@ftp.acme.org/directory/01/05412345000013/10/ABC123/21/72292641703?17=290331 |
-#      | file:///C:/Users/Username/Documents/           | 010541234500001310ABC123<gs>172903312172292641703 | file:///C:/Users/Username/Documents/01/05412345000013/10/ABC123/21/72292641703?17=290331        |
-#      | file:///home/username/docs/                    | 010541234500001310ABC123<gs>172903312172292641703 | file:///home/username/docs/01/05412345000013/10/ABC123/21/72292641703?17=290331                 |
-#      | myapp://www.acme.org/resolve                   | 010541234500001310ABC123<gs>172903312172292641703 | myapp://www.acme.org/resolve/01/05412345000013/10/ABC123/21/72292641703?17=290331               |

@@ -965,6 +965,6 @@ public static partial class Gs1DigitalLinkExtensions {
                      select ai).ToDictionary();
 
         // Reconstruct the Digital Link
-        return new Gs1DigitalLinkData(sorted).ToGs1DigitalLink(logger);
+        return new Gs1DigitalLinkData(sorted).ToGs1DigitalLink(logger: logger);
     }
 }

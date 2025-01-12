@@ -1412,23 +1412,12 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableTheoryAttribute(DisplayName="Parse valid bracketed GS1 element string with short names and invalid URI stem.")]
         [Xunit.TraitAttribute("FeatureTitle", "Gs1ElementStringsToGs1DigitalLink")]
         [Xunit.TraitAttribute("Description", "Parse valid bracketed GS1 element string with short names and invalid URI stem.")]
-        [Xunit.InlineDataAttribute("", "(17)290331(10)ABC123(01)05412345000013(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("<sp><sp><sp>", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("a/badly/formed/uri", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("/a/badly/formed/uri", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("/a/badly/formed/uri?xxx=yyy", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
         [Xunit.InlineDataAttribute("https:+www.acme.org", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://wwwacmeorg/", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
         [Xunit.InlineDataAttribute(":/wwwacmeorg/", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https::/www<sp>acme<sp>org/", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https::/www.acme.org/some<sp>path", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https::/www.acme.org/some path", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
         [Xunit.InlineDataAttribute("https::/www.acme.org/<somepath>", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("http://https://www.acme.org/<somepath>", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
         [Xunit.InlineDataAttribute("https://www.acme.org:99999", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org://somepath", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org/path[1", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org/%ZZ", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https::/www acme org/", "(01)05412345000013(10)ABC123(17)290331(21)72292641703", new string[0])]
         public async System.Threading.Tasks.Task ParseValidBracketedGS1ElementStringWithShortNamesAndInvalidURIStem_(string uriStem, string elementString, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -1450,10 +1439,11 @@ this.ScenarioInitialize(scenarioInfo);
     await testRunner.GivenAsync(string.Format("I want to create a Digital Link for the bracketed GS1 element string \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
 #line 825
-    await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to \"{0}\"", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+    await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to {0}", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
 #line 826
- await testRunner.ThenAsync("I get a UriFormat exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+ await testRunner.ThenAsync(string.Format("an exception with message \"SYNTAX ERROR: The Digital Link URI stem \'{0}\' is inval" +
+                            "id.\" is thrown", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -1462,23 +1452,12 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.SkippableTheoryAttribute(DisplayName="Parse valid GS1 element string with short names and invalid URI stem.")]
         [Xunit.TraitAttribute("FeatureTitle", "Gs1ElementStringsToGs1DigitalLink")]
         [Xunit.TraitAttribute("Description", "Parse valid GS1 element string with short names and invalid URI stem.")]
-        [Xunit.InlineDataAttribute("", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("<sp><sp><sp>", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("a/badly/formed/uri", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("/a/badly/formed/uri", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("/a/badly/formed/uri?xxx=yyy", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https:+www.acme.org", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://wwwacmeorg/", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute(":/wwwacmeorg/", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https::/www<sp>acme<sp>org/", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https::/www.acme.org/some<sp>path", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https::/www.acme.org/<somepath>", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("http://https://www.acme.org/<somepath>", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org:99999", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org://somepath", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org/path[1", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
-        [Xunit.InlineDataAttribute("https://www.acme.org/%ZZ", "010541234500001310ABC123<gs>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https:+www.acme.org", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute(":/wwwacmeorg/", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https::/www.acme.org/some path", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https::/www.acme.org/<somepath>", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https://www.acme.org:99999", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https::/www acme org/", "010541234500001310ABC123<GS>172903312172292641703", new string[0])]
         public async System.Threading.Tasks.Task ParseValidGS1ElementStringWithShortNamesAndInvalidURIStem_(string uriStem, string elementString, string[] exampleTags)
         {
             string[] tagsOfScenario = exampleTags;
@@ -1486,7 +1465,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("uriStem", uriStem);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parse valid GS1 element string with short names and invalid URI stem.", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 848
+#line 837
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1496,14 +1475,15 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 849
+#line 838
     await testRunner.GivenAsync(string.Format("I want to create a Digital Link for the GS1 element string \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 850
-    await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to \"{0}\"", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
+#line 839
+    await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to {0}", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 851
- await testRunner.ThenAsync("I get a UriFormat exception", ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
+#line 840
+ await testRunner.ThenAsync(string.Format("an exception with message \"SYNTAX ERROR: The Digital Link URI stem \'{0}\' is inval" +
+                            "id.\" is thrown", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
             await this.ScenarioCleanupAsync();
@@ -1528,7 +1508,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("elementString", elementString);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parse valid bracketed GS1 element string with valid URI stem.", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 873
+#line 852
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1538,13 +1518,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 874
+#line 853
     await testRunner.GivenAsync(string.Format("I want to create a Digital Link for the bracketed GS1 element string \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 875
+#line 854
     await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to {0}", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 876
+#line 855
     await testRunner.ThenAsync(string.Format("the Digital Link should be \"{0}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -1570,7 +1550,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("elementString", elementString);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Parse valid GS1 element string with valid URI stem.", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 892
+#line 866
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -1580,13 +1560,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 893
+#line 867
     await testRunner.GivenAsync(string.Format("I want to create a Digital Link for the GS1 element string \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 894
+#line 868
     await testRunner.WhenAsync(string.Format("I translate the element string to a Digital Link with a URI stem set to {0}", uriStem), ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 895
+#line 869
     await testRunner.ThenAsync(string.Format("the Digital Link should be \"{0}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

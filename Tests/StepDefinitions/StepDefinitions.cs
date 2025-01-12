@@ -46,8 +46,11 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [Given(@"I want to create a compressed Digital Link for a GS1 element string with symbology identifier ""(.*)""")]
         [Given(@"I want to create a compressed Digital Link for the bracketed GS1 element string ""(.*)""")]
         [Given(@"I have a bracketed GS1 element string ""(.*)""")]
+        [Given(@"the following element string: ""(.*)""")]
         public void CaptureElementString(string elementString) {
-            _elementString = elementString;
+            _elementString = elementString.Replace("<GS>", "\u001D")
+                                          .Replace("<RS>", "\u001E")
+                                          .Replace("<EOT>", "\u0004");
         }
 
         [Given(@"the following AIs:")]
@@ -57,13 +60,6 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             foreach (var row in table.Rows) {
                 _gs1DigitalLinkData.Add(row["AI"], row["Value"]);
             }
-        }
-
-        [Given(@"the following element string: ""(.*)""")]
-        public void GivenTheFollowingElementString(string elementString) {
-            _elementString = elementString.Replace("<GS>", "\u001D")
-                                          .Replace("<RS>", "\u001E")
-                                          .Replace("<EOT>", "\u0004");
         }
 
         [Given(@"the following non-GS1 key-value pairs:")]
