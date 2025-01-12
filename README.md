@@ -56,7 +56,7 @@ The library provides three classes to represent Digital Link data:
 
 **GS1DigitalLink** – represents a Digital Link URI.
 
-**GS1DigitalLinkData** – represents the data in a GS1 Digital Link. This plays an equivalent role to the associative array of GS1 Application Identifiers in the GS1 Digital Link Toolkit but has been extended to provide additional information including non-GS1 key-value pairs, any components of the Query String that are not key-value pairs, and any fragment specifier.
+**GS1DigitalLinkData** – represents the data in a GS1 Digital Link. This plays an equivalent role to the associative array of GS1 Application Identifiers in the GS1 Digital Link Toolkit but has been extended to provide additional information including non-GS1 key-value pairs, any components of the Query String that are not key-value pairs, and any fragment specifier.  The class also provides the URI stem and a structured list of GS1 AIs categorised as Digital Link identifiers, quantifiers and data attributes.
 
 **GS1ElementString** – a representation of the GS1 data in a Digital Link URI, either in FNC1 format (as reported by a barcode scanner) or as a formatted string in which each AI is enclosed in parenthesis.
 
