@@ -33,7 +33,7 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 ...
 
-string digitalLink = "https://id.gs1.org/01/00054123450013";
+string digitalLink = "https://id.gs1.org/01/05412345000013";
 
 Gs1ElementString elementString1 = Gs1DigitalLinkConvert.FromGs1DigitalLinkToGs1ElementString(digitalLink);
 
@@ -216,7 +216,7 @@ try {
     var gs1ElementString = gs1DigitalLink.ToGs1ElementString(true);
 
     Console.WriteLine($"Element String = '{gs1ElementString}'");
-    // Element String = '(01)00054123450013(10)ABC&+123(3103)000189(3923)2172'
+    // Element String = '(01)05412345000013(10)ABC&+123(3103)000189(3923)2172'
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -231,7 +231,7 @@ try {
     var gs1ElementString = gs1DigitalLink.ToGs1ElementString(false);
 
     Console.WriteLine($"Element String = '{gs1ElementString}'");
-    // Element String = '0100054123450013310300018939232172↔10ABC&+123'
+    // Element String = '0105412345000013310300018939232172↔10ABC&+123'
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -291,7 +291,7 @@ This method returns a Gs1ElementString object representing a concatenation of on
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-                  { "01", "00054123450013" },
+                  { "01", "05412345000013" },
                   { "10", "ABC&+123" },
                   { "3103", "000189" },
                   { "3923", "2172" }
@@ -301,7 +301,7 @@ try {
     var gs1ElementStrings = gs1Data.ToGs1ElementString(true);
 
     Console.WriteLine("GS1 Element String = " + gs1ElementStrings);
-    // GS1 Element String = (01)00054123450013(10)ABC&+123(3103)000189(3923)2172
+    // GS1 Element String = (01)05412345000013(10)ABC&+123(3103)000189(3923)2172
 }
 
 catch (Exception ex) {
@@ -329,7 +329,7 @@ try {
     var gs1Data = gs1DigitalLinkUri.ToGs1DigitalLinkData();
 
     Console.WriteLine($"GS1 data = {gs1Data}");
-    // GS1 data = {"gs1DigitalLinkData":{"3103":"000189","3923":"2172","10":"ABC\u0026\u002B123","01":"00054123450013"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
+    // GS1 data = {"gs1DigitalLinkData":{"3103":"000189","3923":"2172","10":"ABC\u0026\u002B123","01":"05412345000013"},"nonGs1KeyValuePairs":{},"otherQueryStringContent":"","fragmentSpecifier":""}
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -367,7 +367,7 @@ This method returns a **Gs1DigitalLink** object representing a GS1 Digital Link.
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-                      { "01", "00054123450013" },
+                      { "01", "05412345000013" },
                       { "10", "ABC&+123" },
                       { "3103", "000189" },
                       { "3923", "2172" }
@@ -377,7 +377,7 @@ try {
     var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLink("https://example.org");
 
     Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
-    // GS1 Digital Link URI = https://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
+    // GS1 Digital Link URI = https://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -420,8 +420,8 @@ try {
     Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
     Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
     // Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
-    // Partially compressed GS1 Digital Link = http://example.org/01/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
-    // Uncompressed GS1 Digital Link = http://example.org/01/00054123450013/10/ABC%26%2B123?3103=000189&3923=2172
+    // Partially compressed GS1 Digital Link = http://example.org/01/05412345000013/EIiDChplbFkzMQMAC9OSNCHw
+    // Uncompressed GS1 Digital Link = http://example.org/01/05412345000013/10/ABC%26%2B123?3103=000189&3923=2172
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -563,7 +563,7 @@ This method returns a **Gs1DigitalLink** object representing a GS1 Digital Link.
 using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 var gs1Data = new Dictionary<string, string> {
-                  { "01", "00054123450013" },
+                  { "01", "05412345000013" },
                   { "10", "ABC&+123" },
                   { "3103", "000189" },
                   { "3923", "2172" }
@@ -573,7 +573,7 @@ try {
     var gs1DigitalLinkUri = gs1Data.ToGs1DigitalLinkWithShortNames("https://example.org");
 
     Console.WriteLine("GS1 Digital Link URI = " + gs1DigitalLinkUri);
-    // GS1 Digital Link URI = https://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
+    // GS1 Digital Link URI = https://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -618,8 +618,8 @@ try {
     Console.WriteLine($"Partially compressed GS1 Digital Link = {partiallyCompressed.Value}");
     Console.WriteLine($"Uncompressed GS1 Digital Link = {uncompressed.Value}");
     // Compressed GS1 Digital Link = http://example.org/AQAZNASdOiERBhQ0ytiyZmIGABenJGhD4
-    // Partially compressed GS1 Digital Link = http://example.org/gtin/00054123450013/EIiDChplbFkzMQMAC9OSNCHw
-    // Uncompressed GS1 Digital Link = http://example.org/gtin/00054123450013/lot/ABC%26%2B123?3103=000189&3923=2172
+    // Partially compressed GS1 Digital Link = http://example.org/gtin/05412345000013/EIiDChplbFkzMQMAC9OSNCHw
+    // Uncompressed GS1 Digital Link = http://example.org/gtin/05412345000013/lot/ABC%26%2B123?3103=000189&3923=2172
 }
 catch (Exception ex) {
     Console.WriteLine(ex);
@@ -727,7 +727,7 @@ var gs1DigitalLinkUri = "http://example.org/gtin/054123450013/lot/ABC%26%2B123?3
 try {
     var gs1SemanticAnalysisData = gs1DigitalLinkUri.AnalyseGs1DigitalLinkUriSemantics();
 
-    Console.WriteLine($"GS1 semantics analysis data = {gs1SemanticAnalysisData}"); // GS1 semantics analysis data = {"@context":{"schema":"http://schema.org/","gs1":"https://gs1.org/voc/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","owl":"http://www.w3.org/2002/07/owl#","dcterms":"http://purl.org/dc/terms/","xsd":"http://www.w3.org/2001/XMLSchema#","skos":"http://www.w3.org/2004/02/skos/core#","gs1:value":{"@type":"xsd:float"}},"@id":"\_:1","@type":["rdfs:Class","owl:Class","gs1:Product","schema:Product"],"dcterms:isPartOf":[{"@id":"http://example.org/gtin/054123450013"}],"rdfs:subClassOf":[{"@id":"http://example.org/gtin/054123450013"}],"gs1:gtin":"00054123450013","schema:gtin":"00054123450013","gs1:hasBatchLot":"ABC\u0026\u002B123","gs1:netWeight":{"@type":"gs1:QuantitativeValue","gs1:unitCode":"KGM","gs1:value":"0.189"},"gs1:elementStrings":"(01)00054123450013(10)ABC\u0026\u002B123(3103)000189(3923)2172"}
+    Console.WriteLine($"GS1 semantics analysis data = {gs1SemanticAnalysisData}"); // GS1 semantics analysis data = {"@context":{"schema":"http://schema.org/","gs1":"https://gs1.org/voc/","rdf":"http://www.w3.org/1999/02/22-rdf-syntax-ns#","rdfs":"http://www.w3.org/2000/01/rdf-schema#","owl":"http://www.w3.org/2002/07/owl#","dcterms":"http://purl.org/dc/terms/","xsd":"http://www.w3.org/2001/XMLSchema#","skos":"http://www.w3.org/2004/02/skos/core#","gs1:value":{"@type":"xsd:float"}},"@id":"\_:1","@type":["rdfs:Class","owl:Class","gs1:Product","schema:Product"],"dcterms:isPartOf":[{"@id":"http://example.org/gtin/054123450013"}],"rdfs:subClassOf":[{"@id":"http://example.org/gtin/054123450013"}],"gs1:gtin":"05412345000013","schema:gtin":"05412345000013","gs1:hasBatchLot":"ABC\u0026\u002B123","gs1:netWeight":{"@type":"gs1:QuantitativeValue","gs1:unitCode":"KGM","gs1:value":"0.189"},"gs1:elementStrings":"(01)05412345000013(10)ABC\u0026\u002B123(3103)000189(3923)2172"}
 }
 catch (Exception ex) {
   Console.WriteLine(ex);
@@ -756,7 +756,7 @@ try {
     var gs1StructuredData = gs1DigitalLinkUri.FromGS1DigitalLinkToStructuredData();
 
     Console.WriteLine($"GS1 structured data = {gs1StructuredData}");
-    // GS1 structured data = {"identifiers":[{"01":"00054123450013"}],"qualifiers":[{"10":"ABC\u0026\u002B123"}],"dataAttributes":[{"3103":"000189"},{"3923":"2172"}],"other":[]}
+    // GS1 structured data = {"identifiers":[{"01":"05412345000013"}],"qualifiers":[{"10":"ABC\u0026\u002B123"}],"dataAttributes":[{"3103":"000189"},{"3923":"2172"}],"other":[]}
 }
 
 catch (Exception ex) {
