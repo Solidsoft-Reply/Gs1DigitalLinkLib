@@ -124,7 +124,7 @@ public class ValidationExpressionTable : IReadOnlyDictionary<string, Regex> {
     /// </summary>
     /// <returns>The Validation Expressions table as JSON.</returns>
 #pragma warning disable VSSpell001 // Spell Check
-    public string ToJson() =>
+    public virtual string ToJson() =>
         System.Text.Json.JsonSerializer.Serialize(_validationExpressions);
 #pragma warning restore VSSpell001 // Spell Check
 

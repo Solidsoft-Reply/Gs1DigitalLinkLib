@@ -682,7 +682,7 @@ internal static partial class ConversionExtensionMethods {
                     if (!noValidation && rawDataSection.Length < length) {
                         var message = string.Format(Resources.Errors.ErrorMsgInvalidSyntaxForValueOf01Expected2Characters, ai, rawDataSection, length);
                         var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, methodName, paramName);
-                        throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: Gs1DigitalLinkConvert.Logger);
+                        throw LogAndReturnException(Resources.Errors.ErrorTypeSyntaxError, apiCall, message, logger: logger ?? Gs1DigitalLinkConvert.Logger);
                     }
 
                     dataForThisAI = rawDataSection[..length];
@@ -999,6 +999,35 @@ internal static partial class ConversionExtensionMethods {
     }
 
     /// <summary>
+    /// Pad an AI value.
+    /// </summary>
+    /// <param name="ai">The AI.</param>
+    /// <param name="value">The AI value.</param>
+    /// <returns>The padded AI value.</returns>
+    public static string PadAiValue(this string ai, string value) {
+
+        // always pad the requiredAi of any GTIN [ AI (01) or (02) ] to 14 digits
+        string newvalue = value;
+
+        if ((ai == "01") || (ai == "(01)") || (ai == "02") || (ai == "(02)")) {
+            if (value.Length == 8) {
+                newvalue = "000000" + value;
+            }
+
+            if (value.Length == 12) {
+                newvalue = "00" + value;
+            }
+
+            if (value.Length == 13) {
+                newvalue = "0" + value;
+            }
+        }
+
+        return newvalue;
+    }
+
+
+    /// <summary>
     /// Regex that checks that a string is composed only of digits.
     /// </summary>
     /// <returns>A regular expression.</returns>
@@ -1163,44 +1192,44 @@ internal static partial class ConversionExtensionMethods {
         return result;
     }
 
-    /// <summary>
-    /// Calculate the expected GS1 Check Digit for a given AI.
-    /// </summary>
-    /// <param name="ai">The GS1 AI.</param>
-    /// <param name="gs1AiValue">The AI value.</param>
-    /// <returns>The expected check digit.</returns>
-    private static int CalculateCheckDigit(string ai, string gs1AiValue) {
-        var counter = 0;
-        var total = 0;
-        int valueLength;
+    /////////// <summary>
+    /////////// Calculate the expected GS1 Check Digit for a given AI.
+    /////////// </summary>
+    /////////// <param name="ai">The GS1 AI.</param>
+    /////////// <param name="gs1AiValue">The AI value.</param>
+    /////////// <returns>The expected check digit.</returns>
+    ////////private static int CalculateCheckDigit(string ai, string gs1AiValue) {
+    ////////    var counter = 0;
+    ////////    var total = 0;
+    ////////    int valueLength;
 
-        if (Gs1DigitalLinkConvert.AiCheckDigitPositions.TryGetValue(ai, out CheckDigitPosition? value) && value == CheckDigitPosition.Last) {
-            valueLength = gs1AiValue.Length;
-        }
-        else {
-            valueLength = (int)(Gs1DigitalLinkConvert.AiCheckDigitPositions[ai] ?? 0);
-        }
+    ////////    if (Gs1DigitalLinkConvert.AiCheckDigitPositions.TryGetValue(ai, out CheckDigitPosition? value) && value == CheckDigitPosition.Last) {
+    ////////        valueLength = gs1AiValue.Length;
+    ////////    }
+    ////////    else {
+    ////////        valueLength = (int)(Gs1DigitalLinkConvert.AiCheckDigitPositions[ai] ?? 0);
+    ////////    }
 
-        int multiplier;
+    ////////    int multiplier;
 
-        for (var idx = valueLength - 2; idx >= 0; idx--) {
-            var digitStr = gs1AiValue.Substring(idx, 1);
-            var digit = int.Parse(digitStr);
+    ////////    for (var idx = valueLength - 2; idx >= 0; idx--) {
+    ////////        var digitStr = gs1AiValue.Substring(idx, 1);
+    ////////        var digit = int.Parse(digitStr);
 
-            if ((counter % 2) == 0) {
-                multiplier = 3;
-            }
-            else {
-                multiplier = 1;
-            }
+    ////////        if ((counter % 2) == 0) {
+    ////////            multiplier = 3;
+    ////////        }
+    ////////        else {
+    ////////            multiplier = 1;
+    ////////        }
 
-            total += digit * multiplier;
-            counter++;
-        }
+    ////////        total += digit * multiplier;
+    ////////        counter++;
+    ////////    }
 
-        var expectedCheckDigit = (10 - (total % 10)) % 10;
-        return expectedCheckDigit;
-    }
+    ////////    var expectedCheckDigit = (10 - (total % 10)) % 10;
+    ////////    return expectedCheckDigit;
+    ////////}
 
     /// <summary>
     /// Regex that parses a bracketed element string.

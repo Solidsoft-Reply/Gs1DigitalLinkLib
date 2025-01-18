@@ -71,6 +71,7 @@ Scenario Outline: Decompress a partially compressed Digital Link
 	  | https://id.gs1.org/01/05412345000013/Im0AljfT3nvbU_j0                       | https://id.gs1.org/01/05412345000013/22/AJY3095721P49                                |
 	  | https://id.gs1.org/01/05412345000013/IQuGp9FdO                              | https://id.gs1.org/01/05412345000013/21/72292641703                                  |
 	  | https://id.gs1.org/01/05412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho              | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/21/72292641703                 |
+	  | https://id.gs1.org/01/5412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho               | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/21/72292641703                 |
 	  | https://id.gs1.org/253/3060077601309                                        | https://id.gs1.org/253/3060077601309                                                 |
 	  | https://id.gs1.org/255/5678409730535                                        | https://id.gs1.org/255/5678409730535                                                 |
 	  | https://id.gs1.org/401/0541234537290A41%26GHpp33                            | https://id.gs1.org/401/0541234537290A41%26GHpp33                                     |
@@ -173,6 +174,7 @@ Scenario Outline: Decompress a partially compressed Digital Link with AIs to a D
 	  | https://id.gs1.org/01/05412345000013/Im0AljfT3nvbU_j0                       | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49                                |
 	  | https://id.gs1.org/01/05412345000013/IQuGp9FdO                              | https://id.gs1.org/gtin/05412345000013/ser/72292641703                                  |
 	  | https://id.gs1.org/01/05412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho              | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/ser/72292641703                |
+	  | https://id.gs1.org/01/5412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho               | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/ser/72292641703                |
 	  | https://id.gs1.org/253/3060077601309                                        | https://id.gs1.org/gdti/3060077601309                                                   |
 	  | https://id.gs1.org/255/5678409730535                                        | https://id.gs1.org/gcn/5678409730535                                                    |
 	  | https://id.gs1.org/401/0541234537290A41%26GHpp33                            | https://id.gs1.org/ginc/0541234537290A41%26GHpp33                                       |
@@ -224,6 +226,7 @@ Scenario Outline: Decompress a partially compressed Digital Link with short name
 	  | https://id.gs1.org/gtin/05412345000013/Im0AljfT3nvbU_j0                     | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49                                |
 	  | https://id.gs1.org/gtin/05412345000013/IQuGp9FdO                            | https://id.gs1.org/gtin/05412345000013/ser/72292641703                                  |
 	  | https://id.gs1.org/gtin/05412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho            | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/ser/72292641703                |
+	  | https://id.gs1.org/gtin/5412345000013/IQuGp9FdORNoBLG-nvPe2p_Ho             | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/ser/72292641703                |
 	  | https://id.gs1.org/gdti/3060077601309                                       | https://id.gs1.org/gdti/3060077601309                                                   |
 	  | https://id.gs1.org/gcn/5678409730535                                        | https://id.gs1.org/gcn/5678409730535                                                    |
 	  | https://id.gs1.org/ginc/0541234537290A41%26GHpp33                           | https://id.gs1.org/ginc/0541234537290A41%26GHpp33                                       |

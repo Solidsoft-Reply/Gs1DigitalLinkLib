@@ -13,9 +13,9 @@
       | <AI3> | <Value3>     |
 
     Examples:
-      | elementString                                      | AI1 | Value1          | AI2  | Value2  | AI3  | Value3 |
-      | (01)05412345000013(3103)000189(3923)2172(10)ABC123 | 01  | 05412345000013  | 3103 | 000189 | 3923 | 2172  |
-      | (02)12345678901231(37)24(21)1234                   | 02  | 12345678901231  | 37   | 24     | 21   | 1234  |
+      | elementString                                      | AI1 | Value1         | AI2  | Value2 | AI3  | Value3 |
+      | (01)05412345000013(3103)000189(3923)2172(10)ABC123 | 01  | 05412345000013 | 3103 | 000189 | 3923 | 2172   |
+      | (02)12345678901231(37)24(21)1234                   | 02  | 12345678901231 | 37   | 24     | 21   | 1234   |
 
   Scenario Outline: Parse valid unbracketed GS1 an element string
     Given I have an unbracketed GS1 element string "<elementString>"

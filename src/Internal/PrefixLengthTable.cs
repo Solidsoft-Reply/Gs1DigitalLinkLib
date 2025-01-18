@@ -51,6 +51,7 @@ internal class PrefixLengthTable : IReadOnlyDictionary<string, int> {
             { "00", 2 },
             { "01", 2 },
             { "02", 2 },
+            { "03", 2 },
             { "10", 2 },
             { "11", 2 },
             { "12", 2 },

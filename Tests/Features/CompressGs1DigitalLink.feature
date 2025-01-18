@@ -11,6 +11,7 @@ Scenario Outline: Compress a decompressed Digital Link
 	  | decompressedDigitalLink                                                              | expectedDigitalLink                                             |
 	  | https://id.gs1.org/00/998440410914660971                                             | https://id.gs1.org/AN2yxDhfaiaw                                 |
 	  | https://id.gs1.org/01/05412345000013                                                 | https://id.gs1.org/AQnYUc1gmg                                   |
+	  | https://id.gs1.org/01/5412345000013                                                  | https://id.gs1.org/AQnYUc1gmg                                   |
 	  | https://id.gs1.org/01/05412345000013/10/ABC123                                       | https://id.gs1.org/AQnYUc1gmiCNV4JG                             |
 	  | https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703                        | https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6c                    |
 	  | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123/21/72292641703       | https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6cibQCWN9Pee9tT-PQ    |
@@ -62,6 +63,7 @@ Scenario Outline: Partially compress a decompressed Digital Link
 	  | decompressedDigitalLink                                                              | expectedDigitalLink                                                         |
 	  | https://id.gs1.org/00/998440410914660971                                             | https://id.gs1.org/00/998440410914660971                                    |
 	  | https://id.gs1.org/01/05412345000013                                                 | https://id.gs1.org/01/05412345000013                                        |
+	  | https://id.gs1.org/01/5412345000013                                                  | https://id.gs1.org/01/05412345000013                                        |
 	  | https://id.gs1.org/01/05412345000013/10/ABC123                                       | https://id.gs1.org/01/05412345000013/EEarwSM                                |
 	  | https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703                        | https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V04                       |
 	  | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123/21/72292641703       | https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V05E2gEsb6e897an8eg       |
@@ -113,6 +115,7 @@ Scenario Outline: Compress a decompressed Digital Link with short names
 	  | decompressedDigitalLink                                                                 | expectedDigitalLink                                             |
 	  | https://id.gs1.org/sscc/998440410914660971                                              | https://id.gs1.org/AN2yxDhfaiaw                                 |
 	  | https://id.gs1.org/gtin/05412345000013                                                  | https://id.gs1.org/AQnYUc1gmg                                   |
+	  | https://id.gs1.org/gtin/5412345000013                                                   | https://id.gs1.org/AQnYUc1gmg                                   |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123                                       | https://id.gs1.org/AQnYUc1gmiCNV4JG                             |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703                       | https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6c                    |
 	  | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/72292641703     | https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6cibQCWN9Pee9tT-PQ    |
@@ -164,6 +167,7 @@ Scenario Outline: Partially compress a decompressed Digital Link with short name
 	  | decompressedDigitalLink                                                                 | expectedDigitalLink                                                         |
 	  | https://id.gs1.org/sscc/998440410914660971                                              | https://id.gs1.org/00/998440410914660971                                    |
 	  | https://id.gs1.org/gtin/05412345000013                                                  | https://id.gs1.org/01/05412345000013                                        |
+	  | https://id.gs1.org/gtin/5412345000013                                                   | https://id.gs1.org/01/05412345000013                                        |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123                                       | https://id.gs1.org/01/05412345000013/EEarwSM                                |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703                       | https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V04                       |
 	  | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/72292641703     | https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V05E2gEsb6e897an8eg       |
@@ -215,6 +219,7 @@ Scenario Outline: Partially compress decompressed Digital Link with short names 
 	  | decompressedDigitalLink                                                                 | expectedDigitalLink                                                         |
 	  | https://id.gs1.org/sscc/998440410914660971                                              | https://id.gs1.org/sscc/998440410914660971                                  |
 	  | https://id.gs1.org/gtin/05412345000013                                                  | https://id.gs1.org/gtin/05412345000013                                      |
+	  | https://id.gs1.org/gtin/5412345000013                                                   | https://id.gs1.org/gtin/05412345000013                                      |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123                                       | https://id.gs1.org/gtin/05412345000013/EEarwSM                              |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703                       | https://id.gs1.org/gtin/05412345000013/EEarwSMhC4an0V04                     |
 	  | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/72292641703     | https://id.gs1.org/gtin/05412345000013/EEarwSMhC4an0V05E2gEsb6e897an8eg     |

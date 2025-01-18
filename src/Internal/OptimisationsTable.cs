@@ -99,7 +99,7 @@ internal class OptimisationsTable : IReadOnlyDictionary<string, IList<string>> {
             { "CA", new List<string> { "255", "3940" } },
             { "CB", new List<string> { "255", "3941" } },
             { "CC", new List<string> { "255", "3942" } },
-            { "CD", new List<string> { "255", "3943" } }
+            { "CD", new List<string> { "255", "3943" } },
     };
 
     /// <summary>

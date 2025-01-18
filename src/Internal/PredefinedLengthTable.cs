@@ -66,7 +66,7 @@ internal class PredefinedLengthTable : IReadOnlyDictionary<string, int> {
             { "16", 8 },
             { "17", 8 },
             { "18", 8 },
-            { "19", 4 },
+            { "19", 8 },
             { "20", 4 },
             { "31", 10 },
             { "32", 10 },

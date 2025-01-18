@@ -44,7 +44,7 @@ public class Gs1DigitalLink {
         Value = string.Empty;
         var gs1DigitalLinkUriOrElementString = gs1DigitalLinkUriOrElementStringAsSpan.ToString();
 
-        if (string.IsNullOrWhiteSpace((string)gs1DigitalLinkUriOrElementString)) {
+        if (string.IsNullOrWhiteSpace(gs1DigitalLinkUriOrElementString)) {
             var apiCall = string.Format(Resources.Errors.ErrorMsgPart0Param1, nameof(Gs1DigitalLinkLib.Gs1DigitalLinkData), nameof(gs1DigitalLinkUriOrElementStringAsSpan));
             var message = Resources.Errors.ErrorMsgTheDigitalLinkUriCannotBeNullOrEmpty;
             throw ConversionExtensionMethods.LogAndReturnException(Resources.Errors.ErrorTypeInvalidGs1DigitalLink, apiCall, message, logger: logger ?? _logger);
@@ -200,6 +200,16 @@ public class Gs1DigitalLink {
 
         // Get the full list of GS1 AI pairs and then validate the analysed data.
         var gs1Pairs = Gs1DigitalLinkConvert.GetGs1AiPairs(uriAnalysis);
+
+        // Support legacy GTIN-8, GTIN-12, GTIN-13
+        if (gs1Pairs.ContainsKey("01") && (gs1Pairs["01"].Length == 13
+                                        || gs1Pairs["01"].Length == 12
+                                        || gs1Pairs["01"].Length == 8)) {
+            var tempDictionary = gs1Pairs.ToDictionary();
+            tempDictionary["01"] = "01".PadAiValue(gs1Pairs["01"]);
+            gs1Pairs = tempDictionary;
+        }
+
         Gs1DigitalLinkConvert.ValidateDigitalLink(uriAnalysis, gs1Pairs, methodName, paramName);
     }
 }

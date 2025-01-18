@@ -97,6 +97,7 @@ namespace Gs1DigitalLinkToolkitTests.Features
         [Xunit.TraitAttribute("Description", "Compress a decompressed Digital Link")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/00/998440410914660971", "https://id.gs1.org/AN2yxDhfaiaw", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013", "https://id.gs1.org/AQnYUc1gmg", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013", "https://id.gs1.org/AQnYUc1gmg", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123", "https://id.gs1.org/AQnYUc1gmiCNV4JG", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703", "https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6c", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123/21/72292641703", "https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6cibQCWN9Pee9tT-PQ", new string[0])]
@@ -174,6 +175,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "Partially compress a decompressed Digital Link")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/00/998440410914660971", "https://id.gs1.org/00/998440410914660971", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013", "https://id.gs1.org/01/05412345000013", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013", "https://id.gs1.org/01/05412345000013", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123", "https://id.gs1.org/01/05412345000013/EEarwSM", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703", "https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V04", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123/21/72292641703", "https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V05E2gEsb6e897an8eg", new string[0])]
@@ -223,7 +225,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("decompressedDigitalLink", decompressedDigitalLink);
             argumentsOfScenario.Add("expectedDigitalLink", expectedDigitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress a decompressed Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 56
+#line 57
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -233,13 +235,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 57
+#line 58
     await testRunner.GivenAsync(string.Format("I have a decompressed Digital Link \"{0}\"", decompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 58
+#line 59
     await testRunner.WhenAsync("I partially compress the decompressed Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 59
+#line 60
     await testRunner.ThenAsync(string.Format("the compressed Digital Link should be \"{0}\"", expectedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -251,6 +253,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "Compress a decompressed Digital Link with short names")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/sscc/998440410914660971", "https://id.gs1.org/AN2yxDhfaiaw", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013", "https://id.gs1.org/AQnYUc1gmg", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/5412345000013", "https://id.gs1.org/AQnYUc1gmg", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123", "https://id.gs1.org/AQnYUc1gmiCNV4JG", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703", "https://id.gs1.org/AQnYUc1gmiCNV4JGQhcNT6K6c", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/722926417" +
@@ -301,7 +304,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("decompressedDigitalLink", decompressedDigitalLink);
             argumentsOfScenario.Add("expectedDigitalLink", expectedDigitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Compress a decompressed Digital Link with short names", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 107
+#line 109
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -311,13 +314,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 108
+#line 110
     await testRunner.GivenAsync(string.Format("I have a decompressed Digital Link \"{0}\"", decompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 109
+#line 111
     await testRunner.WhenAsync("I compress the decompressed Digital Link with short names", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 110
+#line 112
     await testRunner.ThenAsync(string.Format("the compressed Digital Link should be \"{0}\"", expectedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -329,6 +332,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "Partially compress a decompressed Digital Link with short names")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/sscc/998440410914660971", "https://id.gs1.org/00/998440410914660971", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013", "https://id.gs1.org/01/05412345000013", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/5412345000013", "https://id.gs1.org/01/05412345000013", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123", "https://id.gs1.org/01/05412345000013/EEarwSM", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703", "https://id.gs1.org/01/05412345000013/EEarwSMhC4an0V04", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/722926417" +
@@ -379,7 +383,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("decompressedDigitalLink", decompressedDigitalLink);
             argumentsOfScenario.Add("expectedDigitalLink", expectedDigitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress a decompressed Digital Link with short names", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 158
+#line 161
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -389,13 +393,13 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 159
+#line 162
     await testRunner.GivenAsync(string.Format("I have a decompressed Digital Link \"{0}\"", decompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 160
+#line 163
     await testRunner.WhenAsync("I partially compress the decompressed Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 161
+#line 164
     await testRunner.ThenAsync(string.Format("the compressed Digital Link should be \"{0}\"", expectedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -409,6 +413,7 @@ this.ScenarioInitialize(scenarioInfo);
             "ith short names")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/sscc/998440410914660971", "https://id.gs1.org/sscc/998440410914660971", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013", "https://id.gs1.org/gtin/05412345000013", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/5412345000013", "https://id.gs1.org/gtin/05412345000013", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123", "https://id.gs1.org/gtin/05412345000013/EEarwSM", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703", "https://id.gs1.org/gtin/05412345000013/EEarwSMhC4an0V04", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123/ser/722926417" +
@@ -460,7 +465,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("expectedDigitalLink", expectedDigitalLink);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Partially compress decompressed Digital Link with short names to a Digital Link w" +
                     "ith short names", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 209
+#line 213
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -470,14 +475,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 210
+#line 214
     await testRunner.GivenAsync(string.Format("I have a decompressed Digital Link \"{0}\"", decompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 211
+#line 215
     await testRunner.WhenAsync("I partially compress the decompressed Digital Link to a Digital Link with short n" +
                         "ames", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 212
+#line 216
     await testRunner.ThenAsync(string.Format("the compressed Digital Link should be \"{0}\"", expectedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

@@ -97,6 +97,7 @@ namespace Gs1DigitalLinkToolkitTests.Features
         [Xunit.TraitAttribute("Description", "Extract AIs and values from a Digital Link")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/00/998440410914660971", "00", "998440410914660971", "", "", "", "", "", "", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013", "01", "05412345000013", "", "", "", "", "", "", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013", "01", "05412345000013", "", "", "", "", "", "", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49", "01", "05412345000013", "22", "AJY3095721P49", "", "", "", "", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123", "01", "05412345000013", "22", "AJY3095721P49", "10", "ABC123", "", "", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123/21/72292641703", "01", "05412345000013", "22", "AJY3095721P49", "10", "ABC123", "21", "72292641703", new string[0])]
@@ -244,7 +245,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("AI4", aI4);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a Digital Link with short names", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 58
+#line 59
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -254,10 +255,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 59
+#line 60
     await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 60
+#line 61
     await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table59 = new global::Reqnroll.Table(new string[] {
@@ -275,7 +276,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table59.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 61
+#line 62
     await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table59, "Then ");
 #line hidden
             }
@@ -342,7 +343,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("AI4", aI4);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a compressed Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 108
+#line 109
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -352,10 +353,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 109
+#line 110
         await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 110
+#line 111
         await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table60 = new global::Reqnroll.Table(new string[] {
@@ -373,7 +374,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table60.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 111
+#line 112
         await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table60, "Then ");
 #line hidden
             }
@@ -419,7 +420,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("AI4", aI4);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a partially compressed Digital Link", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 164
+#line 165
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -429,10 +430,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 165
+#line 166
   await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", partiallyCompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 166
+#line 167
   await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table61 = new global::Reqnroll.Table(new string[] {
@@ -450,7 +451,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table61.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 167
+#line 168
   await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table61, "Then ");
 #line hidden
             }
@@ -496,7 +497,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("AI4", aI4);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a partially compressed Digital Link with short names", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 199
+#line 200
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -506,10 +507,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 200
+#line 201
   await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", partiallyCompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 201
+#line 202
   await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table62 = new global::Reqnroll.Table(new string[] {
@@ -527,7 +528,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table62.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 202
+#line 203
   await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table62, "Then ");
 #line hidden
             }
@@ -556,7 +557,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a compressed Digital Link for medicine unique identif" +
                     "iers", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 235
+#line 236
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -566,10 +567,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 236
+#line 237
   await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", compressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 237
+#line 238
   await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table63 = new global::Reqnroll.Table(new string[] {
@@ -587,7 +588,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table63.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 238
+#line 239
   await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table63, "Then ");
 #line hidden
             }
@@ -616,7 +617,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("Value4", value4);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Extract AIs and values from a partially compressed Digital Link for medicine uniq" +
                     "ue identifiers", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 250
+#line 251
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -626,10 +627,10 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 251
+#line 252
   await testRunner.GivenAsync(string.Format("the following Digital Link URI: \"{0}\"", partiallyCompressedDigitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 252
+#line 253
   await testRunner.WhenAsync("I extract AIs and values from the Digital Link", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
                 global::Reqnroll.Table table64 = new global::Reqnroll.Table(new string[] {
@@ -647,7 +648,7 @@ this.ScenarioInitialize(scenarioInfo);
                 table64.AddRow(new string[] {
                             string.Format("{0}", aI4),
                             string.Format("{0}", value4)});
-#line 253
+#line 254
   await testRunner.ThenAsync("the data extracted from the Digital Link should contain:", ((string)(null)), table64, "Then ");
 #line hidden
             }

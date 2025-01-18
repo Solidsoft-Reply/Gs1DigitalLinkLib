@@ -301,8 +301,20 @@ Scenario: Handle a URI with additional non-GS1 path elements
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/resolve/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
 
+Scenario: Handle a URI with additional non-GS1 path elements with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/resolve/01/5412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And no compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/resolve/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+
 Scenario: Partially compress uncompressed Digital Link with non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And partial compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&donor=bmgf"
+
+Scenario: Partially compress uncompressed Digital Link with non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
 	And partial compression
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&donor=bmgf"
@@ -313,8 +325,21 @@ Scenario: Compress uncompressed Digital Link with non-GS1 key-value pairs
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=true&donor=bmgf"
 
+Scenario: Compress uncompressed Digital Link with non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=true&donor=bmgf"
+
 Scenario: Partially compress uncompressed Digital Link with compressed non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And partial compression
+	And compress other key-value pairs
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/01/05412345000013/EEarwSMXRuG_BtV3sJbXc94V2ieithG5oHw"
+
+Scenario: Partially compress uncompressed Digital Link with compressed non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
 	And partial compression
 	And compress other key-value pairs
 	When I change the compression level of the GS1 Digital Link
@@ -327,8 +352,21 @@ Scenario: Compress uncompressed Digital Link with compressed non-GS1 key-value p
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etrue8K7RPRWwjc0D4"
 
+Scenario: Compress uncompressed Digital Link with compressed non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+	And compression
+	And compress other key-value pairs
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3Dfg2q72Etrue8K7RPRWwjc0D4"
+
 Scenario: Decompress partially compressed Digital Link with additional non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/EEarwSMXRuGw?arv=true&donor=bmgf"
+	And no compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+
+Scenario: Decompress partially compressed Digital Link with additional non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/EEarwSMXRuGw?arv=true&donor=bmgf"
 	And no compression
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
@@ -352,6 +390,13 @@ Scenario: Decompress partially compressed Digital Link with compressed non-GS1 k
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
 
+Scenario: Decompress partially compressed Digital Link with compressed non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/EEarwSMXRuGw?arv=true&donor=bmgf"
+	And no compression
+	And compress other key-value pairs
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+
 Scenario: Decompress compressed Digital Link with compressed non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/AQnYUc1gmiCNV4JGLo3DY?arv=true&donor=bmgf"
 	And no compression
@@ -368,6 +413,12 @@ Scenario: Partially decompress compressed Digital Link with compressed non-GS1 k
 
 Scenario: Decompress partially compressed Digital Link containing compressed non-GS1 key-value pairs
 	Given the following Digital Link URI: "https://id.gs1.org/01/05412345000013/EEarwSMXRuG_BtV3sJbXc94V2ieithG5oHw"
+	And no compression
+	When I change the compression level of the GS1 Digital Link
+	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"
+
+Scenario: Decompress partially compressed Digital Link containing compressed non-GS1 key-value pairs with GTIN-13
+	Given the following Digital Link URI: "https://id.gs1.org/01/5412345000013/EEarwSMXRuG_BtV3sJbXc94V2ieithG5oHw"
 	And no compression
 	When I change the compression level of the GS1 Digital Link
 	Then the result should be "https://id.gs1.org/01/05412345000013/10/ABC123?17=290331&arv=true&donor=bmgf"

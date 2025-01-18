@@ -4,10 +4,17 @@ using Solidsoft.Reply.Gs1DigitalLinkLib;
 
 using Reqnroll;
 
-namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
+namespace Gs1DigitalLinkToolkitTests.StepDefinitions
+{
 
     [Binding]
     internal class StepDefinitions {
+        private static readonly object lockObject = LogFile.LockObject;
+        private static readonly AiTable _aiTable = DataResources.ApplicationIdentifiers;
+        private static readonly FormatTable _formatTable = FormatTable.Create();
+        private static readonly PredefinedLengthTable _predefinedLengthTable = PredefinedLengthTable.Create();
+        private static readonly PrefixLengthTable _prefixLengthTable = PrefixLengthTable.Create();
+        private static readonly OptimisationsTable _optimisationsTable = OptimisationsTable.Create();
         private Dictionary<string, string>? _gs1DigitalLinkData;
         private Dictionary<string, string>? _nonGs1KeyValuePairs;
         private string? _elementString = new(string.Empty);
@@ -22,7 +29,6 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private bool _compressNonGs1KeyValuePairs;
         private bool _optimisation;
         private Exception? _thrownException = null;
-        private static readonly object lockObject = LogFile.LockObject;
         private string _compressedDigitalLink = string.Empty;
         private int _inputColumnWidth = 88;
         private int _resultColumnWidth = 88;
@@ -30,6 +36,12 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         private readonly ScenarioContext _scenarioContext;
         private UriAnalysis? _analytics;
         private UriSemantics? _semanticAnalytics;
+        private AiTableEntry? _aiTableEntry;
+        private KeyValuePair<string, FormatElements>? _formatTableEntry;
+        private IEnumerable<IExpected>? _expectedSpecifiers;
+        private int _predefinedLengthTableEntry = 0;
+        private int _prefixLengthTableEntry = 0;
+        private IList<string> _optimisationsTableEntry = [];
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StepDefinitions"/> class.
@@ -133,6 +145,32 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
         [Given(@"I have a decompressed Digital Link ""(.*)""")]
         public void GivenIHaveADecompressedDigitalLink(string decompressedDigitalLink) {
             _decompressedDigitalLink = new(decompressedDigitalLink);
+        }
+
+        [Given(@"I have the AI table")]
+        public void GivenIHaveTheAiTable() {
+            Assert.NotNull(_aiTable);
+        }
+
+        [Given(@"I have the Format table")]
+        public void GivenIHaveTheFormatTable() {
+            Assert.NotNull(_formatTable);
+        }
+
+        [Given(@"I have the Predefined Length table")]
+        public void GivenIHaveThePredefinedLengthTable() {
+            Assert.NotNull(_predefinedLengthTable);
+        }
+
+        [Given(@"I have the Prefix Length table")]
+        public void GivenIHaveThePrefixLengthTable() {
+            Assert.NotNull(_prefixLengthTable);
+        }
+
+        [Given(@"I have the Optimisations table")]
+        public void GivenIHaveTheOptimisationsTable()
+        {
+            Assert.NotNull(_optimisationsTable);
         }
 
         [When(@"I convert the Digital Link to an element string")]
@@ -402,6 +440,57 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             }
         }
 
+        [When(@"I check the record in the table for AI (.*)")]
+        public void WhenICheckTheRecordInTheTableForAi(string ai) {
+            try {
+                _aiTableEntry = _aiTable.Where(e => e.Ai == ai).Select(e => e).FirstOrDefault();
+                Assert.NotNull(_aiTableEntry);
+            }
+            catch (Exception e) {
+                _thrownException = e;
+            }
+        }
+
+        [When(@"I check the record in the Format table for AI (.*)")]
+        public void WhenICheckTheRecordInTheFormatTableForAi(string ai) {
+            try {
+                _formatTableEntry = _formatTable.Where(e => e.Key == ai).Select(e => e).FirstOrDefault();
+                Assert.NotNull(_formatTableEntry);
+            }
+            catch (Exception e) {
+                _thrownException = e;
+            }
+        }
+
+        [When(@"I check the record in the Predefined Length table for the first two digits of AI (.*)")]
+        public void WhenICheckTheRecordInThePredefinedLengthTableForTheFirstTwoDigitsOfAi(string ai2Digits) {
+            try {
+                _predefinedLengthTableEntry = _predefinedLengthTable.Where(e => e.Key == ai2Digits).Select(e => e.Value).FirstOrDefault();
+            }
+            catch (Exception e) {
+                _thrownException = e;
+            }
+        }
+
+        [When(@"I check the record in the Prefix Length table for the first two digits of AI (.*)")]
+        public void WhenICheckTheRecordInThePrefixLengthTableForTheFirstTwoDigitsOfAi(string ai2Digits) {
+            try {
+                _prefixLengthTableEntry = _prefixLengthTable.Where(e => e.Key == ai2Digits).Select(e => e.Value).FirstOrDefault();
+            }
+            catch (Exception e) {
+                _thrownException = e;
+            }
+        }
+
+        [When(@"I check the record in the Optimisations table for the code: (.*)")]
+        public void WhenICheckTheRecordInTheOptimisationsTableForTheCode(string code) {
+            try {
+                _optimisationsTableEntry = _optimisationsTable.Where(e => e.Key == code).Select(e => e.Value).FirstOrDefault() ?? [];
+            }
+            catch (Exception e) {
+                _thrownException = e;
+            }
+        }
 
         [Then(@"the (?:compressed )?Digital Link should be ""(.*)""")]
         public void ThenTheCompressedVersionOfTheDigitalLinkShouldBe(string expectedDigitalLink) {
@@ -656,6 +745,133 @@ namespace Gs1DigitalLinkToolkitTests.StepDefinitions {
             Assert.Equal(expectedGs1ExpirationDate, _semanticAnalytics?["gs1:expirationDate"].ToString());
             Assert.Equal(expectedGs1ElementStrings, _semanticAnalytics?["gs1:elementStrings"].ToString());
         }
+
+        [Then(@"the record should contain the data title: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheDataTitle(string expectedDataTitle) {
+            if (string.IsNullOrEmpty(expectedDataTitle)) return;
+            Assert.Equal(expectedDataTitle, _aiTableEntry?.Title);
+        }
+
+        [Then(@"the record should contain the short name: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheShortCode(string expectedShortName) {
+            if (string.IsNullOrEmpty(expectedShortName)) return;
+            Assert.Equal(expectedShortName, _aiTableEntry?.ShortName);
+        }
+
+        [Then(@"the record should contain the format specifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheFormatSpecifier(string expectedFormatSpecifier) {
+            Assert.Equal(expectedFormatSpecifier, _aiTableEntry?.Format);
+        }
+
+        [Then(@"the record should contain the type specifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheTypeSpecifier(string expectedTypeSpecifier) {
+            var expectedType = expectedTypeSpecifier switch {
+                "D" => AiTypes.DataAttribute,
+                "Q" => AiTypes.Qualifier,
+                "I" => AiTypes.Identifier,
+                _ => throw new NotImplementedException()
+            };
+
+            Assert.Equal(expectedType, _aiTableEntry?.Type);
+        }
+
+        [Then(@"the record should contain the predefined length specifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainThePredefinedLengthSpecifier(string expectedPredefinedLengthSpecifier) {
+            var expectedIsPredefinedLength = expectedPredefinedLengthSpecifier.ToUpper() switch {
+                "TRUE" => true,
+                "FALSE" => false,
+                _ => throw new NotImplementedException()
+            };
+
+            Assert.Equal(expectedIsPredefinedLength, _aiTableEntry?.PredefinedLength);
+        }
+
+        [Then(@"the record should contain the check digit position specifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheCheckDigitSpecifier(string expectedCheckDigitSpecifier) {
+            if (string.IsNullOrEmpty(expectedCheckDigitSpecifier)) return;
+
+            var expectedCheckDigit = expectedCheckDigitSpecifier switch {
+                "L" => CheckDigitPosition.Last,
+                "14" => CheckDigitPosition.Pos14,
+                "13" => CheckDigitPosition.Pos13,
+                _ => throw new NotImplementedException()
+            };
+
+            Assert.Equal(expectedCheckDigit, _aiTableEntry?.CheckDigitPosition);
+        }
+
+        [Then(@"the record should contain the Regular Expression specifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheRegularExpressionSpecifier(string expectedRegularExpressionSpecifier) {
+            Assert.Equal(expectedRegularExpressionSpecifier, _aiTableEntry?.Regex);
+        }
+
+        [Then(@"the record should contain the AI qualifier: ""(.*)""")]
+        public void ThenTheRecordShouldContainTheAiQualifier(string qualifier) {
+            if (string.IsNullOrEmpty(qualifier)) return;
+            Assert.Contains(qualifier, _aiTableEntry?.Qualifiers ?? []);
+        }
+
+        [Then(@"the record should contain classifiers for a given type: ""(.*)""")]
+        public void ThenTheRecordShouldContainClassifiersForAGivenType(string expectedClassifier) {
+            if (string.IsNullOrEmpty(expectedClassifier)) return;
+
+            var formatEntries = _formatTableEntry?.Value;
+            Assert.NotNull(formatEntries);
+
+            if (expectedClassifier == "Length") {
+                _expectedSpecifiers = formatEntries.Where(e => e.GetType().Name == typeof(ExpectedLength).Name);
+            }
+            else {
+                _expectedSpecifiers = formatEntries.Where(e => e.GetType().Name == typeof(ExpectedMaxLength).Name);
+            }
+
+            Assert.True(_expectedSpecifiers.Any());
+        }
+
+        [Then(@"there should be a classifier for the expected type name ""(.*)"" and length ""(.*)""")]
+        public void ThenThereShouldBeAClassifierForTheExpectedTypeNameAndLength(string typeName, string lengthSpecifier) {
+            if (string.IsNullOrEmpty(typeName)) return;
+
+            var formatEntries = _formatTableEntry?.Value;
+            Assert.NotNull(formatEntries);
+            IEnumerable<IExpected> classifiers;
+
+            if (typeName == "Numeric") {
+                classifiers = _expectedSpecifiers?.Where(e => e.DataType == ExpectedTypes.Numeric && e.Value == Int32.Parse(lengthSpecifier)) ?? [];
+            }
+            else {
+                classifiers = _expectedSpecifiers?.Where(e => e.DataType == ExpectedTypes.Alphanumeric && e.Value == Int32.Parse(lengthSpecifier)) ?? [];
+            }
+
+            Assert.True(classifiers?.Any());
+        }
+
+        [Then(@"the Format table should also contain a record for the AI")]
+        public void ThenTheFormatTableShouldAlsoContainARecordForTheAi() {
+            if (_aiTableEntry is null) return;
+            Assert.Contains(_formatTable, e => e.Key == _aiTableEntry.Ai);
+        }
+
+        [Then(@"the AI table should also contain a record for the AI")]
+        public void ThenTheAiTableShouldAlsoContainARecordForTheAi() {
+            if (_formatTableEntry is null) return;
+            Assert.Contains(_aiTable, e => e.Ai == _formatTableEntry.Value.Key);
+        }
+
+        [Then(@"the record should specify the following number of characters: ""(.*)""")]
+        public void ThenTheRecordShouldSpecifyTheFollowingNumberOfCharacters(string predefinedLength) {
+            Assert.Equal(int.Parse(predefinedLength), _predefinedLengthTableEntry);
+        }
+
+        [Then(@"the record should specify the following prefix length: ""(.*)""")]
+        public void ThenTheRecordShouldSpecifyTheFollowingPrefixLength(string prefixLength) {
+            Assert.Equal(int.Parse(prefixLength), _prefixLengthTableEntry);
+        }
+
+        [Then(@"the record should specify the following ai: ""(.*)""")]
+        public void ThenTheRecordShouldSpecifyTheFollowingAi(string ai) {
+            if (string.IsNullOrEmpty(ai)) return;
+            Assert.Contains(ai, _optimisationsTableEntry);
+        }
     }
 }
-

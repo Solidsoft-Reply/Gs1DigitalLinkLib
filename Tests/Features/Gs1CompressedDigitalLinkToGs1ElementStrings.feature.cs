@@ -96,6 +96,7 @@ namespace Gs1DigitalLinkToolkitTests.Features
         [Xunit.TraitAttribute("FeatureTitle", "Gs1CompressedDigitalLinkToGs1ElementStrings")]
         [Xunit.TraitAttribute("Description", "Convert an uncompressed Digital Link to an element string")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123", "010541234500001310ABC123<GS>22AJY3095721P49", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013/22/AJY3095721P49/10/ABC123", "010541234500001310ABC123<GS>22AJY3095721P49", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8006/054123450000130201/22/AJY3095721P49/21/72292641703", "2172292641703<GS>22AJY3095721P49<GS>8006054123450000130201", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703", "01054123450000132172292641703<GS>10ABC123", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8004/0541234537290A41%26GHpp33", "80040541234537290A41&GHpp33", new string[0])]
@@ -174,6 +175,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.InlineDataAttribute("https://id.gs1.org/412/5060917510004", "(412)5060917510004", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/416/5060917510004", "(416)5060917510004", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123", "(01)05412345000013(22)AJY3095721P49(10)ABC123", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013/22/AJY3095721P49/10/ABC123", "(01)05412345000013(22)AJY3095721P49(10)ABC123", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8013/5060917511473062B98T", "(8013)5060917511473062B98T", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8006/054123450000130201/10/ABC123", "(8006)054123450000130201(10)ABC123", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8006/054123450000130201/10/ABC123/21/72292641703", "(8006)054123450000130201(10)ABC123(21)72292641703", new string[0])]
@@ -218,7 +220,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert an uncompressed Digital Link to an element string with brackets", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 51
+#line 52
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -228,14 +230,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 52
+#line 53
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 53
+#line 54
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string with brackets", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 54
+#line 55
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -246,6 +248,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Gs1CompressedDigitalLinkToGs1ElementStrings")]
         [Xunit.TraitAttribute("Description", "Convert an uncompressed Digital Link using short text to an element string")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123", "010541234500001310ABC123<GS>22AJY3095721P49", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/5412345000013/cpv/AJY3095721P49/lot/ABC123", "010541234500001310ABC123<GS>22AJY3095721P49", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/itip/054123450000130201/cpv/AJY3095721P49/ser/72292641703", "2172292641703<GS>22AJY3095721P49<GS>8006054123450000130201", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703", "01054123450000132172292641703<GS>10ABC123", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/giai/0541234537290A41%26GHpp33", "80040541234537290A41&GHpp33", new string[0])]
@@ -294,7 +297,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert an uncompressed Digital Link using short text to an element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 99
+#line 101
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -304,14 +307,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 100
+#line 102
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 101
+#line 103
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 102
+#line 104
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -324,6 +327,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("Description", "Convert an uncompressed Digital Link using short text to an element string with b" +
             "rackets")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/ser/72292641703", "(01)05412345000013(21)72292641703", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/5412345000013/ser/72292641703", "(01)05412345000013(21)72292641703", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/cpid/0541234537290A41%23GH33", "(8010)0541234537290A41#GH33", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gln/5060917510004", "(414)5060917510004", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123", "(01)05412345000013(22)AJY3095721P49(10)ABC123", new string[0])]
@@ -373,7 +377,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert an uncompressed Digital Link using short text to an element string with b" +
                     "rackets", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 147
+#line 150
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -383,14 +387,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 148
+#line 151
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 149
+#line 152
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string with brackets", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 150
+#line 153
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -412,7 +416,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a compressed Digital Link for a medicinal identifier to an element string" +
                     "", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 195
+#line 199
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -422,14 +426,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 196
+#line 200
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 197
+#line 201
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 198
+#line 202
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -451,7 +455,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a compressed Digital Link for a medicinal identifier to an element string" +
                     " with brackets", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 205
+#line 209
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -461,14 +465,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 206
+#line 210
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 207
+#line 211
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string with brackets", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 208
+#line 212
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -484,6 +488,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.InlineDataAttribute("https://id.gs1.org/417/5060917510004/cEBWUKu", "417506091751000470405KFX", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8010/0541234537290A41%23GH33", "80100541234537290A41#GH33", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013/I1j3FSNWcOGeFywaR5CZm", "01054123450000132358TFV883a904GH&3", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013/I1j3FSNWcOGeFywaR5CZm", "01054123450000132358TFV883a904GH&3", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/417/5060917510004", "4175060917510004", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8004/0541234537290A41%26GHpp33", "80040541234537290A41&GHpp33", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8006/054123450000130201/EEarwSM", "10ABC123<GS>8006054123450000130201", new string[0])]
@@ -528,7 +533,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a partially compressed Digital Link to an element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 215
+#line 219
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -538,14 +543,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 216
+#line 220
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 217
+#line 221
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 218
+#line 222
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -556,6 +561,7 @@ this.ScenarioInitialize(scenarioInfo);
         [Xunit.TraitAttribute("FeatureTitle", "Gs1CompressedDigitalLinkToGs1ElementStrings")]
         [Xunit.TraitAttribute("Description", "Convert a partially compressed Digital Link to an element string with brackets")]
         [Xunit.InlineDataAttribute("https://id.gs1.org/01/05412345000013", "(01)05412345000013", new string[0])]
+        [Xunit.InlineDataAttribute("https://id.gs1.org/01/5412345000013", "(01)05412345000013", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/413/5060917510004", "(413)5060917510004", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8004/0541234537290A41%26GHpp33", "(8004)0541234537290A41&GHpp33", new string[0])]
         [Xunit.InlineDataAttribute("https://id.gs1.org/8006/054123450000130201/IQuGp9FdO", "(8006)054123450000130201(21)72292641703", new string[0])]
@@ -605,7 +611,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a partially compressed Digital Link to an element string with brackets", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 266
+#line 271
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -615,14 +621,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 267
+#line 272
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 268
+#line 273
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string with brackets", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 269
+#line 274
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -682,7 +688,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a compressed Digital Link to an element string", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 317
+#line 323
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -692,14 +698,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 318
+#line 324
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 319
+#line 325
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 320
+#line 326
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }
@@ -759,7 +765,7 @@ this.ScenarioInitialize(scenarioInfo);
             argumentsOfScenario.Add("digitalLink", digitalLink);
             argumentsOfScenario.Add("elementString", elementString);
             global::Reqnroll.ScenarioInfo scenarioInfo = new global::Reqnroll.ScenarioInfo("Convert a compressed Digital Link to an element string with brackets", null, tagsOfScenario, argumentsOfScenario, featureTags);
-#line 368
+#line 374
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             if ((global::Reqnroll.TagHelper.ContainsIgnoreTag(scenarioInfo.CombinedTags) || global::Reqnroll.TagHelper.ContainsIgnoreTag(featureTags)))
@@ -769,14 +775,14 @@ this.ScenarioInitialize(scenarioInfo);
             else
             {
                 await this.ScenarioStartAsync();
-#line 369
+#line 375
     await testRunner.GivenAsync(string.Format("I want to convert the following compressed Digital Link to an element string: \"{0" +
                             "}\"", digitalLink), ((string)(null)), ((global::Reqnroll.Table)(null)), "Given ");
 #line hidden
-#line 370
+#line 376
     await testRunner.WhenAsync("I convert the compressed Digital Link to an element string with brackets", ((string)(null)), ((global::Reqnroll.Table)(null)), "When ");
 #line hidden
-#line 371
+#line 377
     await testRunner.ThenAsync(string.Format("the element string should be \"{0}\"", elementString), ((string)(null)), ((global::Reqnroll.Table)(null)), "Then ");
 #line hidden
             }

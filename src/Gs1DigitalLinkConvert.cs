@@ -2063,11 +2063,21 @@ public static partial class Gs1DigitalLinkConvert {
         }
 
         var gs1Pairs = GetGs1AiPairs(uriAnalysis);
+
+        // Support legacy GTIN-8, GTIN-12, GTIN-13
+        if (gs1Pairs.ContainsKey("01") && (gs1Pairs["01"].Length == 13
+                                        || gs1Pairs["01"].Length == 12
+                                        || gs1Pairs["01"].Length == 8)) {
+            var tempDictionary = gs1Pairs.ToDictionary();
+            tempDictionary["01"] = "01".PadAiValue(gs1Pairs["01"]);
+            gs1Pairs = tempDictionary;
+        }
+
         ValidateDigitalLink(uriAnalysis, gs1Pairs, methodName, paramName, logger ?? Logger);
 
         // Pad GTINs as necessary.
         foreach (var key in gs1Pairs.Keys) {
-            gs1DigitalLinkData[key] = PadGTIN(key, gs1Pairs[key]);
+            gs1DigitalLinkData[key] = key.PadAiValue(gs1Pairs[key]);
         }
 
         return new ExtractedData(
@@ -2077,28 +2087,6 @@ public static partial class Gs1DigitalLinkConvert {
             uriAnalysis.Fragment,
             uriAnalysis.UriStem,
             uriAnalysis.StructuredData);
-
-        static string PadGTIN(string ai, string value) {
-
-            // always pad the requiredAi of any GTIN [ AI (01) or (02) ] to 14 digits
-            string newvalue = value;
-
-            if ((ai == "01") || (ai == "(01)") || (ai == "02") || (ai == "(02)")) {
-                if (value.Length == 8) {
-                    newvalue = "000000" + value;
-                }
-
-                if (value.Length == 12) {
-                    newvalue = "00" + value;
-                }
-
-                if (value.Length == 13) {
-                    newvalue = "0" + value;
-                }
-            }
-
-            return newvalue;
-        }
     }
 
     /// <summary>
@@ -2336,7 +2324,7 @@ public static partial class Gs1DigitalLinkConvert {
             nonGs1KeyValuePairs[kvp.Key] = kvp.Value;
         }
 
-        var compressedDL = compressionLevel == CompressionLevel.PartiallyCompressed
+        var compressedDigitalLink = compressionLevel == CompressionLevel.PartiallyCompressed
             ? BuildPartiallyCompressedGs1DigitalLink(nonGs1KeyValuePairs)
             : BuildCompressedGs1digitalLink(
                 gs1DigitalLinkData ?? [],
@@ -2349,13 +2337,13 @@ public static partial class Gs1DigitalLinkConvert {
                 logger ?? Logger);
 
         var returnedQueryString = queryStringOther.ToString();
-        var qsDelim = compressedDL.Contains('?') ? "&" : "?";
+        var qsDelim = compressedDigitalLink.Contains('?') ? "&" : "?";
 
         if (returnedQueryString.Length > 0) {
             returnedQueryString = qsDelim + returnedQueryString[1..];
         }
 
-        return compressedDL + returnedQueryString + (fragment.Length > 0 ? $"#{fragment}" : string.Empty);
+        return compressedDigitalLink + returnedQueryString + (fragment.Length > 0 ? $"#{fragment}" : string.Empty);
 
         string BuildPartiallyCompressedGs1DigitalLink(Dictionary<string, string> nonGs1KeyValuePairs) {
             var separated = SeparateIdNonId(gs1DigitalLinkData ?? []);
@@ -2925,6 +2913,15 @@ public static partial class Gs1DigitalLinkConvert {
 
             gs1primaryKeyValue = uriPathInfo[(index1 + 1) ..index2];
             objGs1 = DecompressBinaryTogs1DigitalLinkData(base64segment.Safe64ToBinary());
+
+            // Support legacy GTIN-8, GTIN-12, GTIN-13
+            gs1primaryKey = gs1primaryKey == "gtin" ? "01" : gs1primaryKey;
+            gs1primaryKeyValue = gs1primaryKey == "01"
+                                    && (gs1primaryKeyValue.Length == 13
+                                    || gs1primaryKeyValue.Length == 12
+                                    || gs1primaryKeyValue.Length == 8)
+                ? gs1primaryKey.PadAiValue(gs1primaryKeyValue)
+                : gs1primaryKeyValue;
 
             if (_regexAllNum.IsMatch(gs1primaryKey)) {
                 objGs1.gs1DigitalLinkData[gs1primaryKey] = gs1primaryKeyValue;

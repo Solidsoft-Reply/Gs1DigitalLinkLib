@@ -85,7 +85,7 @@ public class FourDigitAIs : IReadOnlyList<string> {
     /// </summary>
     /// <returns>The Four-Digits table as JSON.</returns>
 #pragma warning disable VSSpell001 // Spell Check
-    public string ToJson() =>
+    public virtual string ToJson() =>
         System.Text.Json.JsonSerializer.Serialize(_fourDigitAis);
 #pragma warning restore VSSpell001 // Spell Check
 

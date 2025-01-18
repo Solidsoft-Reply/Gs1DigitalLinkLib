@@ -8,6 +8,7 @@ Scenario Outline: Convert an uncompressed Digital Link to an element string
     Examples:
 	  | digitalLink                                                                          | elementString                                                          |
 	  | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123                      | 010541234500001310ABC123<GS>22AJY3095721P49                            |
+	  | https://id.gs1.org/01/5412345000013/22/AJY3095721P49/10/ABC123                       | 010541234500001310ABC123<GS>22AJY3095721P49                            |
 	  | https://id.gs1.org/8006/054123450000130201/22/AJY3095721P49/21/72292641703           | 2172292641703<GS>22AJY3095721P49<GS>8006054123450000130201             |
 	  | https://id.gs1.org/01/05412345000013/10/ABC123/21/72292641703                        | 01054123450000132172292641703<GS>10ABC123                              |
 	  | https://id.gs1.org/8004/0541234537290A41%26GHpp33                                    | 80040541234537290A41&GHpp33                                            |
@@ -59,6 +60,7 @@ Scenario Outline: Convert an uncompressed Digital Link to an element string with
 	  | https://id.gs1.org/412/5060917510004                                                 | (412)5060917510004                                                 |
 	  | https://id.gs1.org/416/5060917510004                                                 | (416)5060917510004                                                 |
 	  | https://id.gs1.org/01/05412345000013/22/AJY3095721P49/10/ABC123                      | (01)05412345000013(22)AJY3095721P49(10)ABC123                      |
+	  | https://id.gs1.org/01/5412345000013/22/AJY3095721P49/10/ABC123                       | (01)05412345000013(22)AJY3095721P49(10)ABC123                      |
 	  | https://id.gs1.org/8013/5060917511473062B98T                                         | (8013)5060917511473062B98T                                         |
 	  | https://id.gs1.org/8006/054123450000130201/10/ABC123                                 | (8006)054123450000130201(10)ABC123                                 |
 	  | https://id.gs1.org/8006/054123450000130201/10/ABC123/21/72292641703                  | (8006)054123450000130201(10)ABC123(21)72292641703                  |
@@ -104,6 +106,7 @@ Scenario Outline: Convert an uncompressed Digital Link using short text to an el
     Examples:
 	  | digitalLink                                                                             | elementString                                                          |
 	  | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123                     | 010541234500001310ABC123<GS>22AJY3095721P49                            |
+	  | https://id.gs1.org/gtin/5412345000013/cpv/AJY3095721P49/lot/ABC123                      | 010541234500001310ABC123<GS>22AJY3095721P49                            |
 	  | https://id.gs1.org/itip/054123450000130201/cpv/AJY3095721P49/ser/72292641703            | 2172292641703<GS>22AJY3095721P49<GS>8006054123450000130201             |
 	  | https://id.gs1.org/gtin/05412345000013/lot/ABC123/ser/72292641703                       | 01054123450000132172292641703<GS>10ABC123                              |
 	  | https://id.gs1.org/giai/0541234537290A41%26GHpp33                                       | 80040541234537290A41&GHpp33                                            |
@@ -152,6 +155,7 @@ Scenario Outline: Convert an uncompressed Digital Link using short text to an el
     Examples:
 	  | digitalLink                                                                             | elementString                                                      |
 	  | https://id.gs1.org/gtin/05412345000013/ser/72292641703                                  | (01)05412345000013(21)72292641703                                  |
+	  | https://id.gs1.org/gtin/5412345000013/ser/72292641703                                   | (01)05412345000013(21)72292641703                                  |
 	  | https://id.gs1.org/cpid/0541234537290A41%23GH33                                         | (8010)0541234537290A41#GH33                                        |
 	  | https://id.gs1.org/gln/5060917510004                                                    | (414)5060917510004                                                 |
 	  | https://id.gs1.org/gtin/05412345000013/cpv/AJY3095721P49/lot/ABC123                     | (01)05412345000013(22)AJY3095721P49(10)ABC123                      |
@@ -225,6 +229,7 @@ Scenario Outline: Convert a partially compressed Digital Link to an element stri
 	 | https://id.gs1.org/417/5060917510004/cEBWUKu                                | 417506091751000470405KFX                                               |
 	 | https://id.gs1.org/8010/0541234537290A41%23GH33                             | 80100541234537290A41#GH33                                              |
 	 | https://id.gs1.org/01/05412345000013/I1j3FSNWcOGeFywaR5CZm                  | 01054123450000132358TFV883a904GH&3                                     |
+	 | https://id.gs1.org/01/5412345000013/I1j3FSNWcOGeFywaR5CZm                   | 01054123450000132358TFV883a904GH&3                                     |
 	 | https://id.gs1.org/417/5060917510004                                        | 4175060917510004                                                       |
 	 | https://id.gs1.org/8004/0541234537290A41%26GHpp33                           | 80040541234537290A41&GHpp33                                            |
 	 | https://id.gs1.org/8006/054123450000130201/EEarwSM                          | 10ABC123<GS>8006054123450000130201                                     |
@@ -271,6 +276,7 @@ Scenario Outline: Convert a partially compressed Digital Link to an element stri
     Examples:
 	 | digitalLink                                                                 | elementString                                                      |
 	 | https://id.gs1.org/01/05412345000013                                        | (01)05412345000013                                                 |
+	 | https://id.gs1.org/01/5412345000013                                         | (01)05412345000013                                                 |
 	 | https://id.gs1.org/413/5060917510004                                        | (413)5060917510004                                                 |
 	 | https://id.gs1.org/8004/0541234537290A41%26GHpp33                           | (8004)0541234537290A41&GHpp33                                      |
 	 | https://id.gs1.org/8006/054123450000130201/IQuGp9FdO                        | (8006)054123450000130201(21)72292641703                            |
