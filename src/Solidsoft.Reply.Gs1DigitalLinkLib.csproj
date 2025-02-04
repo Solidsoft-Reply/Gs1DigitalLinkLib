@@ -17,10 +17,9 @@
 	<PackageReadmeFile>README.md</PackageReadmeFile>
 	<PackageTags>gs1;digital;links;ai;uri;toolkit;compression;</PackageTags>
 	<PackageReleaseNotes>
-		1) Fixed issues with AIs 395n.
-		2) Added legacy support for GTIN-8, GTIN-12 and GTIN-14 when extracting from Digital Links. This is supported in the original Toolkit, but had not been carried through to the .NET port.
-		3) Fixed minor issues in the AI, Format and Predefine Length tables.
-		4) Synchronised AI list to forthcoming 2025 General Specifications.
+		1) Fixed bug affecting verification of compressed Digital Links, and updated tests accordingly.
+		1) Fixed issue that could introduce a dangling ampersand at the end of a query string.
+		2) Updated to use the latest version of the Solidsoft.Reply.Parsers.HighCapacityAidc library. This ensures complete support for 2025 updates to GS1 General Specifications.
 	</PackageReleaseNotes>
 	<Description>
 		A toolkit library for translating between GS1 element strings and GS1 Digital Link URIs. This library is a .NET port of the GS1 Digital Link Toolkit, and specifically of the GS1 Digital Link Compression Prototype. It is not formally related to the GS1 Digital Link Toolkit. However, it provides equivalent functionality, including the ability to compress and decompress GS1 Digital Links and to translate between URIs, Element String and data representations. In addition, it implements a more streamlined API, additional validations and better support for handling additional query string content and fragments.
@@ -29,7 +28,7 @@
 		--------------
 		$(PackageReleaseNotes)
 	</Description>
-	<Version>1.1.3</Version>
+	<Version>1.1.4</Version>
 	<PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
 	<NeutralLanguage>en</NeutralLanguage>
 	<PublishRepositoryUrl>true</PublishRepositoryUrl>
@@ -59,7 +58,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Solidsoft.Reply.Parsers.HighCapacityAidc" Version="1.0.12" />
+    <PackageReference Include="Solidsoft.Reply.Parsers.HighCapacityAidc" Version="1.0.13" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

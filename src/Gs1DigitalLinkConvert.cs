@@ -32,7 +32,6 @@ namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
@@ -2340,7 +2339,9 @@ public static partial class Gs1DigitalLinkConvert {
         var qsDelim = compressedDigitalLink.Contains('?') ? "&" : "?";
 
         if (returnedQueryString.Length > 0) {
-            returnedQueryString = qsDelim + returnedQueryString[1..];
+            returnedQueryString = returnedQueryString.Length == 1 && returnedQueryString[0] == '&'
+                ? string.Empty
+                : qsDelim + returnedQueryString[1..];
         }
 
         return compressedDigitalLink + returnedQueryString + (fragment.Length > 0 ? $"#{fragment}" : string.Empty);
@@ -2861,7 +2862,11 @@ public static partial class Gs1DigitalLinkConvert {
 
         var queryString = uriAnalysis.QueryString;
         var fragmentSpecifier = uriAnalysis.Fragment;
-        var uriPathInfo = uriAnalysis.UriPathInfo;
+        ////////var uriPathInfo = uriAnalysis.UriPathInfo;
+        // If the path component is empty, assume that the URI is compressed.
+        var pathComponents = string.IsNullOrWhiteSpace(uriAnalysis.PathComponents)
+            ? uriAnalysis.CompressedPath
+            : uriAnalysis.PathComponents;    ;
 
         if (!string.IsNullOrEmpty(queryString)) {
             // replace semicolon with ampersand
@@ -2893,26 +2898,27 @@ public static partial class Gs1DigitalLinkConvert {
         }
 
         // remove initial forward slash
-        if (uriPathInfo.StartsWith('/')) {
-            uriPathInfo = uriPathInfo[1..];
+        if (pathComponents.StartsWith('/')) {
+            pathComponents = pathComponents[1..];
         }
 
-        uriPathInfo = uriPathInfo.PercentDecode();
+        // COmpressed paths use Safe64 characters, so this line should have no effect on them.
+        pathComponents = pathComponents.PercentDecode();
 
         if (uriAnalysis.DetectedForm == DigitalLinkForm.Compressed) {
-            objGs1 = DecompressBinaryTogs1DigitalLinkData(uriPathInfo.Safe64ToBinary());
+            objGs1 = DecompressBinaryToGs1DigitalLinkData(pathComponents.Safe64ToBinary());
         }
         else {
             // handle partially compressed URI
-            var index1 = uriPathInfo.IndexOf('/');
-            var index2 = uriPathInfo.LastIndexOf('/');
+            var index1 = pathComponents.IndexOf('/');
+            var index2 = pathComponents.LastIndexOf('/');
 
             string gs1primaryKeyValue;
-            var gs1primaryKey = uriPathInfo[..index1];
-            var base64segment = uriPathInfo[(index2 + 1) ..];
+            var gs1primaryKey = pathComponents[..index1];
+            var base64segment = pathComponents[(index2 + 1) ..];
 
-            gs1primaryKeyValue = uriPathInfo[(index1 + 1) ..index2];
-            objGs1 = DecompressBinaryTogs1DigitalLinkData(base64segment.Safe64ToBinary());
+            gs1primaryKeyValue = pathComponents[(index1 + 1) ..index2];
+            objGs1 = DecompressBinaryToGs1DigitalLinkData(base64segment.Safe64ToBinary());
 
             // Support legacy GTIN-8, GTIN-12, GTIN-13
             gs1primaryKey = gs1primaryKey == "gtin" ? "01" : gs1primaryKey;
@@ -2983,7 +2989,7 @@ public static partial class Gs1DigitalLinkConvert {
     /// </summary>
     /// <param name="binstr">The binary string.</param>
     /// <returns>A dictionary of GS1 AIs.</returns>
-    private static (Dictionary<string, string> gsAIs, Dictionary<string, string> nonGs1KeyValuePairs) DecompressBinaryTogs1DigitalLinkData(
+    private static (Dictionary<string, string> gsAIs, Dictionary<string, string> nonGs1KeyValuePairs) DecompressBinaryToGs1DigitalLinkData(
         string binstr) {
         var totallength = binstr.Length;
         var cursor = 0;

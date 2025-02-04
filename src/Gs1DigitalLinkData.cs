@@ -28,7 +28,6 @@ using Newtonsoft.Json;
 using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 
 using System;
-using System.Reflection;
 using System.Text.Json.Serialization;
 
 /// <summary>

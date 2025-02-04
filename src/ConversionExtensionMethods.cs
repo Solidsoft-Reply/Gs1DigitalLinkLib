@@ -34,8 +34,8 @@ using Solidsoft.Reply.Gs1DigitalLinkLib.Internal;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.Numerics;
-using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -1025,7 +1025,6 @@ internal static partial class ConversionExtensionMethods {
 
         return newvalue;
     }
-
 
     /// <summary>
     /// Regex that checks that a string is composed only of digits.

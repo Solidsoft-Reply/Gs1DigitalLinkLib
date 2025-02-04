@@ -31,7 +31,6 @@
 namespace Solidsoft.Reply.Gs1DigitalLinkLib;
 
 using System.Collections;
-using System.Runtime.InteropServices;
 
 /// <summary>
 /// A table of GS1 Application Identifier specifications.
