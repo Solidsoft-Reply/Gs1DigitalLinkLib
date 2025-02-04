@@ -38,6 +38,8 @@
 	<ItemGroup>
     <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
     <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.12\contentFiles\any\net8.0\NOTICE.txt" />
+    <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.13\contentFiles\any\net8.0\DEVELOPER-NOTICE.txt" />
+    <Content Remove="C:\Users\ch.young\.nuget\packages\solidsoft.reply.parsers.highcapacityaidc\1.0.13\contentFiles\any\net8.0\NOTICE.txt" />
   </ItemGroup>
 	<ItemGroup>
     <None Remove="stylecop.json" />
